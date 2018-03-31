@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DaNangTravel</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="btn_tourist_attraction">Vui chơi</string>
 </resources>
