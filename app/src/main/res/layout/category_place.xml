@@ -21,8 +21,8 @@
 
             <Button
                 android:id="@+id/btnTouristAttraction"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@drawable/ic_tourist_attraction"
                 tools:ignore="ButtonStyle" />
 
@@ -44,8 +44,8 @@
 
             <Button
                 android:id="@+id/btnHotel"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@drawable/ic_hotel"
                 tools:ignore="ButtonStyle" />
 
@@ -67,8 +67,8 @@
 
             <Button
                 android:id="@+id/btnRestaurant"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@drawable/ic_restaurant"
                 tools:ignore="ButtonStyle" />
 
@@ -90,8 +90,8 @@
 
             <Button
                 android:id="@+id/btnNearPlaces"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@drawable/ic_near_place"
                 tools:ignore="ButtonStyle" />
 
