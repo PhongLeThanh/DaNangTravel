@@ -26,7 +26,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
 
     @Override
     public TopHotelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_top_hotel, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_hotel, parent, false);
         return new TopHotelViewHolder(view);
     }
 
@@ -57,7 +57,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
 
         private void initViews() {
             mCvItemHotel = itemView.findViewById(R.id.cardViewItemHotel);
-            mLlItemHotel = itemView.findViewById(R.id.llItemHotel);
+            mLlItemHotel = itemView.findViewById(R.id.llItemTopHotel);
             mImgHotel = itemView.findViewById(R.id.imgTopHotel);
             mTvHotelName = itemView.findViewById(R.id.tvTopHotelName);
             mRatingHotel = itemView.findViewById(R.id.ratingHotel);

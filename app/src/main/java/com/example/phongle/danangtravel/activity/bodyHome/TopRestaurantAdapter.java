@@ -10,7 +10,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
 
     @Override
     public TopRestaurantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_top_restaurant, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_restaurant, parent, false);
         return new TopRestaurantViewHolder(view);
     }
 
@@ -54,7 +53,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
         }
 
         private void initViews() {
-            mLlItemRestaurant = itemView.findViewById(R.id.llItemRestaurant);
+            mLlItemRestaurant = itemView.findViewById(R.id.llItemTopRestaurant);
             mImgRestaurant = itemView.findViewById(R.id.imgTopRestaurant);
             mTvRestaurantName = itemView.findViewById(R.id.tvTopRestaurantName);
             mRatingRestaurant = itemView.findViewById(R.id.ratingRestaurant);
@@ -76,7 +75,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.llItemRestaurant:
+                case R.id.llItemTopRestaurant:
                     mOnItemClickListener.onRestaurantClick(getAdapterPosition());
                     break;
             }

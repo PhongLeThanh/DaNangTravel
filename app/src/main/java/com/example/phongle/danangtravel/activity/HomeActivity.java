@@ -1,5 +1,6 @@
 package com.example.phongle.danangtravel.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ import com.example.phongle.danangtravel.activity.bodyHome.TopPlaceAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopRestaurantAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.DistrictSpinnerAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.HeaderAdapter;
+import com.example.phongle.danangtravel.activity.list.ListAttractionActivity;
 import com.example.phongle.danangtravel.models.Hotel;
 import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
@@ -25,7 +29,8 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class HomeActivity extends AppCompatActivity implements TopPlaceAdapter.onItemClickListener,
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener,
+        TopPlaceAdapter.onItemClickListener,
         TopRestaurantAdapter.onItemClickListener,
         TopHotelAdapter.onItemClickListener {
 
@@ -35,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements TopPlaceAdapter.o
     private RecyclerView mRecyclerViewTopPlace;
     private RecyclerView mRecyclerViewTopRestaurant;
     private RecyclerView mRecyclerViewTopHotel;
+    private Button mBtnListAttraction;
     private HeaderAdapter mHeaderAdapter;
     private TopPlaceAdapter mTopPlaceAdapter;
     private TopRestaurantAdapter mTopRestaurantAdapter;
@@ -50,6 +56,7 @@ public class HomeActivity extends AppCompatActivity implements TopPlaceAdapter.o
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initView();
+        initListener();
         initAdapter();
         initCircleIndicator();
         initData();
@@ -63,6 +70,11 @@ public class HomeActivity extends AppCompatActivity implements TopPlaceAdapter.o
         mRecyclerViewTopPlace = findViewById(R.id.recyclerViewTopPlace);
         mRecyclerViewTopRestaurant = findViewById(R.id.recyclerViewTopRestaurant);
         mRecyclerViewTopHotel = findViewById(R.id.recyclerViewTopHotel);
+        mBtnListAttraction = findViewById(R.id.btnTouristAttraction);
+    }
+
+    private void initListener() {
+        mBtnListAttraction.setOnClickListener(this);
     }
 
     private void initAdapter() {
@@ -124,5 +136,16 @@ public class HomeActivity extends AppCompatActivity implements TopPlaceAdapter.o
     public void onHotelClick(int postion) {
         Log.d("xxx", "onHotelClick: clicked");
         Toast.makeText(this, "Clicked restaurant", Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.btnTouristAttraction:
+                intent = new Intent(HomeActivity.this, ListAttractionActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
