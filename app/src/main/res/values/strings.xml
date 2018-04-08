@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">DaNangTravel</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="btn_tourist_attraction">Vui chơi</string>
+    <string name="tv_more">Xem thêm</string>
+    <string name="tv_top_place">Top Địa điểm nổi tiếng</string>
+    <string name="tv_top_restaurant">Top Địa điểm ăn uống </string>
+    <string name="tv_top_hotel">Top Khách sạn </string>
+    <string name="tv_comment">Đánh giá</string>
+    <string name="tv_num_comment">3</string>
+    <string name="tv_content_introduce_danang">     Đà Nẵng là một thành phố tuyệt đẹp và văn minh - Một thành phố trẻ rất năng động và phát triển từng ngày, các dịch vụ du lịch Đà Nẵng và hạ tầng du lịch Đà Nẵng phát triển mạnh mẽ đang thu hút khách du lịch đến ngày một đông hơn. </string>
+    <string name="tv_introduce_danang">Giới thiệu về Đà Nẵng</string>
+    <string name="tv_about_us">Design and develop by PhongLe</string>
 </resources>
