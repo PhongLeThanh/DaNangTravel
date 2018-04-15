@@ -9,7 +9,7 @@
     android:layout_marginTop="3dp">
 
     <LinearLayout
-        android:id="@+id/llItemHotel"
+        android:id="@+id/llItemTopHotel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -42,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize="0.1" />
+                android:stepSize="0.1"
+                android:theme="@style/RatingBar"/>
 
             <TextView
                 android:id="@+id/tvNumCommentHotel"
