@@ -70,10 +70,34 @@
             <TextView
                 android:id="@+id/tvPreviewPlace"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:maxLines="4"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
                 android:padding="3dp"
+                android:layout_marginBottom="3dp"
                 android:text="@string/tv_introduce_place" />
+            <LinearLayout
+                android:id="@+id/llCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cost: "
+                    android:layout_marginRight="10dp"/>
+                <TextView
+                    android:id="@+id/tvCostHotel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="250000"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vnd / Đêm"
+                    />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

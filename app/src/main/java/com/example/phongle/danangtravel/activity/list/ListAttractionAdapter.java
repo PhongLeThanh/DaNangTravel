@@ -18,7 +18,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
     private List<Place> mListPlace;
     private onItemClickListener mOnItemClickListener;
 
-    public ListAttractionAdapter(List<Place> listPlace, onItemClickListener onItemClickListener) {
+    ListAttractionAdapter(List<Place> listPlace, onItemClickListener onItemClickListener) {
         mListPlace = listPlace;
         mOnItemClickListener = onItemClickListener;
     }
@@ -45,6 +45,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
         private TextView mTvAttractionName;
         private RatingBar mRatingAttraction;
         private TextView mTvNumCommentAtraction;
+        private LinearLayout mLlCost;
 
         ListAttractionViewHolder(final View itemView) {
             super(itemView);
@@ -58,6 +59,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
             mTvAttractionName = itemView.findViewById(R.id.tvPlaceName);
             mRatingAttraction = itemView.findViewById(R.id.ratingPlace);
             mTvNumCommentAtraction = itemView.findViewById(R.id.tvNumComment);
+            mLlCost = itemView.findViewById(R.id.llCost);
         }
 
         private void initListener() {
@@ -70,6 +72,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
             mTvAttractionName.setText(place.getName());
             mRatingAttraction.setRating(place.getRating());
             mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
+            mLlCost.setEnabled(false);
         }
 
         @Override

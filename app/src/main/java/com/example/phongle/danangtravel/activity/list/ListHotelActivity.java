@@ -12,18 +12,18 @@ import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.headerHome.DistrictSpinnerAdapter;
-import com.example.phongle.danangtravel.models.Place;
+import com.example.phongle.danangtravel.models.Hotel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAttractionActivity extends AppCompatActivity implements ListAttractionAdapter.onItemClickListener {
+public class ListHotelActivity extends AppCompatActivity implements ListHotelAdapter.onItemClickListener {
     private Toolbar mToolbar;
-    private RecyclerView mRecyclerViewListAttraction;
+    private RecyclerView mRecyclerViewListHotel;
     private Spinner mSpinnerDistrictList;
-    private ListAttractionAdapter mListAttractionAdapter;
+    private ListHotelAdapter mListHotelAdapter;
     private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
-    private List<Place> mListPlace = new ArrayList<>();
+    private List<Hotel> mListHotel = new ArrayList<>();
     private String[] mListDistrict = {"Hai Chau", "Hoa Vang", "Lien Chieu", "Thanh Khe", "Son Tra", "Cam Le"};
 
     @Override
@@ -38,7 +38,7 @@ public class ListAttractionActivity extends AppCompatActivity implements ListAtt
 
     private void initView() {
         mToolbar = findViewById(R.id.toolbarList);
-        mRecyclerViewListAttraction = findViewById(R.id.recyclerViewListPlace);
+        mRecyclerViewListHotel = findViewById(R.id.recyclerViewListPlace);
         mSpinnerDistrictList = findViewById(R.id.spinnerDistrictList);
     }
 
@@ -47,18 +47,19 @@ public class ListAttractionActivity extends AppCompatActivity implements ListAtt
         mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this, mListDistrict);
         mSpinnerDistrictList.setAdapter(mDistrictSpinnerAdapter);
         //Set Adapter for recycler view
-        mListAttractionAdapter = new ListAttractionAdapter(mListPlace, this);
-        mRecyclerViewListAttraction.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerViewListAttraction.setAdapter(mListAttractionAdapter);
+        mListHotelAdapter = new ListHotelAdapter(mListHotel, this);
+        mRecyclerViewListHotel.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewListHotel.setAdapter(mListHotelAdapter);
     }
 
     private void initData() {
         // Init Data for recycler view List Attraction
-        mListPlace.add(new Place("Cầu Rồng", R.drawable.bg_place, 5, 3));
-        mListPlace.add(new Place("Cầu Rồng", R.drawable.bg_place, 5, 3));
-        mListPlace.add(new Place("Cầu Rồng", R.drawable.bg_place, 5, 3));
-        mListPlace.add(new Place("Cầu Rồng", R.drawable.bg_place, 5, 3));
-        mListPlace.add(new Place("Cầu Rồng", R.drawable.bg_place, 5, 3));
+        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
     }
 
     @SuppressLint("ShowToast")

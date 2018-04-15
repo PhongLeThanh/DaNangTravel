@@ -1,5 +1,6 @@
 package com.example.phongle.danangtravel.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -7,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -20,6 +20,8 @@ import com.example.phongle.danangtravel.activity.bodyHome.TopRestaurantAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.DistrictSpinnerAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.HeaderAdapter;
 import com.example.phongle.danangtravel.activity.list.ListAttractionActivity;
+import com.example.phongle.danangtravel.activity.list.ListHotelActivity;
+import com.example.phongle.danangtravel.activity.list.ListRestaurantActivity;
 import com.example.phongle.danangtravel.models.Hotel;
 import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
@@ -41,6 +43,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView mRecyclerViewTopRestaurant;
     private RecyclerView mRecyclerViewTopHotel;
     private Button mBtnListAttraction;
+    private Button mBtnListRestaurant;
+    private Button mBtnListHotel;
     private HeaderAdapter mHeaderAdapter;
     private TopPlaceAdapter mTopPlaceAdapter;
     private TopRestaurantAdapter mTopRestaurantAdapter;
@@ -71,10 +75,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mRecyclerViewTopRestaurant = findViewById(R.id.recyclerViewTopRestaurant);
         mRecyclerViewTopHotel = findViewById(R.id.recyclerViewTopHotel);
         mBtnListAttraction = findViewById(R.id.btnTouristAttraction);
+        mBtnListRestaurant = findViewById(R.id.btnRestaurant);
+        mBtnListHotel = findViewById(R.id.btnHotel);
     }
 
     private void initListener() {
         mBtnListAttraction.setOnClickListener(this);
+        mBtnListRestaurant.setOnClickListener(this);
+        mBtnListHotel.setOnClickListener(this);
     }
 
     private void initAdapter() {
@@ -122,19 +130,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 3000000));
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void onPlaceClick(int position) {
         Toast.makeText(this, "Click", Toast.LENGTH_LONG);
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void onRestaurantClick(int position) {
         Toast.makeText(this, "Clicked restaurant", Toast.LENGTH_LONG);
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void onHotelClick(int postion) {
-        Log.d("xxx", "onHotelClick: clicked");
         Toast.makeText(this, "Clicked restaurant", Toast.LENGTH_LONG);
     }
 
@@ -144,6 +154,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btnTouristAttraction:
                 intent = new Intent(HomeActivity.this, ListAttractionActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnRestaurant:
+                intent = new Intent(HomeActivity.this, ListRestaurantActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnHotel:
+                intent = new Intent(HomeActivity.this, ListHotelActivity.class);
                 startActivity(intent);
                 break;
         }
