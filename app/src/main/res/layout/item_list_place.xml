@@ -13,9 +13,10 @@
 
         <ImageView
             android:id="@+id/imgPlace"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_margin="10dp"
+            android:background="@drawable/bg_place"
             android:src="@drawable/bg_place"
             tools:ignore="ContentDescription" />
 
@@ -64,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_comment"
-                    android:textSize="12dp"/>
+                    android:textSize="12sp"/>
             </LinearLayout>
 
             <TextView
@@ -77,14 +78,14 @@
                 android:text="@string/tv_introduce_place" />
             <LinearLayout
                 android:id="@+id/llCost"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cost: "
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="5dp"/>
                 <TextView
                     android:id="@+id/tvCostHotel"
                     android:layout_width="wrap_content"
@@ -96,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vnd / Đêm"
+                    android:textSize="10sp"
                     />
             </LinearLayout>
         </LinearLayout>

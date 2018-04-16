@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="goldenStar">#ffff00</color>
+    <color name="username_color">#0000BB</color>
+    <color name="title_color">#0000AA</color>
+    <color name="place_name_color">#FF0000</color>
 </resources>

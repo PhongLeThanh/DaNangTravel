@@ -72,7 +72,10 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
             mTvAttractionName.setText(place.getName());
             mRatingAttraction.setRating(place.getRating());
             mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
-            mLlCost.setEnabled(false);
+            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+                View view = mLlCost.getChildAt(i);
+                view.setVisibility(View.GONE);
+            }
         }
 
         @Override

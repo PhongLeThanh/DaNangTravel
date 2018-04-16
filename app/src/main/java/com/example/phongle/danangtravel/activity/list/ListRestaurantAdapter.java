@@ -73,7 +73,10 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
             mTvRestaurantName.setText(restaurant.getName());
             mRatingRestaurant.setRating(restaurant.getRating());
             mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumComment())));
-            mLlCost.setEnabled(false);
+            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+                View view = mLlCost.getChildAt(i);
+                view.setVisibility(View.GONE);
+            }
         }
 
         @Override

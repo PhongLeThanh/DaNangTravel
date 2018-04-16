@@ -18,6 +18,7 @@
         <activity android:name=".activity.list.ListAttractionActivity"/>
         <activity android:name=".activity.list.ListRestaurantActivity"/>
         <activity android:name=".activity.list.ListHotelActivity"/>
+        <activity android:name=".activity.detail.DetailPlaceActivity"/>/>
     </application>
 
 </manifest>

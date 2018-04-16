@@ -1,6 +1,7 @@
 package com.example.phongle.danangtravel.activity.list;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.activity.headerHome.DistrictSpinnerAdapter;
 import com.example.phongle.danangtravel.models.Place;
 
@@ -61,9 +63,9 @@ public class ListAttractionActivity extends AppCompatActivity implements ListAtt
         mListPlace.add(new Place("Cầu Rồng", R.drawable.bg_place, 5, 3));
     }
 
-    @SuppressLint("ShowToast")
     @Override
     public void onPlaceClick(int position) {
-        Toast.makeText(this, "Click", Toast.LENGTH_LONG);
+        Intent intent= new Intent(ListAttractionActivity.this, DetailPlaceActivity.class);
+        startActivity(intent);
     }
 }
