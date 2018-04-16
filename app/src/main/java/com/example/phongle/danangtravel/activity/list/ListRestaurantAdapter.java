@@ -1,4 +1,4 @@
-package com.example.phongle.danangtravel.activity.bodyHome;
+package com.example.phongle.danangtravel.activity.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,27 +10,28 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
 
 import java.util.List;
 
-public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdapter.TopRestaurantViewHolder> {
+public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAdapter.ListRestaurantViewHolder> {
     private List<Restaurant> mListRestaurant;
     private onItemClickListener mOnItemClickListener;
 
-    public TopRestaurantAdapter(List<Restaurant> listRestaurant, onItemClickListener onItemClickListener) {
+    public ListRestaurantAdapter(List<Restaurant> listRestaurant, onItemClickListener onItemClickListener) {
         mListRestaurant = listRestaurant;
         mOnItemClickListener = onItemClickListener;
     }
 
     @Override
-    public TopRestaurantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_restaurant, parent, false);
-        return new TopRestaurantViewHolder(view);
+    public ListRestaurantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_place, parent, false);
+        return new ListRestaurantViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TopRestaurantViewHolder holder, int position) {
+    public void onBindViewHolder(ListRestaurantViewHolder holder, int position) {
         holder.onBindData();
     }
 
@@ -39,29 +40,31 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
         return mListRestaurant.size();
     }
 
-    class TopRestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private LinearLayout mLlItemRestaurant;
+    class ListRestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private LinearLayout mLlItemListRestaurant;
         private ImageView mImgRestaurant;
         private TextView mTvRestaurantName;
         private RatingBar mRatingRestaurant;
         private TextView mTvNumCommentRestaurant;
+        private LinearLayout mLlCost;
 
-        TopRestaurantViewHolder(final View itemView) {
+        ListRestaurantViewHolder(final View itemView) {
             super(itemView);
             initViews();
             initListener();
         }
 
         private void initViews() {
-            mLlItemRestaurant = itemView.findViewById(R.id.llItemTopRestaurant);
-            mImgRestaurant = itemView.findViewById(R.id.imgTopRestaurant);
-            mTvRestaurantName = itemView.findViewById(R.id.tvTopRestaurantName);
-            mRatingRestaurant = itemView.findViewById(R.id.ratingRestaurant);
-            mTvNumCommentRestaurant = itemView.findViewById(R.id.tvNumCommentRestaurant);
+            mLlItemListRestaurant = itemView.findViewById(R.id.llItemPlace);
+            mImgRestaurant = itemView.findViewById(R.id.imgPlace);
+            mTvRestaurantName = itemView.findViewById(R.id.tvPlaceName);
+            mRatingRestaurant = itemView.findViewById(R.id.ratingPlace);
+            mTvNumCommentRestaurant = itemView.findViewById(R.id.tvNumComment);
+            mLlCost = itemView.findViewById(R.id.llCost);
         }
 
         private void initListener() {
-            mLlItemRestaurant.setOnClickListener(this);
+            mLlItemListRestaurant.setOnClickListener(this);
         }
 
         private void onBindData() {
@@ -70,19 +73,23 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
             mTvRestaurantName.setText(restaurant.getName());
             mRatingRestaurant.setRating(restaurant.getRating());
             mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumComment())));
+            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+                View view = mLlCost.getChildAt(i);
+                view.setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.llItemTopRestaurant:
-                    mOnItemClickListener.onRestaurantClick(getAdapterPosition());
+                case R.id.llItemPlace:
+                    mOnItemClickListener.onPlaceClick(getAdapterPosition());
                     break;
             }
         }
     }
 
     public interface onItemClickListener {
-        void onRestaurantClick(int postion);
+        void onPlaceClick(int postion);
     }
 }

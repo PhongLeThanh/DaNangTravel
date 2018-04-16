@@ -1,6 +1,5 @@
-package com.example.phongle.danangtravel.activity.bodyHome;
+package com.example.phongle.danangtravel.activity.list;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +14,23 @@ import com.example.phongle.danangtravel.models.Hotel;
 
 import java.util.List;
 
-public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHotelViewHolder> {
+public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.ListHotelViewHolder> {
     private List<Hotel> mListHotel;
     private onItemClickListener mOnItemClickListener;
 
-    public TopHotelAdapter(List<Hotel> listHotel, onItemClickListener onItemClickListener) {
+    public ListHotelAdapter(List<Hotel> listHotel, onItemClickListener onItemClickListener) {
         mListHotel = listHotel;
         mOnItemClickListener = onItemClickListener;
     }
 
     @Override
-    public TopHotelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_hotel, parent, false);
-        return new TopHotelViewHolder(view);
+    public ListHotelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_place, parent, false);
+        return new ListHotelViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TopHotelViewHolder holder, int position) {
+    public void onBindViewHolder(ListHotelViewHolder holder, int position) {
         holder.onBindData();
     }
 
@@ -40,33 +39,31 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
         return mListHotel.size();
     }
 
-    class TopHotelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private CardView mCvItemHotel;
-        private LinearLayout mLlItemHotel;
+    class ListHotelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private LinearLayout mLlItemListHotel;
         private ImageView mImgHotel;
         private TextView mTvHotelName;
         private RatingBar mRatingHotel;
         private TextView mTvNumCommentHotel;
         private TextView mTvCostHotel;
 
-        TopHotelViewHolder(final View itemView) {
+        ListHotelViewHolder(final View itemView) {
             super(itemView);
             initViews();
             initListener();
         }
 
         private void initViews() {
-            mCvItemHotel = itemView.findViewById(R.id.cardViewItemHotel);
-            mLlItemHotel = itemView.findViewById(R.id.llItemTopHotel);
-            mImgHotel = itemView.findViewById(R.id.imgTopHotel);
-            mTvHotelName = itemView.findViewById(R.id.tvTopHotelName);
-            mRatingHotel = itemView.findViewById(R.id.ratingHotel);
-            mTvNumCommentHotel = itemView.findViewById(R.id.tvNumCommentHotel);
+            mLlItemListHotel = itemView.findViewById(R.id.llItemPlace);
+            mImgHotel = itemView.findViewById(R.id.imgPlace);
+            mTvHotelName = itemView.findViewById(R.id.tvPlaceName);
+            mRatingHotel = itemView.findViewById(R.id.ratingPlace);
+            mTvNumCommentHotel = itemView.findViewById(R.id.tvNumComment);
             mTvCostHotel = itemView.findViewById(R.id.tvCostHotel);
         }
 
         private void initListener() {
-            mCvItemHotel.setOnClickListener(this);
+            mLlItemListHotel.setOnClickListener(this);
         }
 
         private void onBindData() {
@@ -81,14 +78,14 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.cardViewItemHotel:
-                    mOnItemClickListener.onHotelClick(getAdapterPosition());
+                case R.id.llItemPlace:
+                    mOnItemClickListener.onPlaceClick(getAdapterPosition());
                     break;
             }
         }
     }
 
     public interface onItemClickListener {
-        void onHotelClick(int position);
+        void onPlaceClick(int position);
     }
 }

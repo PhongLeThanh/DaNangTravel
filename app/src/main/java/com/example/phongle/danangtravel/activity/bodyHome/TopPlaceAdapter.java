@@ -25,7 +25,7 @@ public class TopPlaceAdapter extends RecyclerView.Adapter<TopPlaceAdapter.TopPla
 
     @Override
     public TopPlaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_top_place, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_place, parent, false);
         return new TopPlaceViewHolder(view);
     }
 
@@ -53,7 +53,7 @@ public class TopPlaceAdapter extends RecyclerView.Adapter<TopPlaceAdapter.TopPla
         }
 
         private void initViews() {
-            mLlItemPlace = itemView.findViewById(R.id.llItemPlace);
+            mLlItemPlace = itemView.findViewById(R.id.llItemTopPlace);
             mImgPlace = itemView.findViewById(R.id.imgTopPlace);
             mTvPlaceName = itemView.findViewById(R.id.tvTopPlaceName);
             mRatingPlace = itemView.findViewById(R.id.ratingPlace);
@@ -75,7 +75,7 @@ public class TopPlaceAdapter extends RecyclerView.Adapter<TopPlaceAdapter.TopPla
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.llItemPlace:
+                case R.id.llItemTopPlace:
                     mOnItemClickListener.onPlaceClick(getAdapterPosition());
                     break;
             }

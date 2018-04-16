@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cardViewItemHotel"
     android:layout_width="250dp"
-    android:layout_height="230dp"
+    android:layout_height="210dp"
     android:layout_marginBottom="3dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="3dp">
 
     <LinearLayout
-        android:id="@+id/llItemHotel"
+        android:id="@+id/llItemTopPlace"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="20dp">
 
         <ImageView
-            android:id="@+id/imgTopHotel"
+            android:id="@+id/imgTopPlace"
             android:layout_width="210dp"
             android:layout_height="120dp"
-            android:scaleX="1.2"
             android:layout_marginBottom="5dp"
-            android:src="@drawable/bg_hotel"/>
+            android:src="@drawable/bg_place"/>
 
         <TextView
-            android:id="@+id/tvTopHotelName"
+            android:id="@+id/tvTopPlaceName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Resort Intercontinental"
+            android:text="Dragon Brigde"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -36,16 +34,17 @@
             android:orientation="horizontal">
 
             <RatingBar
-                android:id="@+id/ratingHotel"
+                android:id="@+id/ratingPlace"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize="0.1" />
+                android:stepSize="0.1"
+                android:theme="@style/RatingBar"/>
 
             <TextView
-                android:id="@+id/tvNumCommentHotel"
+                android:id="@+id/tvNumComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -56,28 +55,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_comment" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cost: "
-                android:layout_marginRight="10dp"/>
-            <TextView
-                android:id="@+id/tvCostHotel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="250000"
-                android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vnd / Đêm"
-                />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
