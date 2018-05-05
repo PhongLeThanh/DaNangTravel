@@ -1,6 +1,5 @@
 package com.example.phongle.danangtravel.activity.bodyHome;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.models.Hotel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
 
     @Override
     public TopHotelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_hotel, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_place, parent, false);
         return new TopHotelViewHolder(view);
     }
 
@@ -41,7 +41,6 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
     }
 
     class TopHotelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private CardView mCvItemHotel;
         private LinearLayout mLlItemHotel;
         private ImageView mImgHotel;
         private TextView mTvHotelName;
@@ -56,23 +55,27 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
         }
 
         private void initViews() {
-            mCvItemHotel = itemView.findViewById(R.id.cardViewItemHotel);
-            mLlItemHotel = itemView.findViewById(R.id.llItemTopHotel);
-            mImgHotel = itemView.findViewById(R.id.imgTopHotel);
-            mTvHotelName = itemView.findViewById(R.id.tvTopHotelName);
-            mRatingHotel = itemView.findViewById(R.id.ratingHotel);
-            mTvNumCommentHotel = itemView.findViewById(R.id.tvNumCommentHotel);
+            mLlItemHotel = itemView.findViewById(R.id.llItemTopPlace);
+            mImgHotel = itemView.findViewById(R.id.imgTopPlace);
+            mTvHotelName = itemView.findViewById(R.id.tvTopPlaceName);
+            mRatingHotel = itemView.findViewById(R.id.ratingPlace);
+            mTvNumCommentHotel = itemView.findViewById(R.id.tvNumComment);
             mTvCostHotel = itemView.findViewById(R.id.tvCostHotel);
         }
 
         private void initListener() {
-            mCvItemHotel.setOnClickListener(this);
+            mLlItemHotel.setOnClickListener(this);
         }
 
         private void onBindData() {
             Hotel hotel = mListHotel.get(getAdapterPosition());
-            mImgHotel.setImageResource(hotel.getImage());
-            mTvHotelName.setText(hotel.getName());
+            if (hotel.getImages()!=null && hotel.getImages().size() > 0 && hotel.getImages().get(0).getImageName() != null) {
+                Picasso.with(mImgHotel.getContext())
+                        .load(hotel.getImages().get(0).getImageName())
+                        .error(R.drawable.bg_hotel)
+                        .into(mImgHotel);
+            }
+            mTvHotelName.setText(hotel.getPlaceName());
             mRatingHotel.setRating(hotel.getRating());
             mTvNumCommentHotel.setText((String.valueOf(hotel.getNumComment())));
             mTvCostHotel.setText(String.valueOf(hotel.getCost()));
@@ -81,7 +84,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.cardViewItemHotel:
+                case R.id.llItemTopPlace:
                     mOnItemClickListener.onHotelClick(getAdapterPosition());
                     break;
             }

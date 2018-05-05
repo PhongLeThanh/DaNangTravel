@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.headerHome.DistrictSpinnerAdapter;
+import com.example.phongle.danangtravel.models.Location;
 import com.example.phongle.danangtravel.models.Restaurant;
 
 import java.util.ArrayList;
@@ -22,9 +23,9 @@ public class ListRestaurantActivity extends AppCompatActivity implements ListRes
     private RecyclerView mRecyclerViewListRestaurant;
     private Spinner mSpinnerDistrictList;
     private ListRestaurantAdapter mListRestaurantAdapter;
-    private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
     private List<Restaurant> mListRestaurant = new ArrayList<>();
-    private String[] mListDistrict = {"Hai Chau", "Hoa Vang", "Lien Chieu", "Thanh Khe", "Son Tra", "Cam Le"};
+    private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
+    private List<Location> mListLocation = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class ListRestaurantActivity extends AppCompatActivity implements ListRes
     }
     private void initAdapter() {
         // Set Adapter for spinner
-        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this, mListDistrict);
+        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this, mListLocation);
         mSpinnerDistrictList.setAdapter(mDistrictSpinnerAdapter);
         //Set Adapter for recycler view
         mListRestaurantAdapter = new ListRestaurantAdapter(mListRestaurant, this);
@@ -52,11 +53,11 @@ public class ListRestaurantActivity extends AppCompatActivity implements ListRes
     }
     private void initData() {
         // Init Data for recycler view List Attraction
-        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
-        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
-        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
-        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
-        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
+//        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
+//        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
+//        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
+//        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
+//        mListRestaurant.add(new Restaurant("Ẩm thực Trần", R.drawable.bg_restaurant, 5, 3, 200000));
     }
     @SuppressLint("ShowToast")
     @Override

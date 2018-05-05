@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.headerHome.DistrictSpinnerAdapter;
 import com.example.phongle.danangtravel.models.Hotel;
+import com.example.phongle.danangtravel.models.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,9 @@ public class ListHotelActivity extends AppCompatActivity implements ListHotelAda
     private RecyclerView mRecyclerViewListHotel;
     private Spinner mSpinnerDistrictList;
     private ListHotelAdapter mListHotelAdapter;
-    private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
     private List<Hotel> mListHotel = new ArrayList<>();
-    private String[] mListDistrict = {"Hai Chau", "Hoa Vang", "Lien Chieu", "Thanh Khe", "Son Tra", "Cam Le"};
+    private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
+    private List<Location> mListLocation = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class ListHotelActivity extends AppCompatActivity implements ListHotelAda
 
     private void initAdapter() {
         // Set Adapter for spinner
-        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this, mListDistrict);
+        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this, mListLocation);
         mSpinnerDistrictList.setAdapter(mDistrictSpinnerAdapter);
         //Set Adapter for recycler view
         mListHotelAdapter = new ListHotelAdapter(mListHotel, this);
@@ -54,12 +55,12 @@ public class ListHotelActivity extends AppCompatActivity implements ListHotelAda
 
     private void initData() {
         // Init Data for recycler view List Attraction
-        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
-        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
-        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
-        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
-        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
-        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+//        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+//        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+//        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+//        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+//        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
+//        mListHotel.add(new Hotel("Resort Intercontinental", R.drawable.bg_hotel, 5, 3, 200000));
     }
 
     @SuppressLint("ShowToast")

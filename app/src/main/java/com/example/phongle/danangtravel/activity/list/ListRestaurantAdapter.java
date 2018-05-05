@@ -69,8 +69,8 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
 
         private void onBindData() {
             Restaurant restaurant = mListRestaurant.get(getAdapterPosition());
-            mImgRestaurant.setImageResource(restaurant.getImage());
-            mTvRestaurantName.setText(restaurant.getName());
+            mImgRestaurant.setImageResource(R.drawable.bg_restaurant);
+            mTvRestaurantName.setText(restaurant.getPlaceName());
             mRatingRestaurant.setRating(restaurant.getRating());
             mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumComment())));
             for ( int i = 0; i < mLlCost.getChildCount();  i++ ){

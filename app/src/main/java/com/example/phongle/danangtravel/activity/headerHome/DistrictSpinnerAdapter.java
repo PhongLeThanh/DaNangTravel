@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.models.Location;
+
+import java.util.List;
 
 /**
  * Created by phongle on 30/3/2561.
@@ -16,16 +19,16 @@ import com.example.phongle.danangtravel.R;
 
 public class DistrictSpinnerAdapter extends BaseAdapter {
     private Context mContext;
-    private String[] mListDistrict;
+    private List<Location> mListLocation;
 
-    public DistrictSpinnerAdapter(Context mContext, String[] mListDistrict) {
+    public DistrictSpinnerAdapter(Context mContext, List<Location> listLocation) {
         this.mContext = mContext;
-        this.mListDistrict = mListDistrict;
+        this.mListLocation = listLocation;
     }
 
     @Override
     public int getCount() {
-        return mListDistrict.length;
+        return mListLocation.size();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class DistrictSpinnerAdapter extends BaseAdapter {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         view = layoutInflater.inflate(R.layout.item_spinner_district,container, false);
         TextView tvDistrict = view.findViewById(R.id.tvDistrict);
-        tvDistrict.setText(mListDistrict[position]);
+        tvDistrict.setText(mListLocation.get(position).getLocationName());
         return view;
     }
 }

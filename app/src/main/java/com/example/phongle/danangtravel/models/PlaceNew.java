@@ -3,18 +3,16 @@ package com.example.phongle.danangtravel.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class Place {
+public class PlaceNew {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("categoryId")
-    @Expose
-    private Integer categoryId;
     @SerializedName("locationId")
     @Expose
     private Integer locationId;
+    @SerializedName("categoryId")
+    @Expose
+    private Integer categoryId;
     @SerializedName("placeName")
     @Expose
     private String placeName;
@@ -39,18 +37,12 @@ public class Place {
     @SerializedName("numComment")
     @Expose
     private String numComment;
-    @SerializedName("restaurant")
+    @SerializedName("createdAt")
     @Expose
-    private Restaurant restaurant;
-    @SerializedName("touristattraction")
+    private String createdAt;
+    @SerializedName("updatedAt")
     @Expose
-    private TouristAttraction touristattraction;
-    @SerializedName("hotel")
-    @Expose
-    private Hotel hotel;
-    @SerializedName("images")
-    @Expose
-    private List<Image> images = null;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -60,20 +52,20 @@ public class Place {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public Integer getLocationId() {
         return locationId;
     }
 
     public void setLocationId(Integer locationId) {
         this.locationId = locationId;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getPlaceName() {
@@ -132,6 +124,22 @@ public class Place {
         this.rating = rating;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public String getNumComment() {
         return numComment;
     }
@@ -140,45 +148,10 @@ public class Place {
         this.numComment = numComment;
     }
 
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public TouristAttraction getTouristattraction() {
-        return touristattraction;
-    }
-
-    public void setTouristattraction(TouristAttraction touristattraction) {
-        this.touristattraction = touristattraction;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
-
-    public Place() {
-    }
-
-    public Place(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, String waypoint, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Image> images) {
+    public PlaceNew(Integer id, Integer locationId, Integer categoryId, String placeName, String description, String detail, String address, String phone, String waypoint, Integer rating, String numComment, String createdAt, String updatedAt) {
         this.id = id;
-        this.categoryId = categoryId;
         this.locationId = locationId;
+        this.categoryId = categoryId;
         this.placeName = placeName;
         this.description = description;
         this.detail = detail;
@@ -187,19 +160,10 @@ public class Place {
         this.waypoint = waypoint;
         this.rating = rating;
         this.numComment = numComment;
-        this.restaurant = restaurant;
-        this.touristattraction = touristattraction;
-        this.hotel = hotel;
-        this.images = images;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public String toString() {
-        return (new StringBuilder()
-                .append(id)
-                .append("---")
-                .append(categoryId)
-                .append("---")
-                .append(placeName))
-                .toString();
+    public PlaceNew() {
     }
 }

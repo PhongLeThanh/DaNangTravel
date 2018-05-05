@@ -10,16 +10,17 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.models.Place;
+import com.example.phongle.danangtravel.models.PlaceNew;
+import com.example.phongle.danangtravel.models.TouristAttraction;
 
 import java.util.List;
 
 public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAdapter.ListAttractionViewHolder> {
-    private List<Place> mListPlace;
+    private List<TouristAttraction> mListTourist;
     private onItemClickListener mOnItemClickListener;
 
-    ListAttractionAdapter(List<Place> listPlace, onItemClickListener onItemClickListener) {
-        mListPlace = listPlace;
+    ListAttractionAdapter(List<TouristAttraction> listPlace, onItemClickListener onItemClickListener) {
+        mListTourist = listPlace;
         mOnItemClickListener = onItemClickListener;
     }
 
@@ -36,7 +37,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
 
     @Override
     public int getItemCount() {
-        return mListPlace.size();
+        return mListTourist.size();
     }
 
     class ListAttractionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -67,15 +68,15 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
         }
 
         private void onBindData() {
-            Place place = mListPlace.get(getAdapterPosition());
-            mImgAttraction.setImageResource(place.getImage());
-            mTvAttractionName.setText(place.getName());
-            mRatingAttraction.setRating(place.getRating());
-            mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
-            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
-                View view = mLlCost.getChildAt(i);
-                view.setVisibility(View.GONE);
-            }
+//            TouristAttraction place = mListTourist.get(getAdapterPosition());
+//            mImgAttraction.setImageResource(R.drawable.bg_place);
+//            mTvAttractionName.setText(place.getPlaceName());
+//            mRatingAttraction.setRating(place.getRating());
+//            mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
+//            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+//                View view = mLlCost.getChildAt(i);
+//                view.setVisibility(View.GONE);
+//            }
         }
 
         @Override

@@ -11,14 +11,16 @@ import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.models.Place;
+import com.example.phongle.danangtravel.models.TouristAttraction;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class TopPlaceAdapter extends RecyclerView.Adapter<TopPlaceAdapter.TopPlaceViewHolder> {
-    private List<Place> mListPlace;
+public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.TopPlaceViewHolder> {
+    private List<TouristAttraction> mListPlace;
     private onItemClickListener mOnItemClickListener;
 
-    public TopPlaceAdapter(List<Place> listPlace, onItemClickListener onItemClickListener) {
+    public TopTouristAdapter(List<TouristAttraction> listPlace, onItemClickListener onItemClickListener) {
         mListPlace = listPlace;
         mOnItemClickListener = onItemClickListener;
     }
@@ -41,6 +43,7 @@ public class TopPlaceAdapter extends RecyclerView.Adapter<TopPlaceAdapter.TopPla
 
     class TopPlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private LinearLayout mLlItemPlace;
+        private LinearLayout mLlCost;
         private ImageView mImgPlace;
         private TextView mTvPlaceName;
         private RatingBar mRatingPlace;
@@ -54,6 +57,7 @@ public class TopPlaceAdapter extends RecyclerView.Adapter<TopPlaceAdapter.TopPla
 
         private void initViews() {
             mLlItemPlace = itemView.findViewById(R.id.llItemTopPlace);
+            mLlCost = itemView.findViewById(R.id.llCost);
             mImgPlace = itemView.findViewById(R.id.imgTopPlace);
             mTvPlaceName = itemView.findViewById(R.id.tvTopPlaceName);
             mRatingPlace = itemView.findViewById(R.id.ratingPlace);
@@ -65,11 +69,20 @@ public class TopPlaceAdapter extends RecyclerView.Adapter<TopPlaceAdapter.TopPla
         }
 
         private void onBindData() {
-            Place place = mListPlace.get(getAdapterPosition());
-            mImgPlace.setImageResource(place.getImage());
-            mTvPlaceName.setText(place.getName());
+            TouristAttraction place = mListPlace.get(getAdapterPosition());
+            if (place.getImages() !=null && place.getImages().size() > 0 && place.getImages().get(0).getImageName() !=null){
+                Picasso.with(mImgPlace.getContext())
+                        .load(place.getImages().get(0).getImageName())
+                        .error(R.drawable.bg_place)
+                        .into(mImgPlace);
+            }
+            mTvPlaceName.setText(place.getPlaceName());
             mRatingPlace.setRating(place.getRating());
             mTvNumComment.setText((String.valueOf(place.getNumComment())));
+            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+                View view = mLlCost.getChildAt(i);
+                view.setVisibility(View.GONE);
+            }
         }
 
         @Override

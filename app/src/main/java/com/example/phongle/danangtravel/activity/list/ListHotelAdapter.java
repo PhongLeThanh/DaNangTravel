@@ -68,8 +68,8 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
 
         private void onBindData() {
             Hotel hotel = mListHotel.get(getAdapterPosition());
-            mImgHotel.setImageResource(hotel.getImage());
-            mTvHotelName.setText(hotel.getName());
+            mImgHotel.setImageResource(R.drawable.bg_hotel);
+            mTvHotelName.setText(hotel.getPlaceName());
             mRatingHotel.setRating(hotel.getRating());
             mTvNumCommentHotel.setText((String.valueOf(hotel.getNumComment())));
             mTvCostHotel.setText(String.valueOf(hotel.getCost()));
