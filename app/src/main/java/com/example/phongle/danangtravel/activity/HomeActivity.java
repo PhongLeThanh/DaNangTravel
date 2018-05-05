@@ -12,15 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.bodyHome.TopHotelAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopRestaurantAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopTouristAdapter;
-import com.example.phongle.danangtravel.activity.headerHome.DistrictSpinnerAdapter;
+import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.activity.headerHome.HeaderAdapter;
+import com.example.phongle.danangtravel.activity.headerHome.LocationAdapter;
+import com.example.phongle.danangtravel.activity.headerHome.LocationDialog;
 import com.example.phongle.danangtravel.activity.list.ListAttractionActivity;
 import com.example.phongle.danangtravel.activity.list.ListHotelActivity;
 import com.example.phongle.danangtravel.activity.list.ListRestaurantActivity;
@@ -44,11 +46,13 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener,
         TopTouristAdapter.onItemClickListener,
         TopRestaurantAdapter.onItemClickListener,
-        TopHotelAdapter.onItemClickListener {
+        TopHotelAdapter.onItemClickListener,
+        LocationAdapter.OnLocationClickListener {
 
     private ViewPager mViewPager;
     private Toolbar mToolbar;
-    private Spinner mSpinnerDistrict;
+    private TextView mTvLocation;
+    //    private Spinner mSpinnerDistrict;
     private RecyclerView mRecyclerViewTopPlace;
     private RecyclerView mRecyclerViewTopRestaurant;
     private RecyclerView mRecyclerViewTopHotel;
@@ -56,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnListRestaurant;
     private Button mBtnListHotel;
     private HeaderAdapter mHeaderAdapter;
-    private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
+    //    private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
     private TopTouristAdapter mTopTouristAdapter;
     private TopRestaurantAdapter mTopRestaurantAdapter;
     private TopHotelAdapter mTopHotelAdapter;
@@ -65,6 +69,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private List<Restaurant> mListRestaurant = new ArrayList<>();
     private List<Hotel> mListHotel = new ArrayList<>();
     private List<TouristAttraction> mListTourist = new ArrayList<>();
+    private LocationDialog mLocationDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,19 +86,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         mViewPager = findViewById(R.id.viewPagerHeaderHome);
         mToolbar = findViewById(R.id.toolbarHome);
-        mSpinnerDistrict = findViewById(R.id.spinnerDistrict);
+        mTvLocation = findViewById(R.id.tvLocation);
+//        mSpinnerDistrict = findViewById(R.id.spinnerDistrict);
         mRecyclerViewTopPlace = findViewById(R.id.recyclerViewTopPlace);
         mRecyclerViewTopRestaurant = findViewById(R.id.recyclerViewTopRestaurant);
         mRecyclerViewTopHotel = findViewById(R.id.recyclerViewTopHotel);
         mBtnListAttraction = findViewById(R.id.btnTouristAttraction);
         mBtnListRestaurant = findViewById(R.id.btnRestaurant);
         mBtnListHotel = findViewById(R.id.btnHotel);
+        mLocationDialog = new LocationDialog();
+        mLocationDialog.setCallback(this);
     }
 
     private void initListener() {
         mBtnListAttraction.setOnClickListener(this);
         mBtnListRestaurant.setOnClickListener(this);
         mBtnListHotel.setOnClickListener(this);
+        mTvLocation.setOnClickListener(this);
     }
 
     private void initAdapter() {
@@ -130,14 +139,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 for (Location location : locationResponse.getData()) {
                     mListLocation.add(location);
                 }
-                Log.d("xxx", "onResponse: "+mListLocation.get(0).getLocationName());
+                mLocationDialog.setData(mListLocation);
+                Log.d("xxx", "onResponse: " + mListLocation.get(0).getLocationName());
             }
+
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
             }
         });
-        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this,mListLocation);
-        mSpinnerDistrict.setAdapter(mDistrictSpinnerAdapter);
+//        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this,mListLocation);
+//        mSpinnerDistrict.setAdapter(mDistrictSpinnerAdapter);
         MyRetrofit.getInstance().getService().getTopPlace().enqueue(new Callback<PlaceResponse>() {
             @Override
             public void onResponse(@NonNull Call<PlaceResponse> call, Response<PlaceResponse> response) {
@@ -148,19 +159,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d("xxx", "onResponse: " + placeList.toString());
                     for (Place place : placeList) {
                         if (place.getCategoryId() == 1) {
-                            Restaurant restaurant=place.getRestaurant();
+                            Restaurant restaurant = place.getRestaurant();
                             restaurant.setPlace(place);
                             mListRestaurant.add(restaurant);
                         }
-                        if (place.getCategoryId() == 2 ) {
+                        if (place.getCategoryId() == 2) {
                             Hotel hotel = place.getHotel();
                             hotel.setPlace(place);
                             mListHotel.add(hotel);
                         }
                         if (place.getCategoryId() == 3) {
-                           TouristAttraction touristAttraction = place.getTouristattraction();
-                           touristAttraction.setPlace(place);
-                           mListTourist.add(touristAttraction);
+                            TouristAttraction touristAttraction = place.getTouristattraction();
+                            touristAttraction.setPlace(place);
+                            mListTourist.add(touristAttraction);
                         }
                     }
                 }
@@ -171,7 +182,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("xxx", "onResponse: fail ");
             }
         });
-        mDistrictSpinnerAdapter.notifyDataSetChanged();
+//        mDistrictSpinnerAdapter.notifyDataSetChanged();
         mTopRestaurantAdapter.notifyDataSetChanged();
         mTopHotelAdapter.notifyDataSetChanged();
         mTopTouristAdapter.notifyDataSetChanged();
@@ -181,18 +192,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPlaceClick(int position) {
         Toast.makeText(this, "Click", Toast.LENGTH_LONG);
+        startActivity(new Intent(this, DetailPlaceActivity.class));
     }
 
     @SuppressLint("ShowToast")
     @Override
     public void onRestaurantClick(int position) {
         Toast.makeText(this, "Clicked restaurant", Toast.LENGTH_LONG);
+        startActivity(new Intent(this, DetailPlaceActivity.class));
     }
 
     @SuppressLint("ShowToast")
     @Override
     public void onHotelClick(int postion) {
         Toast.makeText(this, "Clicked restaurant", Toast.LENGTH_LONG);
+        startActivity(new Intent(this, DetailPlaceActivity.class));
     }
 
     @Override
@@ -211,6 +225,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(HomeActivity.this, ListHotelActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.tvLocation:
+                mLocationDialog.show(getFragmentManager(), LocationDialog.class.getSimpleName());
         }
+    }
+
+    @Override
+    public void onLocationClick(Location location) {
+        mLocationDialog.dismiss();
+        mTvLocation.setText(location.getLocationName());
+        //TODO: get id location
     }
 }

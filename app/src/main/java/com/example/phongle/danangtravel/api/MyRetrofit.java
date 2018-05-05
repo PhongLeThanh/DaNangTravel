@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyRetrofit {
-    private static final String API_BASE_URL = "http://192.168.1.143:6969/api/";
+    private static final String API_BASE_URL = "http://192.168.1.128:6969/api/";
     private static TravelService mTravelService;
     private static MyRetrofit mMyRetrofit;
 

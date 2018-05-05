@@ -40,6 +40,10 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
         return mListHotel.size();
     }
 
+    public interface onItemClickListener {
+        void onHotelClick(int position);
+    }
+
     class TopHotelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private LinearLayout mLlItemHotel;
         private ImageView mImgHotel;
@@ -69,7 +73,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
 
         private void onBindData() {
             Hotel hotel = mListHotel.get(getAdapterPosition());
-            if (hotel.getImages()!=null && hotel.getImages().size() > 0 && hotel.getImages().get(0).getImageName() != null) {
+            if (hotel.getImages() != null && hotel.getImages().size() > 0 && hotel.getImages().get(0).getImageName() != null) {
                 Picasso.with(mImgHotel.getContext())
                         .load(hotel.getImages().get(0).getImageName())
                         .error(R.drawable.bg_hotel)
@@ -86,12 +90,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
             switch (v.getId()) {
                 case R.id.llItemTopPlace:
                     mOnItemClickListener.onHotelClick(getAdapterPosition());
-                    break;
             }
         }
-    }
-
-    public interface onItemClickListener {
-        void onHotelClick(int position);
     }
 }
