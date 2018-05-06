@@ -68,15 +68,15 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
         }
 
         private void onBindData() {
-//            TouristAttraction place = mListTourist.get(getAdapterPosition());
-//            mImgAttraction.setImageResource(R.drawable.bg_place);
-//            mTvAttractionName.setText(place.getPlaceName());
-//            mRatingAttraction.setRating(place.getRating());
-//            mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
-//            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
-//                View view = mLlCost.getChildAt(i);
-//                view.setVisibility(View.GONE);
-//            }
+            TouristAttraction place = mListTourist.get(getAdapterPosition());
+            mImgAttraction.setImageResource(R.drawable.bg_place);
+            mTvAttractionName.setText(place.getPlaceName());
+            mRatingAttraction.setRating(place.getRating());
+            mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
+            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+                View view = mLlCost.getChildAt(i);
+                view.setVisibility(View.GONE);
+            }
         }
 
         @Override

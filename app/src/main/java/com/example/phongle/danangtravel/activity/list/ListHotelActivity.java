@@ -40,7 +40,6 @@ public class ListHotelActivity extends AppCompatActivity implements ListHotelAda
     private void initView() {
         mToolbar = findViewById(R.id.toolbarList);
         mRecyclerViewListHotel = findViewById(R.id.recyclerViewListPlace);
-        mSpinnerDistrictList = findViewById(R.id.spinnerDistrictList);
     }
 
     private void initAdapter() {

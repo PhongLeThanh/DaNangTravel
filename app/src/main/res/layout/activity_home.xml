@@ -71,15 +71,6 @@
                         android:text="@string/tv_danang"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
-                    <!--<Spinner-->
-                    <!--android:id="@+id/spinnerDistrict"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginEnd="16dp"-->
-                    <!--android:layout_marginLeft="16dp"-->
-                    <!--android:layout_marginRight="16dp"-->
-                    <!--android:layout_marginStart="16dp"-->
-                    <!--android:spinnerStyle="@android:style/Widget.Spinner.DropDown" />-->
 
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>

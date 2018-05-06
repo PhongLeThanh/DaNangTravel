@@ -40,7 +40,6 @@ public class ListRestaurantActivity extends AppCompatActivity implements ListRes
     private void initView() {
         mToolbar = findViewById(R.id.toolbarList);
         mRecyclerViewListRestaurant = findViewById(R.id.recyclerViewListPlace);
-        mSpinnerDistrictList = findViewById(R.id.spinnerDistrictList);
     }
     private void initAdapter() {
         // Set Adapter for spinner

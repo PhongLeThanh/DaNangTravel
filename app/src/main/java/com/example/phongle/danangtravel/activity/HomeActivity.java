@@ -1,6 +1,5 @@
 package com.example.phongle.danangtravel.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.bodyHome.TopHotelAdapter;
@@ -34,6 +32,7 @@ import com.example.phongle.danangtravel.models.Location;
 import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
 import com.example.phongle.danangtravel.models.TouristAttraction;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,19 +47,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         TopRestaurantAdapter.onItemClickListener,
         TopHotelAdapter.onItemClickListener,
         LocationAdapter.OnLocationClickListener {
+    private static final String PLACE_ID_KEY = "id";
 
     private ViewPager mViewPager;
     private Toolbar mToolbar;
     private TextView mTvLocation;
-    //    private Spinner mSpinnerDistrict;
+    private AVLoadingIndicatorView mLoadingViewTopPlace;
+    private AVLoadingIndicatorView mLoadingViewTopHotel;
+    private AVLoadingIndicatorView mLoadingViewTopRestaurant;
     private RecyclerView mRecyclerViewTopPlace;
     private RecyclerView mRecyclerViewTopRestaurant;
     private RecyclerView mRecyclerViewTopHotel;
     private Button mBtnListAttraction;
     private Button mBtnListRestaurant;
     private Button mBtnListHotel;
+    private TextView mTvMoreHotel;
+    private TextView mTvMoreRestaurant;
+    private TextView mTvMorePlace;
     private HeaderAdapter mHeaderAdapter;
-    //    private DistrictSpinnerAdapter mDistrictSpinnerAdapter;
     private TopTouristAdapter mTopTouristAdapter;
     private TopRestaurantAdapter mTopRestaurantAdapter;
     private TopHotelAdapter mTopHotelAdapter;
@@ -87,10 +91,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager = findViewById(R.id.viewPagerHeaderHome);
         mToolbar = findViewById(R.id.toolbarHome);
         mTvLocation = findViewById(R.id.tvLocation);
-//        mSpinnerDistrict = findViewById(R.id.spinnerDistrict);
+        mLoadingViewTopPlace = findViewById(R.id.loadingViewTopPlace);
+        mLoadingViewTopHotel = findViewById(R.id.loadingViewTopHotel);
+        mLoadingViewTopRestaurant = findViewById(R.id.loadingViewTopRestaurant);
         mRecyclerViewTopPlace = findViewById(R.id.recyclerViewTopPlace);
         mRecyclerViewTopRestaurant = findViewById(R.id.recyclerViewTopRestaurant);
         mRecyclerViewTopHotel = findViewById(R.id.recyclerViewTopHotel);
+        mTvMorePlace = findViewById(R.id.tvMoreTopPlace);
+        mTvMoreRestaurant = findViewById(R.id.tvMoreTopRestaurant);
+        mTvMoreHotel = findViewById(R.id.tvMoreTopHotel);
         mBtnListAttraction = findViewById(R.id.btnTouristAttraction);
         mBtnListRestaurant = findViewById(R.id.btnRestaurant);
         mBtnListHotel = findViewById(R.id.btnHotel);
@@ -103,14 +112,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mBtnListRestaurant.setOnClickListener(this);
         mBtnListHotel.setOnClickListener(this);
         mTvLocation.setOnClickListener(this);
+        mTvMorePlace.setOnClickListener(this);
+        mTvMoreRestaurant.setOnClickListener(this);
+        mTvMoreHotel.setOnClickListener(this);
     }
 
     private void initAdapter() {
         mHeaderAdapter = new HeaderAdapter(this, mListImage);
         mViewPager.setAdapter(mHeaderAdapter);
-        // Set Adapter for location spinner
-//        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this,mListLocation);
-//        mSpinnerDistrict.setAdapter(mDistrictSpinnerAdapter);
         // Set Adapter for recycler view top place
         mTopTouristAdapter = new TopTouristAdapter(mListTourist, this);
         mRecyclerViewTopPlace.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -131,32 +140,46 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         circleIndicator.setViewPager(mViewPager);
     }
 
+    private void showLoadingView() {
+        mLoadingViewTopPlace.show();
+        mLoadingViewTopHotel.show();
+        mLoadingViewTopRestaurant.show();
+    }
+
+    ;
+
+    private void hideLoadingView() {
+        mLoadingViewTopPlace.hide();
+        mLoadingViewTopHotel.hide();
+        mLoadingViewTopRestaurant.hide();
+    }
+
     private void initData() {
+        showLoadingView();
         MyRetrofit.getInstance().getService().getLocations().enqueue(new Callback<LocationResponse>() {
             @Override
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
                 LocationResponse locationResponse = response.body();
-                for (Location location : locationResponse.getData()) {
-                    mListLocation.add(location);
+                if (!locationResponse.getData().isEmpty()) {
+                    for (Location location : locationResponse.getData()) {
+                        mListLocation.add(location);
+                    }
+                    mLocationDialog.setData(mListLocation);
+                    hideLoadingView();
                 }
-                mLocationDialog.setData(mListLocation);
-                Log.d("xxx", "onResponse: " + mListLocation.get(0).getLocationName());
+
             }
 
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
             }
         });
-//        mDistrictSpinnerAdapter = new DistrictSpinnerAdapter(this,mListLocation);
-//        mSpinnerDistrict.setAdapter(mDistrictSpinnerAdapter);
         MyRetrofit.getInstance().getService().getTopPlace().enqueue(new Callback<PlaceResponse>() {
             @Override
             public void onResponse(@NonNull Call<PlaceResponse> call, Response<PlaceResponse> response) {
                 PlaceResponse placeResponse = response.body();
-                List<Place> placeList = placeResponse.getData();
-                Log.d("xxx", "onResponse: " + placeList.get(0).getPlaceName());
-                if (placeList != null) {
-                    Log.d("xxx", "onResponse: " + placeList.toString());
+                if (!placeResponse.getData().isEmpty()) {
+                    List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
                         if (place.getCategoryId() == 1) {
                             Restaurant restaurant = place.getRestaurant();
@@ -175,6 +198,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 }
+                mTopRestaurantAdapter.notifyDataSetChanged();
+                mTopHotelAdapter.notifyDataSetChanged();
+                mTopTouristAdapter.notifyDataSetChanged();
+                hideLoadingView();
             }
 
             @Override
@@ -182,30 +209,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("xxx", "onResponse: fail ");
             }
         });
-//        mDistrictSpinnerAdapter.notifyDataSetChanged();
-        mTopRestaurantAdapter.notifyDataSetChanged();
-        mTopHotelAdapter.notifyDataSetChanged();
-        mTopTouristAdapter.notifyDataSetChanged();
     }
 
-    @SuppressLint("ShowToast")
     @Override
     public void onPlaceClick(int position) {
-        Toast.makeText(this, "Click", Toast.LENGTH_LONG);
         startActivity(new Intent(this, DetailPlaceActivity.class));
     }
 
-    @SuppressLint("ShowToast")
     @Override
     public void onRestaurantClick(int position) {
-        Toast.makeText(this, "Clicked restaurant", Toast.LENGTH_LONG);
         startActivity(new Intent(this, DetailPlaceActivity.class));
     }
 
-    @SuppressLint("ShowToast")
     @Override
     public void onHotelClick(int postion) {
-        Toast.makeText(this, "Clicked restaurant", Toast.LENGTH_LONG);
         startActivity(new Intent(this, DetailPlaceActivity.class));
     }
 
@@ -225,8 +242,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(HomeActivity.this, ListHotelActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.tvMoreTopPlace:
+                intent = new Intent(HomeActivity.this, ListAttractionActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tvMoreTopRestaurant:
+                intent = new Intent(HomeActivity.this, ListRestaurantActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tvMoreTopHotel:
+                intent = new Intent(HomeActivity.this, ListHotelActivity.class);
+                startActivity(intent);
+                break;
             case R.id.tvLocation:
                 mLocationDialog.show(getFragmentManager(), LocationDialog.class.getSimpleName());
+                break;
         }
     }
 
@@ -234,6 +264,45 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onLocationClick(Location location) {
         mLocationDialog.dismiss();
         mTvLocation.setText(location.getLocationName());
-        //TODO: get id location
+        showLoadingView();
+        MyRetrofit.getInstance().getService().getTopPlaceInLocation(location.getId()).enqueue(new Callback<PlaceResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<PlaceResponse> call, @NonNull Response<PlaceResponse> response) {
+                PlaceResponse placeResponse = response.body();
+                mListRestaurant.clear();
+                mListHotel.clear();
+                mListTourist.clear();
+                if (!placeResponse.getData().isEmpty()) {
+                    List<Place> placeList = placeResponse.getData();
+                    for (Place place : placeList) {
+                        if (place.getCategoryId() == 1) {
+                            Restaurant restaurant = place.getRestaurant();
+                            restaurant.setPlace(place);
+                            mListRestaurant.add(restaurant);
+                        }
+                        if (place.getCategoryId() == 2) {
+                            Hotel hotel = place.getHotel();
+                            hotel.setPlace(place);
+                            mListHotel.add(hotel);
+                        }
+                        if (place.getCategoryId() == 3) {
+                            TouristAttraction touristAttraction = place.getTouristattraction();
+                            touristAttraction.setPlace(place);
+                            mListTourist.add(touristAttraction);
+                        }
+                    }
+                }
+                mTopRestaurantAdapter.notifyDataSetChanged();
+                mTopHotelAdapter.notifyDataSetChanged();
+                mTopTouristAdapter.notifyDataSetChanged();
+                hideLoadingView();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PlaceResponse> call, Throwable t) {
+                Log.d("xxx", "onResponse: fail ");
+            }
+        });
+
     }
 }
