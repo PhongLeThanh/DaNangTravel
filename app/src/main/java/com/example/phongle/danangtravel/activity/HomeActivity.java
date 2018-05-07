@@ -213,17 +213,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onPlaceClick(int position) {
-        startActivity(new Intent(this, DetailPlaceActivity.class));
+        Intent intent = new Intent(this, DetailPlaceActivity.class);
+        intent.putExtra(PLACE_ID_KEY, mListTourist.get(position).getId());
+        startActivity(intent);
     }
 
     @Override
     public void onRestaurantClick(int position) {
-        startActivity(new Intent(this, DetailPlaceActivity.class));
+        Intent intent = new Intent(this, DetailPlaceActivity.class);
+        intent.putExtra(PLACE_ID_KEY, mListRestaurant.get(position).getId());
+        startActivity(intent);
     }
 
     @Override
-    public void onHotelClick(int postion) {
-        startActivity(new Intent(this, DetailPlaceActivity.class));
+    public void onHotelClick(int position) {
+        Intent intent = new Intent(this, DetailPlaceActivity.class);
+        intent.putExtra(PLACE_ID_KEY, mListHotel.get(position).getId());
+        startActivity(intent);
     }
 
     @Override

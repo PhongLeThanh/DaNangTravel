@@ -10,7 +10,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.models.PlaceNew;
 import com.example.phongle.danangtravel.models.TouristAttraction;
 
 import java.util.List;
@@ -44,6 +43,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
         private LinearLayout mLlItemListActraction;
         private ImageView mImgAttraction;
         private TextView mTvAttractionName;
+        private TextView mTvDescriptionPlace;
         private RatingBar mRatingAttraction;
         private TextView mTvNumCommentAtraction;
         private LinearLayout mLlCost;
@@ -58,6 +58,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
             mLlItemListActraction = itemView.findViewById(R.id.llItemPlace);
             mImgAttraction = itemView.findViewById(R.id.imgPlace);
             mTvAttractionName = itemView.findViewById(R.id.tvPlaceName);
+            mTvDescriptionPlace = itemView.findViewById(R.id.tvDescriptionPlace);
             mRatingAttraction = itemView.findViewById(R.id.ratingPlace);
             mTvNumCommentAtraction = itemView.findViewById(R.id.tvNumComment);
             mLlCost = itemView.findViewById(R.id.llCost);
@@ -71,6 +72,7 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
             TouristAttraction place = mListTourist.get(getAdapterPosition());
             mImgAttraction.setImageResource(R.drawable.bg_place);
             mTvAttractionName.setText(place.getPlaceName());
+            mTvDescriptionPlace.setText(place.getDescription());
             mRatingAttraction.setRating(place.getRating());
             mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
             for ( int i = 0; i < mLlCost.getChildCount();  i++ ){

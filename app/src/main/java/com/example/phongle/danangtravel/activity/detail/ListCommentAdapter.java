@@ -8,41 +8,17 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.models.User;
+import com.example.phongle.danangtravel.models.Comment;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ListCommentAdapter extends RecyclerView.Adapter<ListCommentAdapter.ListCommentViewHolder> {
-    private List<User> mListUser;
+    private List<Comment> mListComment;
 
-    public ListCommentAdapter(List<User> listUser) {
-        mListUser = listUser;
-    }
-
-    class ListCommentViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView mImgAvatar;
-        private TextView mUsername;
-        private RatingBar mRating;
-
-        ListCommentViewHolder(final View itemView) {
-            super(itemView);
-            initViews();
-        }
-
-        private void initViews() {
-            mImgAvatar = itemView.findViewById(R.id.imgAvatar);
-            mUsername = itemView.findViewById(R.id.tvUsername);
-            mRating = itemView.findViewById(R.id.ratingPlace);
-        }
-
-        private void onBindData() {
-            User user = mListUser.get(getAdapterPosition());
-            mImgAvatar.setImageResource(user.getAvatar());
-            mUsername.setText(user.getUsername());
-            mRating.setRating(5);
-        }
+    public ListCommentAdapter(List<Comment> listComment) {
+        mListComment = listComment;
     }
 
     @Override
@@ -58,7 +34,34 @@ public class ListCommentAdapter extends RecyclerView.Adapter<ListCommentAdapter.
 
     @Override
     public int getItemCount() {
-        return mListUser.size();
+        return mListComment.size();
+    }
+
+    class ListCommentViewHolder extends RecyclerView.ViewHolder {
+        private CircleImageView mImgAvatar;
+        private TextView mTvUsername;
+        private RatingBar mEvaluate;
+        private TextView mTvContent;
+
+        ListCommentViewHolder(final View itemView) {
+            super(itemView);
+            initViews();
+        }
+
+        private void initViews() {
+            mImgAvatar = itemView.findViewById(R.id.imgAvatar);
+            mTvUsername = itemView.findViewById(R.id.tvUsername);
+            mEvaluate = itemView.findViewById(R.id.evaluatePlace);
+            mTvContent = itemView.findViewById(R.id.tvContentComment);
+        }
+
+        private void onBindData() {
+            Comment comment = mListComment.get(getAdapterPosition());
+            mImgAvatar.setImageResource(R.drawable.bg_avatar);
+            mTvUsername.setText(comment.getUser().getUsername());
+            mEvaluate.setRating(comment.getEvaluate());
+            mTvContent.setText(comment.getContent());
+        }
     }
 
 }

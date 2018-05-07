@@ -40,7 +40,7 @@
                     android:textStyle="bold" />
 
                 <RatingBar
-                    android:id="@+id/ratingPlace"
+                    android:id="@+id/evaluatePlace"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvComment"
+            android:id="@+id/tvContentComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_detail_comment"

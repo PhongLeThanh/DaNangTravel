@@ -48,9 +48,33 @@ public class Place {
     @SerializedName("hotel")
     @Expose
     private Hotel hotel;
+    @SerializedName("comments")
+    @Expose
+    private List<Comment> comments = null;
     @SerializedName("images")
     @Expose
     private List<Image> images = null;
+
+    public Place() {
+    }
+
+    public Place(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, String waypoint, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Image> images) {
+        this.id = id;
+        this.categoryId = categoryId;
+        this.locationId = locationId;
+        this.placeName = placeName;
+        this.description = description;
+        this.detail = detail;
+        this.address = address;
+        this.phone = phone;
+        this.waypoint = waypoint;
+        this.rating = rating;
+        this.numComment = numComment;
+        this.restaurant = restaurant;
+        this.touristattraction = touristattraction;
+        this.hotel = hotel;
+        this.images = images;
+    }
 
     public Integer getId() {
         return id;
@@ -140,6 +164,14 @@ public class Place {
         this.numComment = numComment;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public List<Image> getImages() {
         return images;
     }
@@ -170,27 +202,6 @@ public class Place {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
-    }
-
-    public Place() {
-    }
-
-    public Place(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, String waypoint, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Image> images) {
-        this.id = id;
-        this.categoryId = categoryId;
-        this.locationId = locationId;
-        this.placeName = placeName;
-        this.description = description;
-        this.detail = detail;
-        this.address = address;
-        this.phone = phone;
-        this.waypoint = waypoint;
-        this.rating = rating;
-        this.numComment = numComment;
-        this.restaurant = restaurant;
-        this.touristattraction = touristattraction;
-        this.hotel = hotel;
-        this.images = images;
     }
 
     public String toString() {

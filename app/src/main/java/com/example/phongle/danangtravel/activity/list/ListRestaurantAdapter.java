@@ -10,7 +10,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
 
 import java.util.List;
@@ -44,6 +43,7 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
         private LinearLayout mLlItemListRestaurant;
         private ImageView mImgRestaurant;
         private TextView mTvRestaurantName;
+        private TextView mTvDescriptionPlace;
         private RatingBar mRatingRestaurant;
         private TextView mTvNumCommentRestaurant;
         private LinearLayout mLlCost;
@@ -58,6 +58,7 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
             mLlItemListRestaurant = itemView.findViewById(R.id.llItemPlace);
             mImgRestaurant = itemView.findViewById(R.id.imgPlace);
             mTvRestaurantName = itemView.findViewById(R.id.tvPlaceName);
+            mTvDescriptionPlace = itemView.findViewById(R.id.tvDescriptionPlace);
             mRatingRestaurant = itemView.findViewById(R.id.ratingPlace);
             mTvNumCommentRestaurant = itemView.findViewById(R.id.tvNumComment);
             mLlCost = itemView.findViewById(R.id.llCost);
@@ -71,6 +72,7 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
             Restaurant restaurant = mListRestaurant.get(getAdapterPosition());
             mImgRestaurant.setImageResource(R.drawable.bg_restaurant);
             mTvRestaurantName.setText(restaurant.getPlaceName());
+            mTvDescriptionPlace.setText(restaurant.getDescription());
             mRatingRestaurant.setRating(restaurant.getRating());
             mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumComment())));
             for ( int i = 0; i < mLlCost.getChildCount();  i++ ){

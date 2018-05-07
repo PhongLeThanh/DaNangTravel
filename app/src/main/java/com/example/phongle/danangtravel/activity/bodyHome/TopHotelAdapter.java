@@ -61,7 +61,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
         private void initViews() {
             mLlItemHotel = itemView.findViewById(R.id.llItemTopPlace);
             mImgHotel = itemView.findViewById(R.id.imgTopPlace);
-            mTvHotelName = itemView.findViewById(R.id.tvTopPlaceName);
+            mTvHotelName = itemView.findViewById(R.id.tvPlaceName);
             mRatingHotel = itemView.findViewById(R.id.ratingPlace);
             mTvNumCommentHotel = itemView.findViewById(R.id.tvNumComment);
             mTvCostHotel = itemView.findViewById(R.id.tvCostHotel);

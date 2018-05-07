@@ -43,6 +43,7 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
         private LinearLayout mLlItemListHotel;
         private ImageView mImgHotel;
         private TextView mTvHotelName;
+        private TextView mTvDescriptonPlace;
         private RatingBar mRatingHotel;
         private TextView mTvNumCommentHotel;
         private TextView mTvCostHotel;
@@ -57,6 +58,7 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
             mLlItemListHotel = itemView.findViewById(R.id.llItemPlace);
             mImgHotel = itemView.findViewById(R.id.imgPlace);
             mTvHotelName = itemView.findViewById(R.id.tvPlaceName);
+            mTvDescriptonPlace = itemView.findViewById(R.id.tvDescriptionPlace);
             mRatingHotel = itemView.findViewById(R.id.ratingPlace);
             mTvNumCommentHotel = itemView.findViewById(R.id.tvNumComment);
             mTvCostHotel = itemView.findViewById(R.id.tvCostHotel);
@@ -70,6 +72,7 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
             Hotel hotel = mListHotel.get(getAdapterPosition());
             mImgHotel.setImageResource(R.drawable.bg_hotel);
             mTvHotelName.setText(hotel.getPlaceName());
+            mTvDescriptonPlace.setText(hotel.getDescription());
             mRatingHotel.setRating(hotel.getRating());
             mTvNumCommentHotel.setText((String.valueOf(hotel.getNumComment())));
             mTvCostHotel.setText(String.valueOf(hotel.getCost()));

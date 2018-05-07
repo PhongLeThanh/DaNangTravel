@@ -38,7 +38,7 @@
                 android:src="@drawable/ic_address" />
 
             <TextView
-                android:id="@+id/TvAddress"
+                android:id="@+id/tvAddressPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_address_place" />
@@ -55,7 +55,7 @@
                 android:src="@drawable/ic_phone" />
 
             <TextView
-                android:id="@+id/TvPhone"
+                android:id="@+id/tvPhonePlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_phone_place" />

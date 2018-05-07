@@ -10,7 +10,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.TouristAttraction;
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +58,7 @@ public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.To
             mLlItemPlace = itemView.findViewById(R.id.llItemTopPlace);
             mLlCost = itemView.findViewById(R.id.llCost);
             mImgPlace = itemView.findViewById(R.id.imgTopPlace);
-            mTvPlaceName = itemView.findViewById(R.id.tvTopPlaceName);
+            mTvPlaceName = itemView.findViewById(R.id.tvPlaceName);
             mRatingPlace = itemView.findViewById(R.id.ratingPlace);
             mTvNumComment = itemView.findViewById(R.id.tvNumComment);
         }

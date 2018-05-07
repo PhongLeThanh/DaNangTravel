@@ -203,7 +203,11 @@ public class ListAttractionActivity extends AppCompatActivity implements
                         TouristAttraction touristAttraction = place.getTouristattraction();
                         touristAttraction.setPlace(place);
                         mListTourist.add(touristAttraction);
+
                     }
+                    mTvNotFound.setVisibility(View.GONE);
+                }else{
+                    mTvNotFound.setVisibility(View.VISIBLE);
                 }
                 mListAttractionAdapter.notifyDataSetChanged();
             }

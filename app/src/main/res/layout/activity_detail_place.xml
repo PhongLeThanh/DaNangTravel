@@ -18,7 +18,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@android:color/holo_blue_dark"
             app:expandedTitleMarginStart="20dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
@@ -42,11 +42,19 @@
                 android:id="@+id/toolbarDetailPlace"
                 popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="48dp"
                 android:background="@android:color/transparent"
                 android:theme="@style/AppTheme"
                 app:layout_collapseMode="pin">
 
+                <ImageView
+                    android:id="@+id/imgBack"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_back"
+                    android:layout_centerVertical="true"/>
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>

@@ -58,7 +58,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
             mLlItemRestaurant = itemView.findViewById(R.id.llItemTopPlace);
             mLlCost = itemView.findViewById(R.id.llCost);
             mImgRestaurant = itemView.findViewById(R.id.imgTopPlace);
-            mTvRestaurantName = itemView.findViewById(R.id.tvTopPlaceName);
+            mTvRestaurantName = itemView.findViewById(R.id.tvPlaceName);
             mRatingRestaurant = itemView.findViewById(R.id.ratingPlace);
             mTvNumCommentRestaurant = itemView.findViewById(R.id.tvNumComment);
         }
@@ -87,7 +87,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.llCost:
+                case R.id.llItemTopPlace:
                     mOnItemClickListener.onRestaurantClick(getAdapterPosition());
                     break;
             }
@@ -95,6 +95,6 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
     }
 
     public interface onItemClickListener {
-        void onRestaurantClick(int postion);
+        void onRestaurantClick(int position);
     }
 }
