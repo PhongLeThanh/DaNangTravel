@@ -1,4 +1,5 @@
 package com.example.phongle.danangtravel.models;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -16,9 +17,6 @@ public class Profile {
     @SerializedName("address")
     @Expose
     private String address;
-    @SerializedName("avatar")
-    @Expose
-    private String avatar;
     @SerializedName("phone")
     @Expose
     private String phone;
@@ -28,6 +26,19 @@ public class Profile {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+
+    public Profile(Integer id, String fullname, Integer age, String address, String phone, String createdAt, String updatedAt) {
+        this.id = id;
+        this.fullname = fullname;
+        this.age = age;
+        this.address = address;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Profile() {
+    }
 
     public Integer getId() {
         return id;
@@ -61,14 +72,6 @@ public class Profile {
         this.address = address;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -91,19 +94,5 @@ public class Profile {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Profile(Integer id, String fullname, Integer age, String address, String avatar, String phone, String createdAt, String updatedAt) {
-        this.id = id;
-        this.fullname = fullname;
-        this.age = age;
-        this.address = address;
-        this.avatar = avatar;
-        this.phone = phone;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public Profile() {
     }
 }

@@ -3,6 +3,9 @@
     package="com.example.phongle.danangtravel">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".DanangTravelApplication"
         android:allowBackup="true"
@@ -20,7 +23,8 @@
         <activity android:name=".activity.list.ListAttractionActivity" />
         <activity android:name=".activity.list.ListRestaurantActivity" />
         <activity android:name=".activity.list.ListHotelActivity" />
-        <activity android:name=".activity.detail.DetailPlaceActivity" />/>
+        <activity android:name=".activity.detail.DetailPlaceActivity" />
+        <activity android:name=".activity.login.LoginActivity" />
     </application>
 
 </manifest>

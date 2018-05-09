@@ -23,4 +23,13 @@
     <string name="tv_preview_place">Cầu Rồng giống như một viên ngọc lấp lánh cùng với những cây cầu khác tạo nên vẻ đẹp độc đáo cho Đà Nẵng khi đêm về.</string>
     <string name="tv_detail_comment">Cây cầu có kiến trúc tuyệt vời. Một công trình kĩ vỹ bắc qua Sông Hàn thơ mộng. very beautiful !!!</string>
     <string name="tv_danang">Đà Nẵng</string>
+    <string name="tv_sign_up">Create new account</string>
+    <string name="tv_welcome">Welcome to DaNangTravel</string>
+    <string name="btn_login">Login</string>
+    <string name="edt_username">Username</string>
+    <string name="edt_password">Password</string>
+    <string name="edt_email">Email</string>
+    <string name="btn_signup">Sign up</string>
+    <string name="or">or</string>
+    <string name="tv_welcome_login">Welcome to DaNangTravel</string>
 </resources>

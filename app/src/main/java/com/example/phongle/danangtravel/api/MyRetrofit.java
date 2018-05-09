@@ -1,15 +1,14 @@
 package com.example.phongle.danangtravel.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyRetrofit {
     private static final String API_BASE_URL = "http://192.168.1.128:6969/api/";
     private static TravelService mTravelService;
+    private static AuthService mAuthService;
     private static MyRetrofit mMyRetrofit;
 
     public static MyRetrofit getInstance() {
@@ -23,11 +22,17 @@ public class MyRetrofit {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         mTravelService = retrofit.create(TravelService.class);
+        mAuthService = retrofit.create(AuthService.class);
     }
 
     public TravelService getService() {
         return mTravelService;
+    }
+
+    public AuthService getAuthService() {
+        return mAuthService;
     }
 }

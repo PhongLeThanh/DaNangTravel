@@ -1,7 +1,10 @@
 package com.example.phongle.danangtravel.api;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -32,4 +35,7 @@ public interface TravelService {
 
     @GET("comments/viewByPlace/{placeId}")
     Call<CommentResponse> getCommentByPlaceId(@Path("placeId") int placeId);
+
+    @POST("users")
+    Call<UserResponse>signup(@Body RequestBody object);
 }
