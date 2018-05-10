@@ -4,6 +4,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -32,6 +33,9 @@ public interface TravelService {
 
     @GET("places/viewById/{id}")
     Call<PlaceResponse> getPlaceById(@Path("id") int id);
+
+    @POST("comments/")
+    Call<CommentResponse> postComment(@Header("Authorization") String token ,@Body  RequestBody comment);
 
     @GET("comments/viewByPlace/{placeId}")
     Call<CommentResponse> getCommentByPlaceId(@Path("placeId") int placeId);
