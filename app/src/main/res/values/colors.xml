@@ -7,6 +7,7 @@
     <color name="username_color">#0000BB</color>
     <color name="title_color">#0000AA</color>
     <color name="place_name_color">#FF0000</color>
+    <color name="red">#FF0000</color>
     <color name="header_login_color">#041e42</color>
     <color name="blue_facebook">#3B5998</color>
     <color name="snow">#FAFAFA</color>

@@ -30,9 +30,12 @@ public class Place {
     @SerializedName("phone")
     @Expose
     private String phone;
-    @SerializedName("waypoint")
+    @SerializedName("latitude")
     @Expose
-    private String waypoint;
+    private double latitude;
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
     @SerializedName("rating")
     @Expose
     private Integer rating;
@@ -58,7 +61,7 @@ public class Place {
     public Place() {
     }
 
-    public Place(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, String waypoint, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Image> images) {
+    public Place(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images) {
         this.id = id;
         this.categoryId = categoryId;
         this.locationId = locationId;
@@ -67,12 +70,14 @@ public class Place {
         this.detail = detail;
         this.address = address;
         this.phone = phone;
-        this.waypoint = waypoint;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.rating = rating;
         this.numComment = numComment;
         this.restaurant = restaurant;
         this.touristattraction = touristattraction;
         this.hotel = hotel;
+        this.comments = comments;
         this.images = images;
     }
 
@@ -140,12 +145,20 @@ public class Place {
         this.phone = phone;
     }
 
-    public String getWaypoint() {
-        return waypoint;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setWaypoint(String waypoint) {
-        this.waypoint = waypoint;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public Integer getRating() {

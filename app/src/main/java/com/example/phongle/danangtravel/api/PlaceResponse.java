@@ -1,7 +1,6 @@
 package com.example.phongle.danangtravel.api;
 
 import com.example.phongle.danangtravel.models.Place;
-import com.example.phongle.danangtravel.models.PlaceNew;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardViewMap"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
@@ -14,16 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_info_place"
+            android:textColor="@color/title_color"
             android:textSize="17sp"
-            android:textStyle="bold"
-            android:textColor="@color/title_color"/>
-
-        <ImageView
-            android:id="@+id/imgMapPlace"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/bg_map"
-            android:layout_marginBottom="5dp"/>
+            android:textStyle="bold" />
+            <fragment
+                android:id="@+id/map"
+                android:name="gs.maps.nestedscroll.SupportNestedScrollMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tv_address_place" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

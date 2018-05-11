@@ -40,8 +40,8 @@ public class Restaurant extends Place {
         MoreInformation = moreInformation;
     }
 
-    public Restaurant(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, String waypoint, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Image> images, String website, String time, String moreInformation) {
-        super(id, categoryId, locationId, placeName, description, detail, address, phone, waypoint, rating, numComment, restaurant, touristattraction, hotel, images);
+    public Restaurant(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images, String website, String time, String moreInformation) {
+        super(id, categoryId, locationId, placeName, description, detail, address, phone, latitude, longitude, rating, numComment, restaurant, touristattraction, hotel, comments, images);
         Website = website;
         Time = time;
         MoreInformation = moreInformation;
@@ -61,9 +61,9 @@ public class Restaurant extends Place {
         setDetail(place.getDetail());
         setAddress(place.getAddress());
         setPhone(place.getPhone());
-        setWaypoint(place.getWaypoint());
+        setLatitude(place.getLatitude());
+        setLongitude(place.getLongitude());
         setRating(place.getRating());
         setNumComment(place.getNumComment());
-        setImages(place.getImages());
     }
 }
