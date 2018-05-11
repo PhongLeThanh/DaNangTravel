@@ -158,7 +158,12 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                     double lat = mPlace.getLatitude();
                     setViews(mPlace);
                     if (mPlace.getCategoryId() == 1) {
-                        Restaurant restaurant = mPlace.getRestaurant();
+                        Restaurant restaurant ;
+                        if(mPlace.getRestaurant()!= null){
+                            restaurant = mPlace.getRestaurant();
+                        }else{
+                            restaurant = new Restaurant("","","");
+                        }
                         restaurant.setPlace(mPlace);
                         mTvWebsite.setText("Website : " + restaurant.getWebsite());
                         mTvTime.setText("Giờ mở cửa : " + restaurant.getTime());
@@ -166,7 +171,12 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                         mTvMoreInfo.setText("Thông tin thêm : " + restaurant.getMoreInformation());
                     }
                     if (mPlace.getCategoryId() == 2) {
-                        Hotel hotel = mPlace.getHotel();
+                        Hotel hotel ;
+                        if(mPlace.getHotel()!=null){
+                            hotel = mPlace.getHotel();
+                        }else{
+                            hotel= new Hotel(0,"","");
+                        }
                         hotel.setPlace(mPlace);
                         mTvCost.setVisibility(View.VISIBLE);
                         mTvCost.setText(String.valueOf(hotel.getCost()) + "   vnd/Đêm ");
@@ -176,7 +186,12 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                         mTvMoreInfo.setText("Thông tin thêm : " + hotel.getMoreInformation());
                     }
                     if (mPlace.getCategoryId() == 3) {
-                        TouristAttraction touristAttraction = mPlace.getTouristattraction();
+                        TouristAttraction touristAttraction ;
+                        if(mPlace.getTouristattraction()!=null){
+                            touristAttraction= mPlace.getTouristattraction();
+                        }else {
+                            touristAttraction = new TouristAttraction(0,"");
+                        }
                         touristAttraction.setPlace(mPlace);
                         mTvCost.setVisibility(View.VISIBLE);
                         if (touristAttraction.getTicket() > 0) {
@@ -224,7 +239,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
         mCollapsingToolbarLayout.setTitle(place.getPlaceName());
         mTvPlaceName.setText(place.getPlaceName());
         mRatingPlace.setRating(place.getRating());
-        mTvNumComment.setText(String.valueOf(place.getNumComment()));
+        mTvNumComment.setText(String.valueOf(place.getNumcomment()));
         mTvAddress.setText(place.getAddress());
         mTvPhone.setText(place.getPhone());
         mTvDetail.setText(place.getDetail());
@@ -542,7 +557,10 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                 lineOptions.color(R.color.red);
                 lineOptions.geodesic(true);
             }
-            mGoogleMap.addPolyline(lineOptions);
+            if(lineOptions!=null){
+                mGoogleMap.addPolyline(lineOptions);
+            }
+
         }
     }
 }

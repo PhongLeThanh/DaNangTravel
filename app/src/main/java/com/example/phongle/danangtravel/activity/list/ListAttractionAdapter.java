@@ -36,7 +36,11 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
 
     @Override
     public int getItemCount() {
-        return mListTourist.size();
+        return mListTourist == null ? 0 : mListTourist.size();
+    }
+
+    public interface onItemClickListener {
+        void onPlaceClick(int postion);
     }
 
     class ListAttractionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -74,8 +78,8 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
             mTvAttractionName.setText(place.getPlaceName());
             mTvDescriptionPlace.setText(place.getDescription());
             mRatingAttraction.setRating(place.getRating());
-            mTvNumCommentAtraction.setText((String.valueOf(place.getNumComment())));
-            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+            mTvNumCommentAtraction.setText((String.valueOf(place.getNumcomment())));
+            for (int i = 0; i < mLlCost.getChildCount(); i++) {
                 View view = mLlCost.getChildAt(i);
                 view.setVisibility(View.GONE);
             }
@@ -89,9 +93,5 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
                     break;
             }
         }
-    }
-
-    public interface onItemClickListener {
-        void onPlaceClick(int postion);
     }
 }

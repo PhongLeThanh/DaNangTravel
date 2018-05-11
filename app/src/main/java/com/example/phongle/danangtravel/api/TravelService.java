@@ -13,6 +13,9 @@ public interface TravelService {
     @GET("locations")
     Call<LocationResponse> getLocations();
 
+    @GET("categories")
+    Call<CategoryResponse> getCategory();
+
     @GET("places")
     Call<PlaceResponse> getPlace();
 
@@ -30,6 +33,12 @@ public interface TravelService {
 
     @GET("places/searchInCategory")
     Call<PlaceResponse> getSearchInCategory(@Query("categoryId") int categoryId, @Query("query") String query);
+
+    @GET("places/searchAround")
+    Call<PlaceResponse> getSearchAround(@Query("latitude") double latitude, @Query("longitude") double longitude);
+
+    @GET("places/searchAroundByCategory")
+    Call<PlaceResponse> getSearchAroundByCategory(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("categoryId") int categoryId);
 
     @GET("places/viewById/{id}")
     Call<PlaceResponse> getPlaceById(@Path("id") int id);

@@ -22,7 +22,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -32,8 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text="@string/tv_dragon_brigde"
-                android:textStyle="bold"
-                android:textColor="@android:color/holo_red_light"/>
+                android:textColor="@android:color/holo_red_light"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                     android:isIndicator="true"
                     android:numStars="5"
                     android:stepSize="0.1"
-                    android:theme="@style/RatingBar"/>
+                    android:theme="@style/RatingBar" />
 
                 <TextView
                     android:id="@+id/tvNumComment"
@@ -59,48 +59,50 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginStart="20dp"
                     android:text="@string/tv_num_comment"
-                    android:textSize="12dp"/>
+                    android:textSize="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
                     android:text="@string/tv_comment"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
+
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tvDescriptionPlace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
                 android:maxLines="2"
                 android:padding="3dp"
-                android:layout_marginBottom="3dp"
                 android:text="@string/tv_introduce_place"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
+
             <LinearLayout
-                android:id="@+id/llCost"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginRight="3dp"
+                    android:text="10"
+                    android:textSize="12sp"
+                    android:textColor="@color/red"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cost: "
-                    android:layout_marginRight="5dp"/>
-                <TextView
-                    android:id="@+id/tvCostHotel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="250000"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:layout_marginRight="5dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vnd / Đêm"
-                    android:textSize="10sp"
-                    />
+                    android:text="@string/tv_unit_distance"
+                    android:textSize="12sp" />
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

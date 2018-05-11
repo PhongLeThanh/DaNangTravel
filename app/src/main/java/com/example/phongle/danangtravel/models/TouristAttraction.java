@@ -34,8 +34,8 @@ public class TouristAttraction extends Place {
         this.moreInformation = moreInformation;
     }
 
-    public TouristAttraction(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images, float ticket, String moreInformation) {
-        super(id, categoryId, locationId, placeName, description, detail, address, phone, latitude, longitude, rating, numComment, restaurant, touristattraction, hotel, comments, images);
+    public TouristAttraction(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, Double distance, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images, float ticket, String moreInformation) {
+        super(id, categoryId, locationId, placeName, description, detail, address, phone, latitude, longitude, rating, distance, numComment, restaurant, touristattraction, hotel, comments, images);
         this.ticket = ticket;
         this.moreInformation = moreInformation;
     }
@@ -52,6 +52,6 @@ public class TouristAttraction extends Place {
         setLatitude(place.getLatitude());
         setLongitude(place.getLongitude());
         setRating(place.getRating());
-        setNumComment(place.getNumComment());
+        setNumcomment(place.getNumcomment());
     }
 }

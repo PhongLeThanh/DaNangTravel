@@ -1,5 +1,6 @@
 package com.example.phongle.danangtravel.activity.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.activity.headerHome.LocationAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.LocationDialog;
 import com.example.phongle.danangtravel.api.LocationResponse;
@@ -35,6 +36,7 @@ import retrofit2.Response;
 public class ListHotelActivity extends AppCompatActivity implements View.OnClickListener,
         ListHotelAdapter.onItemClickListener,
         LocationAdapter.OnLocationClickListener {
+    private static final String PLACE_ID_KEY = "id";
     private Toolbar mToolbar;
     private ImageView mBtnBack;
     private TextView mTvLocation;
@@ -73,7 +75,12 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
                             if (placeResponse.getData() != null && !placeResponse.getData().isEmpty()) {
                                 List<Place> placeList = placeResponse.getData();
                                 for (Place place : placeList) {
-                                    Hotel hotel = place.getHotel();
+                                    Hotel hotel ;
+                                    if(place.getHotel()!=null){
+                                        hotel = place.getHotel();
+                                    }else{
+                                        hotel= new Hotel(0,"","");
+                                    }
                                     hotel.setPlace(place);
                                     mListHotel.add(hotel);
                                 }
@@ -150,7 +157,12 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
                 if (!placeResponse.getData().isEmpty()) {
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
-                        Hotel hotel = place.getHotel();
+                        Hotel hotel ;
+                        if(place.getHotel()!=null){
+                            hotel = place.getHotel();
+                        }else{
+                            hotel= new Hotel(0,"","");
+                        }
                         hotel.setPlace(place);
                         mListHotel.add(hotel);
                     }
@@ -167,7 +179,9 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onPlaceClick(int position) {
-        Toast.makeText(this, "Click", Toast.LENGTH_LONG);
+        Intent intent = new Intent(this, DetailPlaceActivity.class);
+        intent.putExtra(PLACE_ID_KEY, mListHotel.get(position).getId());
+        startActivity(intent);
     }
 
     @Override

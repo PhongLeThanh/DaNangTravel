@@ -1,5 +1,6 @@
 package com.example.phongle.danangtravel.activity.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,15 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.activity.headerHome.LocationAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.LocationDialog;
 import com.example.phongle.danangtravel.api.LocationResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
 import com.example.phongle.danangtravel.api.PlaceResponse;
-import com.example.phongle.danangtravel.models.Hotel;
 import com.example.phongle.danangtravel.models.Location;
 import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
@@ -36,6 +36,7 @@ import retrofit2.Response;
 public class ListRestaurantActivity extends AppCompatActivity implements View.OnClickListener,
         ListRestaurantAdapter.onItemClickListener,
         LocationAdapter.OnLocationClickListener {
+    private static final String PLACE_ID_KEY = "id";
     private Toolbar mToolbar;
     private ImageView mBtnBack;
     private TextView mTvLocation;
@@ -74,7 +75,12 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
                             if (placeResponse.getData() != null && !placeResponse.getData().isEmpty()) {
                                 List<Place> placeList = placeResponse.getData();
                                 for (Place place : placeList) {
-                                    Restaurant restaurant = place.getRestaurant();
+                                    Restaurant restaurant ;
+                                    if(place.getRestaurant()!= null){
+                                        restaurant = place.getRestaurant();
+                                    }else{
+                                        restaurant = new Restaurant("","","");
+                                    }
                                     restaurant.setPlace(place);
                                     mListRestaurant.add(restaurant);
                                 }
@@ -151,7 +157,12 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
                 if (!placeResponse.getData().isEmpty()) {
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
-                        Restaurant restaurant = place.getRestaurant();
+                        Restaurant restaurant ;
+                        if(place.getRestaurant()!= null){
+                            restaurant = place.getRestaurant();
+                        }else{
+                            restaurant = new Restaurant("","","");
+                        }
                         restaurant.setPlace(place);
                         mListRestaurant.add(restaurant);
                     }
@@ -168,7 +179,9 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onPlaceClick(int position) {
-        Toast.makeText(this, "Click", Toast.LENGTH_LONG);
+        Intent intent = new Intent(this, DetailPlaceActivity.class);
+        intent.putExtra(PLACE_ID_KEY, mListRestaurant.get(position).getId());
+        startActivity(intent);
     }
 
     @Override

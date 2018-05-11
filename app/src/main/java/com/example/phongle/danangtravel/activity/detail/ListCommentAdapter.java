@@ -34,7 +34,7 @@ public class ListCommentAdapter extends RecyclerView.Adapter<ListCommentAdapter.
 
     @Override
     public int getItemCount() {
-        return mListComment.size();
+        return mListComment ==null ? 0 :mListComment.size();
     }
 
     class ListCommentViewHolder extends RecyclerView.ViewHolder {

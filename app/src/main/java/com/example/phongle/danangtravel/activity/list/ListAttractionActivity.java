@@ -37,6 +37,7 @@ public class ListAttractionActivity extends AppCompatActivity implements
         View.OnClickListener,
         ListAttractionAdapter.onItemClickListener,
         LocationAdapter.OnLocationClickListener {
+    private static final String PLACE_ID_KEY = "id";
     private Toolbar mToolbar;
     private ImageView mBtnBack;
     private TextView mTvLocation;
@@ -77,7 +78,12 @@ public class ListAttractionActivity extends AppCompatActivity implements
                             if (placeResponse.getData() != null && !placeResponse.getData().isEmpty()) {
                                 List<Place> placeList = placeResponse.getData();
                                 for (Place place : placeList) {
-                                    TouristAttraction touristAttraction = place.getTouristattraction();
+                                    TouristAttraction touristAttraction ;
+                                    if(place.getTouristattraction()!=null){
+                                        touristAttraction= place.getTouristattraction();
+                                    }else {
+                                        touristAttraction = new TouristAttraction(0,"");
+                                    }
                                     touristAttraction.setPlace(place);
                                     mListTourist.add(touristAttraction);
                                 }
@@ -154,7 +160,12 @@ public class ListAttractionActivity extends AppCompatActivity implements
                 if (!placeResponse.getData().isEmpty()) {
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
-                        TouristAttraction touristAttraction = place.getTouristattraction();
+                        TouristAttraction touristAttraction ;
+                        if(place.getTouristattraction()!=null){
+                            touristAttraction= place.getTouristattraction();
+                        }else {
+                            touristAttraction = new TouristAttraction(0,"");
+                        }
                         touristAttraction.setPlace(place);
                         mListTourist.add(touristAttraction);
                     }
@@ -171,7 +182,8 @@ public class ListAttractionActivity extends AppCompatActivity implements
 
     @Override
     public void onPlaceClick(int position) {
-        Intent intent = new Intent(ListAttractionActivity.this, DetailPlaceActivity.class);
+        Intent intent = new Intent(this, DetailPlaceActivity.class);
+        intent.putExtra(PLACE_ID_KEY, mListTourist.get(position).getId());
         startActivity(intent);
     }
 

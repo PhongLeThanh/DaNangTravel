@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.aroundhere.ListPlaceAroundActivity;
 import com.example.phongle.danangtravel.activity.bodyHome.TopHotelAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopRestaurantAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopTouristAdapter;
@@ -61,6 +62,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnListAttraction;
     private Button mBtnListRestaurant;
     private Button mBtnListHotel;
+    private Button mBtnListNearPlace;
     private TextView mTvMoreHotel;
     private TextView mTvMoreRestaurant;
     private TextView mTvMorePlace;
@@ -103,6 +105,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mBtnListAttraction = findViewById(R.id.btnTouristAttraction);
         mBtnListRestaurant = findViewById(R.id.btnRestaurant);
         mBtnListHotel = findViewById(R.id.btnHotel);
+        mBtnListNearPlace = findViewById(R.id.btnNearPlaces);
         mLocationDialog = new LocationDialog();
         mLocationDialog.setCallback(this);
     }
@@ -111,6 +114,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mBtnListAttraction.setOnClickListener(this);
         mBtnListRestaurant.setOnClickListener(this);
         mBtnListHotel.setOnClickListener(this);
+        mBtnListNearPlace.setOnClickListener(this);
         mTvLocation.setOnClickListener(this);
         mTvMorePlace.setOnClickListener(this);
         mTvMoreRestaurant.setOnClickListener(this);
@@ -182,17 +186,32 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
                         if (place.getCategoryId() == 1) {
-                            Restaurant restaurant = place.getRestaurant();
+                            Restaurant restaurant ;
+                            if(place.getRestaurant()!= null){
+                                restaurant = place.getRestaurant();
+                            }else{
+                                restaurant = new Restaurant("","","");
+                            }
                             restaurant.setPlace(place);
                             mListRestaurant.add(restaurant);
                         }
                         if (place.getCategoryId() == 2) {
-                            Hotel hotel = place.getHotel();
+                            Hotel hotel ;
+                            if(place.getHotel()!=null){
+                                hotel = place.getHotel();
+                            }else{
+                                hotel= new Hotel(0,"","");
+                            }
                             hotel.setPlace(place);
                             mListHotel.add(hotel);
                         }
                         if (place.getCategoryId() == 3) {
-                            TouristAttraction touristAttraction = place.getTouristattraction();
+                            TouristAttraction touristAttraction ;
+                            if(place.getTouristattraction()!=null){
+                                touristAttraction= place.getTouristattraction();
+                            }else {
+                                touristAttraction = new TouristAttraction(0,"");
+                            }
                             touristAttraction.setPlace(place);
                             mListTourist.add(touristAttraction);
                         }
@@ -248,6 +267,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(HomeActivity.this, ListHotelActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btnNearPlaces:
+                intent = new Intent(HomeActivity.this, ListPlaceAroundActivity.class);
+                startActivity(intent);
+                break;
             case R.id.tvMoreTopPlace:
                 intent = new Intent(HomeActivity.this, ListAttractionActivity.class);
                 startActivity(intent);
@@ -282,17 +305,32 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
                         if (place.getCategoryId() == 1) {
-                            Restaurant restaurant = place.getRestaurant();
+                            Restaurant restaurant ;
+                            if(place.getRestaurant()!= null){
+                                restaurant = place.getRestaurant();
+                            }else{
+                                restaurant = new Restaurant("","","");
+                            }
                             restaurant.setPlace(place);
                             mListRestaurant.add(restaurant);
                         }
                         if (place.getCategoryId() == 2) {
-                            Hotel hotel = place.getHotel();
+                            Hotel hotel ;
+                            if(place.getHotel()!=null){
+                                hotel = place.getHotel();
+                            }else{
+                                hotel= new Hotel(0,"","");
+                            }
                             hotel.setPlace(place);
                             mListHotel.add(hotel);
                         }
                         if (place.getCategoryId() == 3) {
-                            TouristAttraction touristAttraction = place.getTouristattraction();
+                            TouristAttraction touristAttraction ;
+                            if(place.getTouristattraction()!=null){
+                                touristAttraction= place.getTouristattraction();
+                            }else {
+                                touristAttraction = new TouristAttraction(0,"");
+                            }
                             touristAttraction.setPlace(place);
                             mListTourist.add(touristAttraction);
                         }

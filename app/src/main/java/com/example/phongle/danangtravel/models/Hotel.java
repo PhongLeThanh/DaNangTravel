@@ -40,8 +40,8 @@ public class Hotel extends Place {
         MoreInformation = moreInformation;
     }
 
-    public Hotel(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images, float cost, String website, String moreInformation) {
-        super(id, categoryId, locationId, placeName, description, detail, address, phone, latitude, longitude, rating, numComment, restaurant, touristattraction, hotel, comments, images);
+    public Hotel(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, Double distance, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images, float cost, String website, String moreInformation) {
+        super(id, categoryId, locationId, placeName, description, detail, address, phone, latitude, longitude, rating, distance, numComment, restaurant, touristattraction, hotel, comments, images);
         Cost = cost;
         Website = website;
         MoreInformation = moreInformation;
@@ -64,6 +64,6 @@ public class Hotel extends Place {
         setLatitude(place.getLatitude());
         setLongitude(place.getLongitude());
         setRating(place.getRating());
-        setNumComment(place.getNumComment());
+        setNumcomment(place.getNumcomment());
     }
 }

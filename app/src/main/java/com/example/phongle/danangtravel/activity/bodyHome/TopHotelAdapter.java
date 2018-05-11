@@ -37,7 +37,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
 
     @Override
     public int getItemCount() {
-        return mListHotel.size();
+        return mListHotel == null ? 0 :mListHotel.size();
     }
 
     public interface onItemClickListener {
@@ -81,7 +81,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
             }
             mTvHotelName.setText(hotel.getPlaceName());
             mRatingHotel.setRating(hotel.getRating());
-            mTvNumCommentHotel.setText((String.valueOf(hotel.getNumComment())));
+            mTvNumCommentHotel.setText((String.valueOf(hotel.getNumcomment())));
             mTvCostHotel.setText(String.valueOf(hotel.getCost()));
         }
 

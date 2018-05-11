@@ -36,7 +36,11 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
 
     @Override
     public int getItemCount() {
-        return mListHotel.size();
+        return mListHotel == null ? 0 : mListHotel.size();
+    }
+
+    public interface onItemClickListener {
+        void onPlaceClick(int position);
     }
 
     class ListHotelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -74,7 +78,7 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
             mTvHotelName.setText(hotel.getPlaceName());
             mTvDescriptonPlace.setText(hotel.getDescription());
             mRatingHotel.setRating(hotel.getRating());
-            mTvNumCommentHotel.setText((String.valueOf(hotel.getNumComment())));
+            mTvNumCommentHotel.setText((String.valueOf(hotel.getNumcomment())));
             mTvCostHotel.setText(String.valueOf(hotel.getCost()));
         }
 
@@ -86,9 +90,5 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
                     break;
             }
         }
-    }
-
-    public interface onItemClickListener {
-        void onPlaceClick(int position);
     }
 }

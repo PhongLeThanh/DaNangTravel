@@ -37,7 +37,7 @@ public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.To
 
     @Override
     public int getItemCount() {
-        return mListPlace.size();
+        return mListPlace == null? 0:mListPlace.size();
     }
 
     class TopPlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,7 +77,7 @@ public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.To
             }
             mTvPlaceName.setText(place.getPlaceName());
             mRatingPlace.setRating(place.getRating());
-            mTvNumComment.setText((String.valueOf(place.getNumComment())));
+            mTvNumComment.setText((String.valueOf(place.getNumcomment())));
             for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
                 View view = mLlCost.getChildAt(i);
                 view.setVisibility(View.GONE);

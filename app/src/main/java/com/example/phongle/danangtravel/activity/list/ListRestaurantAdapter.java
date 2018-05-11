@@ -36,7 +36,11 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
 
     @Override
     public int getItemCount() {
-        return mListRestaurant.size();
+        return mListRestaurant == null ? 0 : mListRestaurant.size();
+    }
+
+    public interface onItemClickListener {
+        void onPlaceClick(int postion);
     }
 
     class ListRestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -74,8 +78,8 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
             mTvRestaurantName.setText(restaurant.getPlaceName());
             mTvDescriptionPlace.setText(restaurant.getDescription());
             mRatingRestaurant.setRating(restaurant.getRating());
-            mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumComment())));
-            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+            mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumcomment())));
+            for (int i = 0; i < mLlCost.getChildCount(); i++) {
                 View view = mLlCost.getChildAt(i);
                 view.setVisibility(View.GONE);
             }
@@ -89,9 +93,5 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
                     break;
             }
         }
-    }
-
-    public interface onItemClickListener {
-        void onPlaceClick(int postion);
     }
 }

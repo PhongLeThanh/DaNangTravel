@@ -39,9 +39,12 @@ public class Place {
     @SerializedName("rating")
     @Expose
     private Integer rating;
-    @SerializedName("numComment")
+    @SerializedName("distance")
     @Expose
-    private String numComment;
+    private Double distance;
+    @SerializedName("numcomment")
+    @Expose
+    private String numcomment;
     @SerializedName("restaurant")
     @Expose
     private Restaurant restaurant;
@@ -61,7 +64,7 @@ public class Place {
     public Place() {
     }
 
-    public Place(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, String numComment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images) {
+    public Place(Integer id, Integer categoryId, Integer locationId, String placeName, String description, String detail, String address, String phone, double latitude, double longitude, Integer rating, Double distance, String numcomment, Restaurant restaurant, TouristAttraction touristattraction, Hotel hotel, List<Comment> comments, List<Image> images) {
         this.id = id;
         this.categoryId = categoryId;
         this.locationId = locationId;
@@ -73,7 +76,8 @@ public class Place {
         this.latitude = latitude;
         this.longitude = longitude;
         this.rating = rating;
-        this.numComment = numComment;
+        this.distance = distance;
+        this.numcomment = numcomment;
         this.restaurant = restaurant;
         this.touristattraction = touristattraction;
         this.hotel = hotel;
@@ -169,12 +173,20 @@ public class Place {
         this.rating = rating;
     }
 
-    public String getNumComment() {
-        return numComment;
+    public Double getDistance() {
+        return distance;
     }
 
-    public void setNumComment(String numComment) {
-        this.numComment = numComment;
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
+
+    public String getNumcomment() {
+        return numcomment;
+    }
+
+    public void setNumcomment(String numcomment) {
+        this.numcomment = numcomment;
     }
 
     public List<Comment> getComments() {

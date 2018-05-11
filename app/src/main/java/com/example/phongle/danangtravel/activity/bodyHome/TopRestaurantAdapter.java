@@ -37,7 +37,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
 
     @Override
     public int getItemCount() {
-        return mListRestaurant.size();
+        return mListRestaurant ==null ? 0 :mListRestaurant.size();
     }
 
     class TopRestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,7 +77,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
             }
             mTvRestaurantName.setText(restaurant.getPlaceName());
             mRatingRestaurant.setRating(restaurant.getRating());
-            mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumComment())));
+            mTvNumCommentRestaurant.setText((String.valueOf(restaurant.getNumcomment())));
             for (int i = 0; i < mLlCost.getChildCount(); i++) {
                 View view = mLlCost.getChildAt(i);
                 view.setVisibility(View.GONE);

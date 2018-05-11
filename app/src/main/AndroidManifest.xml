@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activity.HomeActivity">
+        <activity android:name=".activity.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,6 +28,7 @@
         <activity android:name=".activity.list.ListHotelActivity" />
         <activity android:name=".activity.detail.DetailPlaceActivity" />
         <activity android:name=".activity.login.LoginActivity" />
+        <activity android:name=".activity.aroundhere.ListPlaceAroundActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAqpVJF-vwQG9s2rxs8UUc61wTdIHPP8AU"/>

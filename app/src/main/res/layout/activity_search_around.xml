@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarList"
+        android:id="@+id/toolbarAroundHere"
+        popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/holo_blue_dark"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
+        android:layout_height="45dp"
+        android:background="@color/blue_facebook"
+        android:theme="@style/AppTheme"
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,22 +22,22 @@
 
             <ImageView
                 android:id="@+id/imgBackToHome"
+                tools:ignore="ContentDescription"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:src="@drawable/ic_back"
-                tools:ignore="ContentDescription"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_back" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvLocation"
+                    android:id="@+id/tvCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:drawableEnd="@drawable/ic_arrow_down"
@@ -46,25 +48,22 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingStart="20dp"
-                    android:text="@string/tv_danang"
+                    android:text="@string/tv_all_category"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
-
             </LinearLayout>
-
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
+    <fragment
+        android:id="@+id/mapAround"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginBottom="10dp" />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewListPlace"
+        android:id="@+id/recyclerViewPlaceAround"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
-    <TextView
-        android:id="@+id/tvNotFound"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Không tìm thấy kết quả phù hợp !"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>
