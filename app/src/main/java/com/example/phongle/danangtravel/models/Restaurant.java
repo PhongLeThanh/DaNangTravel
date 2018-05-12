@@ -65,5 +65,6 @@ public class Restaurant extends Place {
         setLongitude(place.getLongitude());
         setRating(place.getRating());
         setNumcomment(place.getNumcomment());
+        setImages(place.getImages());
     }
 }

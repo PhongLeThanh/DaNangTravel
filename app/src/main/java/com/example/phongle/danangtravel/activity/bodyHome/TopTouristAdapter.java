@@ -1,5 +1,6 @@
 package com.example.phongle.danangtravel.activity.bodyHome;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +10,21 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.models.TouristAttraction;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.TopPlaceViewHolder> {
     private List<TouristAttraction> mListPlace;
     private onItemClickListener mOnItemClickListener;
+    private Context context;
 
-    public TopTouristAdapter(List<TouristAttraction> listPlace, onItemClickListener onItemClickListener) {
+    public TopTouristAdapter(Context context, List<TouristAttraction> listPlace, onItemClickListener onItemClickListener) {
         mListPlace = listPlace;
         mOnItemClickListener = onItemClickListener;
+        this.context = context;
     }
 
     @Override
@@ -37,7 +40,11 @@ public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.To
 
     @Override
     public int getItemCount() {
-        return mListPlace == null? 0:mListPlace.size();
+        return mListPlace == null ? 0 : mListPlace.size();
+    }
+
+    public interface onItemClickListener {
+        void onPlaceClick(int postion);
     }
 
     class TopPlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -69,16 +76,20 @@ public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.To
 
         private void onBindData() {
             TouristAttraction place = mListPlace.get(getAdapterPosition());
-            if (place.getImages() !=null && place.getImages().size() > 0 && place.getImages().get(0).getImageName() !=null){
-                Picasso.with(mImgPlace.getContext())
-                        .load(place.getImages().get(0).getImageName())
-                        .error(R.drawable.bg_place)
-                        .into(mImgPlace);
-            }
+            //if (place.getImages() != null && place.getImages().get(0).getImageName() != null) {
+//            Picasso picasso = Picasso.with(context);
+//            picasso.setLoggingEnabled(true);
+//            picasso.setDebugging(true);
+//            picasso.load("http://localhost:6969/api/images/0827bdcb-218d-4947-92e8-3fdd2c220307.jpg")
+//                    .error(R.drawable.bg_place)
+//                    .into(mImgPlace);
+            //}
+            Glide.with(context).load("http://localhost:6969/api/images/0827bdcb-218d-4947-92e8-3fdd2c220307.jpg")
+                    .into(mImgPlace);
             mTvPlaceName.setText(place.getPlaceName());
             mRatingPlace.setRating(place.getRating());
             mTvNumComment.setText((String.valueOf(place.getNumcomment())));
-            for ( int i = 0; i < mLlCost.getChildCount();  i++ ){
+            for (int i = 0; i < mLlCost.getChildCount(); i++) {
                 View view = mLlCost.getChildAt(i);
                 view.setVisibility(View.GONE);
             }
@@ -92,9 +103,5 @@ public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.To
                     break;
             }
         }
-    }
-
-    public interface onItemClickListener {
-        void onPlaceClick(int postion);
     }
 }

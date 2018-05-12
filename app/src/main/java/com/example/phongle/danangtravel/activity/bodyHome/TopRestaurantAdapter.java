@@ -70,7 +70,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
         private void onBindData() {
             Restaurant restaurant = mListRestaurant.get(getAdapterPosition());
             if (restaurant.getImages() != null && restaurant.getImages().size() >0 && restaurant.getImages().get(0).getImageName() !=null){
-                Picasso.with(mImgRestaurant.getContext())
+                Picasso.with(itemView.getContext())
                         .load(restaurant.getImages().get(0).getImageName())
                         .error(R.drawable.bg_restaurant)
                         .into(mImgRestaurant);

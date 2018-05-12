@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mHeaderAdapter = new HeaderAdapter(this, mListImage);
         mViewPager.setAdapter(mHeaderAdapter);
         // Set Adapter for recycler view top place
-        mTopTouristAdapter = new TopTouristAdapter(mListTourist, this);
+        mTopTouristAdapter = new TopTouristAdapter(this, mListTourist, this);
         mRecyclerViewTopPlace.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerViewTopPlace.setAdapter(mTopTouristAdapter);
         // Set Adapter for recycler view top restaurant
@@ -171,7 +171,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     mLocationDialog.setData(mListLocation);
                     hideLoadingView();
                 }
-
             }
 
             @Override
@@ -186,40 +185,40 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
                         if (place.getCategoryId() == 1) {
-                            Restaurant restaurant ;
-                            if(place.getRestaurant()!= null){
+                            Restaurant restaurant;
+                            if (place.getRestaurant() != null) {
                                 restaurant = place.getRestaurant();
-                            }else{
-                                restaurant = new Restaurant("","","");
+                            } else {
+                                restaurant = new Restaurant("", "", "");
                             }
                             restaurant.setPlace(place);
                             mListRestaurant.add(restaurant);
                         }
                         if (place.getCategoryId() == 2) {
-                            Hotel hotel ;
-                            if(place.getHotel()!=null){
+                            Hotel hotel;
+                            if (place.getHotel() != null) {
                                 hotel = place.getHotel();
-                            }else{
-                                hotel= new Hotel(0,"","");
+                            } else {
+                                hotel = new Hotel(0, "", "");
                             }
                             hotel.setPlace(place);
                             mListHotel.add(hotel);
                         }
                         if (place.getCategoryId() == 3) {
-                            TouristAttraction touristAttraction ;
-                            if(place.getTouristattraction()!=null){
-                                touristAttraction= place.getTouristattraction();
-                            }else {
-                                touristAttraction = new TouristAttraction(0,"");
+                            TouristAttraction touristAttraction;
+                            if (place.getTouristattraction() != null) {
+                                touristAttraction = place.getTouristattraction();
+                            } else {
+                                touristAttraction = new TouristAttraction(0, "");
                             }
                             touristAttraction.setPlace(place);
                             mListTourist.add(touristAttraction);
                         }
                     }
+                    mTopRestaurantAdapter.notifyDataSetChanged();
+                    mTopHotelAdapter.notifyDataSetChanged();
+                    mTopTouristAdapter.notifyDataSetChanged();
                 }
-                mTopRestaurantAdapter.notifyDataSetChanged();
-                mTopHotelAdapter.notifyDataSetChanged();
-                mTopTouristAdapter.notifyDataSetChanged();
                 hideLoadingView();
             }
 
@@ -305,41 +304,42 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
                         if (place.getCategoryId() == 1) {
-                            Restaurant restaurant ;
-                            if(place.getRestaurant()!= null){
+                            Restaurant restaurant;
+                            if (place.getRestaurant() != null) {
                                 restaurant = place.getRestaurant();
-                            }else{
-                                restaurant = new Restaurant("","","");
+                            } else {
+                                restaurant = new Restaurant("", "", "");
                             }
                             restaurant.setPlace(place);
                             mListRestaurant.add(restaurant);
                         }
                         if (place.getCategoryId() == 2) {
-                            Hotel hotel ;
-                            if(place.getHotel()!=null){
+                            Hotel hotel;
+                            if (place.getHotel() != null) {
                                 hotel = place.getHotel();
-                            }else{
-                                hotel= new Hotel(0,"","");
+                            } else {
+                                hotel = new Hotel(0, "", "");
                             }
                             hotel.setPlace(place);
                             mListHotel.add(hotel);
                         }
                         if (place.getCategoryId() == 3) {
-                            TouristAttraction touristAttraction ;
-                            if(place.getTouristattraction()!=null){
-                                touristAttraction= place.getTouristattraction();
-                            }else {
-                                touristAttraction = new TouristAttraction(0,"");
+                            TouristAttraction touristAttraction;
+                            if (place.getTouristattraction() != null) {
+                                touristAttraction = place.getTouristattraction();
+                            } else {
+                                touristAttraction = new TouristAttraction(0, "");
                             }
                             touristAttraction.setPlace(place);
                             mListTourist.add(touristAttraction);
                         }
                     }
+                    mTopRestaurantAdapter.notifyDataSetChanged();
+                    mTopHotelAdapter.notifyDataSetChanged();
+                    mTopTouristAdapter.notifyDataSetChanged();
                 }
-                mTopRestaurantAdapter.notifyDataSetChanged();
-                mTopHotelAdapter.notifyDataSetChanged();
-                mTopTouristAdapter.notifyDataSetChanged();
                 hideLoadingView();
+
             }
 
             @Override

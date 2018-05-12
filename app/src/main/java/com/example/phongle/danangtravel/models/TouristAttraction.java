@@ -53,5 +53,6 @@ public class TouristAttraction extends Place {
         setLongitude(place.getLongitude());
         setRating(place.getRating());
         setNumcomment(place.getNumcomment());
+        setImages(place.getImages());
     }
 }
