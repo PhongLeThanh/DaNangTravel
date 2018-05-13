@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.TouristAttraction;
 
 import java.util.List;
@@ -76,16 +77,10 @@ public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.To
 
         private void onBindData() {
             TouristAttraction place = mListPlace.get(getAdapterPosition());
-            //if (place.getImages() != null && place.getImages().get(0).getImageName() != null) {
-//            Picasso picasso = Picasso.with(context);
-//            picasso.setLoggingEnabled(true);
-//            picasso.setDebugging(true);
-//            picasso.load("http://localhost:6969/api/images/0827bdcb-218d-4947-92e8-3fdd2c220307.jpg")
-//                    .error(R.drawable.bg_place)
-//                    .into(mImgPlace);
-            //}
-            Glide.with(context).load("http://localhost:6969/api/images/0827bdcb-218d-4947-92e8-3fdd2c220307.jpg")
-                    .into(mImgPlace);
+            if (place.getImages() != null && place.getImages().get(0).getImageName() != null){
+                Glide.with(mImgPlace.getContext()).load(ReWriteUrl.reWriteUrl(place.getImages().get(0).getImageName()))
+                        .into(mImgPlace);
+            }
             mTvPlaceName.setText(place.getPlaceName());
             mRatingPlace.setRating(place.getRating());
             mTvNumComment.setText((String.valueOf(place.getNumcomment())));

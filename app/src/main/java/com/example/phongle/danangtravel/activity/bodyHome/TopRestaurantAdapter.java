@@ -9,9 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.Restaurant;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -70,9 +71,7 @@ public class TopRestaurantAdapter extends RecyclerView.Adapter<TopRestaurantAdap
         private void onBindData() {
             Restaurant restaurant = mListRestaurant.get(getAdapterPosition());
             if (restaurant.getImages() != null && restaurant.getImages().size() >0 && restaurant.getImages().get(0).getImageName() !=null){
-                Picasso.with(itemView.getContext())
-                        .load(restaurant.getImages().get(0).getImageName())
-                        .error(R.drawable.bg_restaurant)
+                Glide.with(mImgRestaurant.getContext()).load(ReWriteUrl.reWriteUrl(restaurant.getImages().get(0).getImageName()))
                         .into(mImgRestaurant);
             }
             mTvRestaurantName.setText(restaurant.getPlaceName());

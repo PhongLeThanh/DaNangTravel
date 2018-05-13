@@ -96,6 +96,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 CategoryResponse categoryResponse = response.body();
+                mListCategory.add(new Category(0,"Tất cả",null,null));
                 if (!categoryResponse.getData().isEmpty()) {
                     for (Category category : categoryResponse.getData()) {
                         mListCategory.add(category);
@@ -115,7 +116,11 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     public void onCategoryClick(Category category) {
         mCategoryDialog.dismiss();
         mTvCategory.setText(category.getCategoryName());
-        getPlaceAroundByCategory(category.getId());
+        if(category.getId() == 0){
+            getPlaceAround();
+        }else{
+            getPlaceAroundByCategory(category.getId());
+        }
     }
 
     @Override
@@ -265,5 +270,4 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                     }
                 });
     }
-
 }

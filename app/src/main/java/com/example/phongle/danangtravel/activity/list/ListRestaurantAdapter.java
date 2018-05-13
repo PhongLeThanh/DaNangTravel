@@ -9,7 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.Restaurant;
 
 import java.util.List;
@@ -74,7 +76,10 @@ public class ListRestaurantAdapter extends RecyclerView.Adapter<ListRestaurantAd
 
         private void onBindData() {
             Restaurant restaurant = mListRestaurant.get(getAdapterPosition());
-            mImgRestaurant.setImageResource(R.drawable.bg_restaurant);
+            if (restaurant.getImages() != null && restaurant.getImages().size() > 0 && restaurant.getImages().get(0).getImageName() != null) {
+                Glide.with(mImgRestaurant.getContext()).load(ReWriteUrl.reWriteUrl(restaurant.getImages().get(0).getImageName()))
+                        .into(mImgRestaurant);
+            }
             mTvRestaurantName.setText(restaurant.getPlaceName());
             mTvDescriptionPlace.setText(restaurant.getDescription());
             mRatingRestaurant.setRating(restaurant.getRating());

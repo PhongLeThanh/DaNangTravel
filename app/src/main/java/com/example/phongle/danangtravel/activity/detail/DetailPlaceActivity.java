@@ -32,6 +32,7 @@ import com.example.phongle.danangtravel.api.MyRetrofit;
 import com.example.phongle.danangtravel.api.PlaceResponse;
 import com.example.phongle.danangtravel.models.Comment;
 import com.example.phongle.danangtravel.models.Hotel;
+import com.example.phongle.danangtravel.models.Image;
 import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
 import com.example.phongle.danangtravel.models.TouristAttraction;
@@ -94,7 +95,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     private TextView mTvDetail;
     private TextView mTvMoreInfo;
     private HeaderDetailAdapter mHeaderDetailAdapter;
-    private int mListImage[] = {R.drawable.bg_detail_place, R.drawable.bg_detail_place_1, R.drawable.bg_detail_place_2};
+    private List<Image> mListImage = new ArrayList<>();
     private RecyclerView mRecyclerViewComment;
     private ListCommentAdapter mListCommentAdapter;
     private Place mPlace = new Place();
@@ -108,8 +109,8 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_detail_place);
         initViews();
         initListener();
-        updateViews();
         initAdapter();
+        updateViews();
         initCircleIndicator();
         setSupportActionBar(mToolbarDetail);
     }
@@ -155,7 +156,9 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                 PlaceResponse placeResponse = response.body();
                 if (!placeResponse.getData().isEmpty()) {
                     mPlace = placeResponse.getData().get(0);
-                    double lat = mPlace.getLatitude();
+                    mListImage.clear();
+                    mListImage.addAll(mPlace.getImages());
+                    mHeaderDetailAdapter.notifyDataSetChanged();
                     setViews(mPlace);
                     if (mPlace.getCategoryId() == 1) {
                         Restaurant restaurant ;

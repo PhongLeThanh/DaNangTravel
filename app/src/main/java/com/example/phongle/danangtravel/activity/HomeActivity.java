@@ -164,6 +164,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
                 LocationResponse locationResponse = response.body();
+                mListLocation.add(new Location(0, 0, "Tất cả", null, null, null, null, null));
                 if (!locationResponse.getData().isEmpty()) {
                     for (Location location : locationResponse.getData()) {
                         mListLocation.add(location);
@@ -177,56 +178,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onFailure(Call<LocationResponse> call, Throwable t) {
             }
         });
-        MyRetrofit.getInstance().getService().getTopPlace().enqueue(new Callback<PlaceResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                PlaceResponse placeResponse = response.body();
-                if (!placeResponse.getData().isEmpty()) {
-                    List<Place> placeList = placeResponse.getData();
-                    for (Place place : placeList) {
-                        if (place.getCategoryId() == 1) {
-                            Restaurant restaurant;
-                            if (place.getRestaurant() != null) {
-                                restaurant = place.getRestaurant();
-                            } else {
-                                restaurant = new Restaurant("", "", "");
-                            }
-                            restaurant.setPlace(place);
-                            mListRestaurant.add(restaurant);
-                        }
-                        if (place.getCategoryId() == 2) {
-                            Hotel hotel;
-                            if (place.getHotel() != null) {
-                                hotel = place.getHotel();
-                            } else {
-                                hotel = new Hotel(0, "", "");
-                            }
-                            hotel.setPlace(place);
-                            mListHotel.add(hotel);
-                        }
-                        if (place.getCategoryId() == 3) {
-                            TouristAttraction touristAttraction;
-                            if (place.getTouristattraction() != null) {
-                                touristAttraction = place.getTouristattraction();
-                            } else {
-                                touristAttraction = new TouristAttraction(0, "");
-                            }
-                            touristAttraction.setPlace(place);
-                            mListTourist.add(touristAttraction);
-                        }
-                    }
-                    mTopRestaurantAdapter.notifyDataSetChanged();
-                    mTopHotelAdapter.notifyDataSetChanged();
-                    mTopTouristAdapter.notifyDataSetChanged();
-                }
-                hideLoadingView();
-            }
-
-            @Override
-            public void onFailure(Call<PlaceResponse> call, Throwable t) {
-                Log.d("xxx", "onResponse: fail ");
-            }
-        });
+        getListTopPlace();
     }
 
     @Override
@@ -293,9 +245,71 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mLocationDialog.dismiss();
         mTvLocation.setText(location.getLocationName());
         showLoadingView();
-        MyRetrofit.getInstance().getService().getTopPlaceInLocation(location.getId()).enqueue(new Callback<PlaceResponse>() {
+        if (location.getId() == 0) {
+            getListTopPlace();
+        } else {
+            MyRetrofit.getInstance().getService().getTopPlaceInLocation(location.getId()).enqueue(new Callback<PlaceResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<PlaceResponse> call, @NonNull Response<PlaceResponse> response) {
+                    PlaceResponse placeResponse = response.body();
+                    mListRestaurant.clear();
+                    mListHotel.clear();
+                    mListTourist.clear();
+                    if (!placeResponse.getData().isEmpty()) {
+                        List<Place> placeList = placeResponse.getData();
+                        for (Place place : placeList) {
+                            if (place.getCategoryId() == 1) {
+                                Restaurant restaurant;
+                                if (place.getRestaurant() != null) {
+                                    restaurant = place.getRestaurant();
+                                } else {
+                                    restaurant = new Restaurant("", "", "");
+                                }
+                                restaurant.setPlace(place);
+                                mListRestaurant.add(restaurant);
+                            }
+                            if (place.getCategoryId() == 2) {
+                                Hotel hotel;
+                                if (place.getHotel() != null) {
+                                    hotel = place.getHotel();
+                                } else {
+                                    hotel = new Hotel(0, "", "");
+                                }
+                                hotel.setPlace(place);
+                                mListHotel.add(hotel);
+                            }
+                            if (place.getCategoryId() == 3) {
+                                TouristAttraction touristAttraction;
+                                if (place.getTouristattraction() != null) {
+                                    touristAttraction = place.getTouristattraction();
+                                } else {
+                                    touristAttraction = new TouristAttraction(0, "");
+                                }
+                                touristAttraction.setPlace(place);
+                                mListTourist.add(touristAttraction);
+                            }
+                        }
+                        mTopRestaurantAdapter.notifyDataSetChanged();
+                        mTopHotelAdapter.notifyDataSetChanged();
+                        mTopTouristAdapter.notifyDataSetChanged();
+                    }
+                    hideLoadingView();
+
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<PlaceResponse> call, Throwable t) {
+                    Log.d("xxx", "onResponse: fail ");
+                }
+            });
+
+        }
+    }
+
+    private void getListTopPlace() {
+        MyRetrofit.getInstance().getService().getTopPlace().enqueue(new Callback<PlaceResponse>() {
             @Override
-            public void onResponse(@NonNull Call<PlaceResponse> call, @NonNull Response<PlaceResponse> response) {
+            public void onResponse(@NonNull Call<PlaceResponse> call, Response<PlaceResponse> response) {
                 PlaceResponse placeResponse = response.body();
                 mListRestaurant.clear();
                 mListHotel.clear();
@@ -339,14 +353,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     mTopTouristAdapter.notifyDataSetChanged();
                 }
                 hideLoadingView();
-
             }
 
             @Override
-            public void onFailure(@NonNull Call<PlaceResponse> call, Throwable t) {
+            public void onFailure(Call<PlaceResponse> call, Throwable t) {
                 Log.d("xxx", "onResponse: fail ");
             }
         });
-
     }
 }

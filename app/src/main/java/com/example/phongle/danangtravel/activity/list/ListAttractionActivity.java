@@ -78,11 +78,11 @@ public class ListAttractionActivity extends AppCompatActivity implements
                             if (placeResponse.getData() != null && !placeResponse.getData().isEmpty()) {
                                 List<Place> placeList = placeResponse.getData();
                                 for (Place place : placeList) {
-                                    TouristAttraction touristAttraction ;
-                                    if(place.getTouristattraction()!=null){
-                                        touristAttraction= place.getTouristattraction();
-                                    }else {
-                                        touristAttraction = new TouristAttraction(0,"");
+                                    TouristAttraction touristAttraction;
+                                    if (place.getTouristattraction() != null) {
+                                        touristAttraction = place.getTouristattraction();
+                                    } else {
+                                        touristAttraction = new TouristAttraction(0, "");
                                     }
                                     touristAttraction.setPlace(place);
                                     mListTourist.add(touristAttraction);
@@ -140,6 +140,7 @@ public class ListAttractionActivity extends AppCompatActivity implements
             @Override
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
                 LocationResponse locationResponse = response.body();
+                mListLocation.add(new Location(0, 0, "Tất cả", null, null, null, null, null));
                 if (!locationResponse.getData().isEmpty()) {
                     for (Location location : locationResponse.getData()) {
                         mListLocation.add(location);
@@ -153,31 +154,7 @@ public class ListAttractionActivity extends AppCompatActivity implements
                 Log.d("xxx", "onFailure: " + t.getMessage());
             }
         });
-        MyRetrofit.getInstance().getService().getPlaceCategory(3).enqueue(new Callback<PlaceResponse>() {
-            @Override
-            public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                PlaceResponse placeResponse = response.body();
-                if (!placeResponse.getData().isEmpty()) {
-                    List<Place> placeList = placeResponse.getData();
-                    for (Place place : placeList) {
-                        TouristAttraction touristAttraction ;
-                        if(place.getTouristattraction()!=null){
-                            touristAttraction= place.getTouristattraction();
-                        }else {
-                            touristAttraction = new TouristAttraction(0,"");
-                        }
-                        touristAttraction.setPlace(place);
-                        mListTourist.add(touristAttraction);
-                    }
-                }
-                mListAttractionAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<PlaceResponse> call, Throwable t) {
-                Log.d("xxx", "onFailure: " + t.getMessage());
-            }
-        });
+        getListPlaceByAllLocation();
     }
 
     @Override
@@ -204,7 +181,43 @@ public class ListAttractionActivity extends AppCompatActivity implements
     public void onLocationClick(Location location) {
         mLocationDialog.dismiss();
         mTvLocation.setText(location.getLocationName());
-        MyRetrofit.getInstance().getService().getPlaceCategoryAndLocation(3, location.getId()).enqueue(new Callback<PlaceResponse>() {
+        if (location.getId() == 0) {
+            getListPlaceByAllLocation();
+        } else {
+            MyRetrofit.getInstance().getService().getPlaceCategoryAndLocation(3, location.getId()).enqueue(new Callback<PlaceResponse>() {
+                @Override
+                public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
+                    PlaceResponse placeResponse = response.body();
+                    mListTourist.clear();
+                    if (!placeResponse.getData().isEmpty()) {
+                        List<Place> placeList = placeResponse.getData();
+                        for (Place place : placeList) {
+                            TouristAttraction touristAttraction;
+                            if (place.getTouristattraction() != null) {
+                                touristAttraction = place.getTouristattraction();
+                            } else {
+                                touristAttraction = new TouristAttraction(0, "");
+                            }
+                            touristAttraction.setPlace(place);
+                            mListTourist.add(touristAttraction);
+                        }
+                        mTvNotFound.setVisibility(View.GONE);
+                    } else {
+                        mTvNotFound.setVisibility(View.VISIBLE);
+                    }
+                    mListAttractionAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<PlaceResponse> call, Throwable t) {
+                    Log.d("xxx", "onFailure: " + t.getMessage());
+                }
+            });
+        }
+    }
+
+    private void getListPlaceByAllLocation() {
+        MyRetrofit.getInstance().getService().getPlaceCategory(3).enqueue(new Callback<PlaceResponse>() {
             @Override
             public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
                 PlaceResponse placeResponse = response.body();
@@ -212,13 +225,17 @@ public class ListAttractionActivity extends AppCompatActivity implements
                 if (!placeResponse.getData().isEmpty()) {
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
-                        TouristAttraction touristAttraction = place.getTouristattraction();
+                        TouristAttraction touristAttraction;
+                        if (place.getTouristattraction() != null) {
+                            touristAttraction = place.getTouristattraction();
+                        } else {
+                            touristAttraction = new TouristAttraction(0, "");
+                        }
                         touristAttraction.setPlace(place);
                         mListTourist.add(touristAttraction);
-
                     }
                     mTvNotFound.setVisibility(View.GONE);
-                }else{
+                } else {
                     mTvNotFound.setVisibility(View.VISIBLE);
                 }
                 mListAttractionAdapter.notifyDataSetChanged();
@@ -229,5 +246,6 @@ public class ListAttractionActivity extends AppCompatActivity implements
                 Log.d("xxx", "onFailure: " + t.getMessage());
             }
         });
+
     }
 }

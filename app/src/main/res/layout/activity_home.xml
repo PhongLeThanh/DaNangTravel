@@ -39,6 +39,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true" />
             </RelativeLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarHome"
                 popupTheme="@style/ThemeOverlay.AppCompat.Light"

@@ -75,11 +75,11 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
                             if (placeResponse.getData() != null && !placeResponse.getData().isEmpty()) {
                                 List<Place> placeList = placeResponse.getData();
                                 for (Place place : placeList) {
-                                    Restaurant restaurant ;
-                                    if(place.getRestaurant()!= null){
+                                    Restaurant restaurant;
+                                    if (place.getRestaurant() != null) {
                                         restaurant = place.getRestaurant();
-                                    }else{
-                                        restaurant = new Restaurant("","","");
+                                    } else {
+                                        restaurant = new Restaurant("", "", "");
                                     }
                                     restaurant.setPlace(place);
                                     mListRestaurant.add(restaurant);
@@ -137,6 +137,7 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
             @Override
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
                 LocationResponse locationResponse = response.body();
+                mListLocation.add(new Location(0, 0, "Tất cả", null, null, null, null, null));
                 if (!locationResponse.getData().isEmpty()) {
                     for (Location location : locationResponse.getData()) {
                         mListLocation.add(location);
@@ -150,31 +151,7 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
                 Log.d("xxx", "onFailure: " + t.getMessage());
             }
         });
-        MyRetrofit.getInstance().getService().getPlaceCategory(1).enqueue(new Callback<PlaceResponse>() {
-            @Override
-            public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                PlaceResponse placeResponse = response.body();
-                if (!placeResponse.getData().isEmpty()) {
-                    List<Place> placeList = placeResponse.getData();
-                    for (Place place : placeList) {
-                        Restaurant restaurant ;
-                        if(place.getRestaurant()!= null){
-                            restaurant = place.getRestaurant();
-                        }else{
-                            restaurant = new Restaurant("","","");
-                        }
-                        restaurant.setPlace(place);
-                        mListRestaurant.add(restaurant);
-                    }
-                }
-                mListRestaurantAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<PlaceResponse> call, Throwable t) {
-                Log.d("xxx", "onFailure: " + t.getMessage());
-            }
-        });
+        getListPlaceByAllLocation();
     }
 
     @Override
@@ -200,7 +177,43 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
     public void onLocationClick(Location location) {
         mLocationDialog.dismiss();
         mTvLocation.setText(location.getLocationName());
-        MyRetrofit.getInstance().getService().getPlaceCategoryAndLocation(1, location.getId()).enqueue(new Callback<PlaceResponse>() {
+        if (location.getId() == 0) {
+            getListPlaceByAllLocation();
+        } else {
+            MyRetrofit.getInstance().getService().getPlaceCategoryAndLocation(1, location.getId()).enqueue(new Callback<PlaceResponse>() {
+                @Override
+                public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
+                    PlaceResponse placeResponse = response.body();
+                    mListRestaurant.clear();
+                    if (!placeResponse.getData().isEmpty()) {
+                        List<Place> placeList = placeResponse.getData();
+                        for (Place place : placeList) {
+                            Restaurant restaurant;
+                            if (place.getRestaurant() != null) {
+                                restaurant = place.getRestaurant();
+                            } else {
+                                restaurant = new Restaurant("", "", "");
+                            }
+                            restaurant.setPlace(place);
+                            mListRestaurant.add(restaurant);
+                        }
+                        mTvNotFound.setVisibility(View.GONE);
+                    } else {
+                        mTvNotFound.setVisibility(View.VISIBLE);
+                    }
+                    mListRestaurantAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<PlaceResponse> call, Throwable t) {
+                    Log.d("xxx", "onFailure: " + t.getMessage());
+                }
+            });
+        }
+    }
+
+    private void getListPlaceByAllLocation() {
+        MyRetrofit.getInstance().getService().getPlaceCategory(1).enqueue(new Callback<PlaceResponse>() {
             @Override
             public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
                 PlaceResponse placeResponse = response.body();
@@ -208,12 +221,17 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
                 if (!placeResponse.getData().isEmpty()) {
                     List<Place> placeList = placeResponse.getData();
                     for (Place place : placeList) {
-                       Restaurant restaurant = place.getRestaurant();
-                       restaurant.setPlace(place);
-                       mListRestaurant.add(restaurant);
+                        Restaurant restaurant;
+                        if (place.getRestaurant() != null) {
+                            restaurant = place.getRestaurant();
+                        } else {
+                            restaurant = new Restaurant("", "", "");
+                        }
+                        restaurant.setPlace(place);
+                        mListRestaurant.add(restaurant);
                     }
                     mTvNotFound.setVisibility(View.GONE);
-                }else{
+                } else {
                     mTvNotFound.setVisibility(View.VISIBLE);
                 }
                 mListRestaurantAdapter.notifyDataSetChanged();

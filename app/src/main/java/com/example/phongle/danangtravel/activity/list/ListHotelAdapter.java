@@ -9,7 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.Hotel;
 
 import java.util.List;
@@ -74,7 +76,10 @@ public class ListHotelAdapter extends RecyclerView.Adapter<ListHotelAdapter.List
 
         private void onBindData() {
             Hotel hotel = mListHotel.get(getAdapterPosition());
-            mImgHotel.setImageResource(R.drawable.bg_hotel);
+            if (hotel.getImages() != null && hotel.getImages().size() > 0 && hotel.getImages().get(0).getImageName() != null) {
+                Glide.with(mImgHotel.getContext()).load(ReWriteUrl.reWriteUrl(hotel.getImages().get(0).getImageName()))
+                        .into(mImgHotel);
+            }
             mTvHotelName.setText(hotel.getPlaceName());
             mTvDescriptonPlace.setText(hotel.getDescription());
             mRatingHotel.setRating(hotel.getRating());

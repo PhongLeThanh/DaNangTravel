@@ -9,7 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.TouristAttraction;
 
 import java.util.List;
@@ -74,7 +76,10 @@ public class ListAttractionAdapter extends RecyclerView.Adapter<ListAttractionAd
 
         private void onBindData() {
             TouristAttraction place = mListTourist.get(getAdapterPosition());
-            mImgAttraction.setImageResource(R.drawable.bg_place);
+            if (place.getImages() != null && place.getImages().get(0).getImageName() != null) {
+                Glide.with(mImgAttraction.getContext()).load(ReWriteUrl.reWriteUrl(place.getImages().get(0).getImageName()))
+                        .into(mImgAttraction);
+            }
             mTvAttractionName.setText(place.getPlaceName());
             mTvDescriptionPlace.setText(place.getDescription());
             mRatingAttraction.setRating(place.getRating());

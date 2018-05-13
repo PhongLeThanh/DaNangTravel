@@ -75,11 +75,11 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
                             if (placeResponse.getData() != null && !placeResponse.getData().isEmpty()) {
                                 List<Place> placeList = placeResponse.getData();
                                 for (Place place : placeList) {
-                                    Hotel hotel ;
-                                    if(place.getHotel()!=null){
+                                    Hotel hotel;
+                                    if (place.getHotel() != null) {
                                         hotel = place.getHotel();
-                                    }else{
-                                        hotel= new Hotel(0,"","");
+                                    } else {
+                                        hotel = new Hotel(0, "", "");
                                     }
                                     hotel.setPlace(place);
                                     mListHotel.add(hotel);
@@ -137,6 +137,7 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
                 LocationResponse locationResponse = response.body();
+                mListLocation.add(new Location(0, 0, "Tất cả", null, null, null, null, null));
                 if (!locationResponse.getData().isEmpty()) {
                     for (Location location : locationResponse.getData()) {
                         mListLocation.add(location);
@@ -150,31 +151,7 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
                 Log.d("xxx", "onFailure: " + t.getMessage());
             }
         });
-        MyRetrofit.getInstance().getService().getPlaceCategory(2).enqueue(new Callback<PlaceResponse>() {
-            @Override
-            public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                PlaceResponse placeResponse = response.body();
-                if (!placeResponse.getData().isEmpty()) {
-                    List<Place> placeList = placeResponse.getData();
-                    for (Place place : placeList) {
-                        Hotel hotel ;
-                        if(place.getHotel()!=null){
-                            hotel = place.getHotel();
-                        }else{
-                            hotel= new Hotel(0,"","");
-                        }
-                        hotel.setPlace(place);
-                        mListHotel.add(hotel);
-                    }
-                }
-                mListHotelAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<PlaceResponse> call, Throwable t) {
-                Log.d("xxx", "onFailure: " + t.getMessage());
-            }
-        });
+        getListPlaceByAllLocation();
     }
 
     @Override
@@ -188,30 +165,40 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
     public void onLocationClick(Location location) {
         mLocationDialog.dismiss();
         mTvLocation.setText(location.getLocationName());
-        MyRetrofit.getInstance().getService().getPlaceCategoryAndLocation(2, location.getId()).enqueue(new Callback<PlaceResponse>() {
-            @Override
-            public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                PlaceResponse placeResponse = response.body();
-                mListHotel.clear();
-                if (!placeResponse.getData().isEmpty()) {
-                    List<Place> placeList = placeResponse.getData();
-                    for (Place place : placeList) {
-                        Hotel hotel = place.getHotel();
-                        hotel.setPlace(place);
-                        mListHotel.add(hotel);
+        if (location.getId() == 0) {
+            getListPlaceByAllLocation();
+        } else {
+            MyRetrofit.getInstance().getService().getPlaceCategoryAndLocation(2, location.getId()).enqueue(new Callback<PlaceResponse>() {
+                @Override
+                public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
+                    PlaceResponse placeResponse = response.body();
+                    mListHotel.clear();
+                    if (!placeResponse.getData().isEmpty()) {
+                        List<Place> placeList = placeResponse.getData();
+                        for (Place place : placeList) {
+                            Hotel hotel;
+                            if (place.getHotel() != null) {
+                                hotel = place.getHotel();
+                            } else {
+                                hotel = new Hotel(0, "", "");
+                            }
+                            hotel.setPlace(place);
+                            mListHotel.add(hotel);
+                        }
+                        mTvNotFound.setVisibility(View.GONE);
+                    } else {
+                        mTvNotFound.setVisibility(View.VISIBLE);
                     }
-                    mTvNotFound.setVisibility(View.GONE);
-                }else{
-                    mTvNotFound.setVisibility(View.VISIBLE);
+                    mListHotelAdapter.notifyDataSetChanged();
                 }
-                mListHotelAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onFailure(Call<PlaceResponse> call, Throwable t) {
-                Log.d("xxx", "onFailure: " + t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<PlaceResponse> call, Throwable t) {
+                    Log.d("xxx", "onFailure: " + t.getMessage());
+                }
+            });
+        }
+
     }
 
     @Override
@@ -224,5 +211,37 @@ public class ListHotelActivity extends AppCompatActivity implements View.OnClick
                 mLocationDialog.show(getFragmentManager(), LocationDialog.class.getSimpleName());
                 break;
         }
+    }
+
+    private void getListPlaceByAllLocation() {
+        MyRetrofit.getInstance().getService().getPlaceCategory(2).enqueue(new Callback<PlaceResponse>() {
+            @Override
+            public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
+                PlaceResponse placeResponse = response.body();
+                mListHotel.clear();
+                if (!placeResponse.getData().isEmpty()) {
+                    List<Place> placeList = placeResponse.getData();
+                    for (Place place : placeList) {
+                        Hotel hotel;
+                        if (place.getHotel() != null) {
+                            hotel = place.getHotel();
+                        } else {
+                            hotel = new Hotel(0, "", "");
+                        }
+                        hotel.setPlace(place);
+                        mListHotel.add(hotel);
+                    }
+                    mTvNotFound.setVisibility(View.GONE);
+                } else {
+                    mTvNotFound.setVisibility(View.VISIBLE);
+                }
+                mListHotelAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<PlaceResponse> call, Throwable t) {
+                Log.d("xxx", "onFailure: " + t.getMessage());
+            }
+        });
     }
 }

@@ -9,9 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.Hotel;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -74,9 +75,7 @@ public class TopHotelAdapter extends RecyclerView.Adapter<TopHotelAdapter.TopHot
         private void onBindData() {
             Hotel hotel = mListHotel.get(getAdapterPosition());
             if (hotel.getImages() != null && hotel.getImages().size() > 0 && hotel.getImages().get(0).getImageName() != null) {
-                Picasso.with(mImgHotel.getContext())
-                        .load(hotel.getImages().get(0).getImageName())
-                        .error(R.drawable.bg_hotel)
+                Glide.with(mImgHotel.getContext()).load(ReWriteUrl.reWriteUrl(hotel.getImages().get(0).getImageName()))
                         .into(mImgHotel);
             }
             mTvHotelName.setText(hotel.getPlaceName());
