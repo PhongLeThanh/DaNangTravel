@@ -15,7 +15,7 @@
     <string name="tv_introduce_place">Với vị trí nằm bắc qua sông Hàn, cầu Rồng được xem là biểu tượng của thành phố Đà Nẵng và được rất nhiều du khách gần xa biết đến như là “Đà Nẵng các địa điểm du lịch ưa thích”. Chiếc cầu được xây dựng theo kiểu kiến trúc vừa mang hình dạng một con Rồng thời Lý vừa như vươn mình bay ra biển lớn, thể hiện khát vọng ngày càng phát triển lớn mạnh của Đà Nẵng. Điểm đặc biệt nổi bật của cầu Rồng là có đến 6 làn xe chạy, trong đó chiều rộng cầu là 37,5m còn chiều dài lên đến 666m với thiết kế độc đáo, hoành tráng mang tầm vóc quốc tế và kinh phí để xây dựng cầu là 1,5 nghìn tỷ đồng.</string>
     <string name="tv_dragon_brigde">Dragon Brigde</string>
     <string name="tv_info_place">Thông tin liên lạc</string>
-    <string name="tv_address_place">Address</string>
+    <string name="tv_address_place">Địa chỉ</string>
     <string name="tv_phone_place">0986759342</string>
     <string name="tv_place_name">Dragon Brigde</string>
     <string name="tv_rate_comment">Đánh giá và bình luận</string>
@@ -40,4 +40,12 @@
     <string name="tv_all_category">Tất cả</string>
     <string name="tv_unit_distance">km</string>
     <string name="tv_cost">Giá:</string>
+    <string name="tv_hot_event">Sự kiện nổi bật</string>
+    <string name="tv_time_start">2018-05-30</string>
+    <string name="tv_time_finish">2018-06-15</string>
+    <string name="tv_icon_to">---</string>
+    <string name="tv_event_name">Lễ hội pháo hoa Quốc tế</string>
+    <string name="tv_description_event">Lễ hội pháo hoa quốc tế được tổ chức 2 năm một lần tại thành phố biển xinh đẹp Đà Nẵng...</string>
+    <string name="tv_address_event">Cau song han da nang</string>
+    <string name="btn_search_near_event">Xem địa điểm gần sự kiện này</string>
 </resources>

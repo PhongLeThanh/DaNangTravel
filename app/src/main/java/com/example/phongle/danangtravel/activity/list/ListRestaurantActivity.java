@@ -112,7 +112,7 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
 
     private void initView() {
         mToolbar = findViewById(R.id.toolbarList);
-        mBtnBack = findViewById(R.id.imgBackToHome);
+        mBtnBack = findViewById(R.id.imgBack);
         mTvLocation = findViewById(R.id.tvLocation);
         mLocationDialog = new LocationDialog();
         mLocationDialog.setCallback(this);
@@ -164,7 +164,7 @@ public class ListRestaurantActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imgBackToHome:
+            case R.id.imgBack:
                 onBackPressed();
                 break;
             case R.id.tvLocation:

@@ -29,6 +29,7 @@ import com.example.phongle.danangtravel.activity.login.LoginActivity;
 import com.example.phongle.danangtravel.activity.map.DirectionsJSONParser;
 import com.example.phongle.danangtravel.api.CommentResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
+import com.example.phongle.danangtravel.api.ObjectCommentResponse;
 import com.example.phongle.danangtravel.api.PlaceResponse;
 import com.example.phongle.danangtravel.models.Comment;
 import com.example.phongle.danangtravel.models.Hotel;
@@ -99,6 +100,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     private RecyclerView mRecyclerViewComment;
     private ListCommentAdapter mListCommentAdapter;
     private Place mPlace = new Place();
+    private int mPlaceId;
     private List<Comment> mListComment = new ArrayList<>();
     private android.location.Location mCurrentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -161,11 +163,11 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                     mHeaderDetailAdapter.notifyDataSetChanged();
                     setViews(mPlace);
                     if (mPlace.getCategoryId() == 1) {
-                        Restaurant restaurant ;
-                        if(mPlace.getRestaurant()!= null){
+                        Restaurant restaurant;
+                        if (mPlace.getRestaurant() != null) {
                             restaurant = mPlace.getRestaurant();
-                        }else{
-                            restaurant = new Restaurant("","","");
+                        } else {
+                            restaurant = new Restaurant("", "", "");
                         }
                         restaurant.setPlace(mPlace);
                         mTvWebsite.setText("Website : " + restaurant.getWebsite());
@@ -174,11 +176,11 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                         mTvMoreInfo.setText("Thông tin thêm : " + restaurant.getMoreInformation());
                     }
                     if (mPlace.getCategoryId() == 2) {
-                        Hotel hotel ;
-                        if(mPlace.getHotel()!=null){
+                        Hotel hotel;
+                        if (mPlace.getHotel() != null) {
                             hotel = mPlace.getHotel();
-                        }else{
-                            hotel= new Hotel(0,"","");
+                        } else {
+                            hotel = new Hotel(0, "", "");
                         }
                         hotel.setPlace(mPlace);
                         mTvCost.setVisibility(View.VISIBLE);
@@ -189,11 +191,11 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                         mTvMoreInfo.setText("Thông tin thêm : " + hotel.getMoreInformation());
                     }
                     if (mPlace.getCategoryId() == 3) {
-                        TouristAttraction touristAttraction ;
-                        if(mPlace.getTouristattraction()!=null){
-                            touristAttraction= mPlace.getTouristattraction();
-                        }else {
-                            touristAttraction = new TouristAttraction(0,"");
+                        TouristAttraction touristAttraction;
+                        if (mPlace.getTouristattraction() != null) {
+                            touristAttraction = mPlace.getTouristattraction();
+                        } else {
+                            touristAttraction = new TouristAttraction(0, "");
                         }
                         touristAttraction.setPlace(mPlace);
                         mTvCost.setVisibility(View.VISIBLE);
@@ -314,35 +316,49 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onComment(int evaluate, String content) {
         Intent intent = getIntent();
-        int placeId = intent.getIntExtra(PLACE_ID_KEY, 0);
+        mPlaceId = intent.getIntExtra(PLACE_ID_KEY, 0);
         int userId = SharedPrefeencesUtils.getUser().getId();
         String token = "Bearer " + SharedPrefeencesUtils.getDocument();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("placeId", placeId);
+            jsonObject.put("placeId", mPlaceId);
             jsonObject.put("userId", userId);
             jsonObject.put("content", content);
             jsonObject.put("evaluate", evaluate);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        MyRetrofit.getInstance().getService().postComment(token, requestBody).enqueue(new Callback<CommentResponse>() {
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+        MyRetrofit.getInstance().getService().postComment(token, requestBody).enqueue(new Callback<ObjectCommentResponse>() {
             @Override
-            public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
-                mListComment.clear();
-                CommentResponse commentResponse = response.body();
-                if (!commentResponse.getData().isEmpty()) {
-                    for (Comment comment : commentResponse.getData()) {
-                        mListComment.add(comment);
-                    }
-                    Log.d("xxx", "onResponse: " + mListComment.get(0).getContent());
+            public void onResponse(Call<ObjectCommentResponse> call, Response<ObjectCommentResponse> response) {
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("placeId", mPlaceId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                mListCommentAdapter.notifyDataSetChanged();
+                final RequestBody data = RequestBody.create(MediaType.parse("application/json"), json.toString());
+                MyRetrofit.getInstance().getService().updateRatingPlace(data).enqueue(new Callback<CommentResponse>() {
+                    @Override
+                    public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
+                        mListComment.clear();
+                        CommentResponse commentResponse = response.body();
+                        if (!commentResponse.getData().isEmpty()) {
+                           mListComment.addAll(commentResponse.getData());
+                        }
+                        mListCommentAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<CommentResponse> call, Throwable t) {
+                        Log.d("xxx", "onFailure: comment failed!");
+                    }
+                });
             }
 
             @Override
-            public void onFailure(Call<CommentResponse> call, Throwable t) {
+            public void onFailure(Call<ObjectCommentResponse> call, Throwable t) {
                 Log.d("xxx", "onFailure: comment failed" + t.getMessage());
             }
         });
@@ -560,7 +576,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                 lineOptions.color(R.color.red);
                 lineOptions.geodesic(true);
             }
-            if(lineOptions!=null){
+            if (lineOptions != null) {
                 mGoogleMap.addPolyline(lineOptions);
             }
 

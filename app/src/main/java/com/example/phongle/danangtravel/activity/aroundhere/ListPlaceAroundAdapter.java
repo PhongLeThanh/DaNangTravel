@@ -10,16 +10,18 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.models.Place;
+import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
+import com.example.phongle.danangtravel.models.PlaceAround;
 
 import java.util.List;
 
 public class ListPlaceAroundAdapter extends RecyclerView.Adapter<ListPlaceAroundAdapter.ListPlaceAroundViewHolder> {
-    private List<Place> mListPlace;
+    private List<PlaceAround> mListPlace;
     private OnItemClickListener mOnItemClickListener;
 
-    ListPlaceAroundAdapter(List<Place> listPlace, OnItemClickListener onItemClickListener) {
+    ListPlaceAroundAdapter(List<PlaceAround> listPlace, OnItemClickListener onItemClickListener) {
         mListPlace = listPlace;
         mOnItemClickListener = onItemClickListener;
     }
@@ -75,8 +77,11 @@ public class ListPlaceAroundAdapter extends RecyclerView.Adapter<ListPlaceAround
 
         @SuppressLint("DefaultLocale")
         private void onBindData() {
-            Place place = mListPlace.get(getAdapterPosition());
-            mImgPlace.setImageResource(R.drawable.bg_place);
+            PlaceAround place = mListPlace.get(getAdapterPosition());
+            if (place.getPicture() != null && place.getPicture() != null){
+                Glide.with(mImgPlace.getContext()).load(ReWriteUrl.reWriteUrl(place.getPicture()))
+                        .into(mImgPlace);
+            }
             mTvPlaceName.setText(place.getPlaceName());
             mTvDescriptionPlace.setText(place.getDescription());
             mRatingPlace.setRating(place.getRating());

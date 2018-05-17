@@ -23,11 +23,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/tv_top_place"
+                android:text="@string/tv_hot_event"
                 android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/red"/>
+
             <com.wang.avi.AVLoadingIndicatorView
-                android:id="@+id/loadingViewTopPlace"
+                android:id="@+id/loadingViewEvent"
                 style="@style/AVLoadingIndicatorView.Small"
                 app:indicatorColor="@android:color/darker_gray"
                 app:indicatorName="BallPulseIndicator"
@@ -35,8 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:visibility="visible" />
+
             <TextView
-                android:id="@+id/tvMoreTopPlace"
+                android:id="@+id/tvMoreEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -53,9 +56,10 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewTopPlace"
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/recyclerViewListHotEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
 </android.support.v7.widget.CardView>

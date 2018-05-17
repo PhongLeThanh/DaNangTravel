@@ -15,19 +15,24 @@ import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.aroundhere.ListPlaceAroundActivity;
+import com.example.phongle.danangtravel.activity.bodyHome.HotEventAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopHotelAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopRestaurantAdapter;
 import com.example.phongle.danangtravel.activity.bodyHome.TopTouristAdapter;
+import com.example.phongle.danangtravel.activity.detail.DetailEventActivity;
 import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
+import com.example.phongle.danangtravel.activity.event.ListEventActivity;
 import com.example.phongle.danangtravel.activity.headerHome.HeaderAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.LocationAdapter;
 import com.example.phongle.danangtravel.activity.headerHome.LocationDialog;
 import com.example.phongle.danangtravel.activity.list.ListAttractionActivity;
 import com.example.phongle.danangtravel.activity.list.ListHotelActivity;
 import com.example.phongle.danangtravel.activity.list.ListRestaurantActivity;
+import com.example.phongle.danangtravel.api.EventResponse;
 import com.example.phongle.danangtravel.api.LocationResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
 import com.example.phongle.danangtravel.api.PlaceResponse;
+import com.example.phongle.danangtravel.models.Event;
 import com.example.phongle.danangtravel.models.Hotel;
 import com.example.phongle.danangtravel.models.Location;
 import com.example.phongle.danangtravel.models.Place;
@@ -47,8 +52,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         TopTouristAdapter.onItemClickListener,
         TopRestaurantAdapter.onItemClickListener,
         TopHotelAdapter.onItemClickListener,
-        LocationAdapter.OnLocationClickListener {
+        LocationAdapter.OnLocationClickListener,HotEventAdapter.OnItemClickListener{
     private static final String PLACE_ID_KEY = "id";
+    private static final String EVENT_ID_KEY = "eventId";
 
     private ViewPager mViewPager;
     private Toolbar mToolbar;
@@ -56,6 +62,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private AVLoadingIndicatorView mLoadingViewTopPlace;
     private AVLoadingIndicatorView mLoadingViewTopHotel;
     private AVLoadingIndicatorView mLoadingViewTopRestaurant;
+    private AVLoadingIndicatorView mLoadingViewHotEvent;
+    private RecyclerView mRecyclerViewHotEvent;
     private RecyclerView mRecyclerViewTopPlace;
     private RecyclerView mRecyclerViewTopRestaurant;
     private RecyclerView mRecyclerViewTopHotel;
@@ -63,15 +71,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnListRestaurant;
     private Button mBtnListHotel;
     private Button mBtnListNearPlace;
+    private TextView mTvMoreEvent;
     private TextView mTvMoreHotel;
     private TextView mTvMoreRestaurant;
     private TextView mTvMorePlace;
     private HeaderAdapter mHeaderAdapter;
+    private HotEventAdapter mHotEventAdapter;
     private TopTouristAdapter mTopTouristAdapter;
     private TopRestaurantAdapter mTopRestaurantAdapter;
     private TopHotelAdapter mTopHotelAdapter;
     private int mListImage[] = {R.drawable.bg_banner_app, R.drawable.bg_banner_app_2, R.drawable.bg_banner_app_3};
     private List<Location> mListLocation = new ArrayList<>();
+    private List<Event> mListEvent = new ArrayList<>();
     private List<Restaurant> mListRestaurant = new ArrayList<>();
     private List<Hotel> mListHotel = new ArrayList<>();
     private List<TouristAttraction> mListTourist = new ArrayList<>();
@@ -96,9 +107,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mLoadingViewTopPlace = findViewById(R.id.loadingViewTopPlace);
         mLoadingViewTopHotel = findViewById(R.id.loadingViewTopHotel);
         mLoadingViewTopRestaurant = findViewById(R.id.loadingViewTopRestaurant);
+        mLoadingViewHotEvent = findViewById(R.id.loadingViewEvent);
+        mRecyclerViewHotEvent = findViewById(R.id.recyclerViewListHotEvent);
         mRecyclerViewTopPlace = findViewById(R.id.recyclerViewTopPlace);
         mRecyclerViewTopRestaurant = findViewById(R.id.recyclerViewTopRestaurant);
         mRecyclerViewTopHotel = findViewById(R.id.recyclerViewTopHotel);
+        mTvMoreEvent = findViewById(R.id.tvMoreEvent);
         mTvMorePlace = findViewById(R.id.tvMoreTopPlace);
         mTvMoreRestaurant = findViewById(R.id.tvMoreTopRestaurant);
         mTvMoreHotel = findViewById(R.id.tvMoreTopHotel);
@@ -116,6 +130,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mBtnListHotel.setOnClickListener(this);
         mBtnListNearPlace.setOnClickListener(this);
         mTvLocation.setOnClickListener(this);
+        mTvMoreEvent.setOnClickListener(this);
         mTvMorePlace.setOnClickListener(this);
         mTvMoreRestaurant.setOnClickListener(this);
         mTvMoreHotel.setOnClickListener(this);
@@ -124,6 +139,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void initAdapter() {
         mHeaderAdapter = new HeaderAdapter(this, mListImage);
         mViewPager.setAdapter(mHeaderAdapter);
+        // Set Adapter for recycler view hot event
+        mHotEventAdapter = new HotEventAdapter(mListEvent, this,this);
+        mRecyclerViewHotEvent.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        mRecyclerViewHotEvent.setAdapter(mHotEventAdapter);
         // Set Adapter for recycler view top place
         mTopTouristAdapter = new TopTouristAdapter(this, mListTourist, this);
         mRecyclerViewTopPlace.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -148,14 +167,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mLoadingViewTopPlace.show();
         mLoadingViewTopHotel.show();
         mLoadingViewTopRestaurant.show();
+        mLoadingViewHotEvent.show();
     }
-
-    ;
-
     private void hideLoadingView() {
         mLoadingViewTopPlace.hide();
         mLoadingViewTopHotel.hide();
         mLoadingViewTopRestaurant.hide();
+        mLoadingViewHotEvent.hide();
     }
 
     private void initData() {
@@ -178,6 +196,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onFailure(Call<LocationResponse> call, Throwable t) {
             }
         });
+        getListHotEvent();
         getListTopPlace();
     }
 
@@ -220,6 +239,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnNearPlaces:
                 intent = new Intent(HomeActivity.this, ListPlaceAroundActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tvMoreEvent:
+                intent = new Intent(HomeActivity.this, ListEventActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tvMoreTopPlace:
@@ -305,7 +328,25 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+    private void getListHotEvent(){
+        MyRetrofit.getInstance().getService().getListHotEvent().enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                EventResponse eventResponse = response.body();
+                if(eventResponse!=null && !eventResponse.getData().isEmpty()){
+                    mListEvent.clear();
+                    mListEvent.addAll(eventResponse.getData());
+                }
+                mHotEventAdapter.notifyDataSetChanged();
+                hideLoadingView();
+            }
 
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+                Log.d("xxx", "onFailure: failed");
+            }
+        });
+    }
     private void getListTopPlace() {
         MyRetrofit.getInstance().getService().getTopPlace().enqueue(new Callback<PlaceResponse>() {
             @Override
@@ -360,5 +401,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("xxx", "onResponse: fail ");
             }
         });
+    }
+
+    @Override
+    public void onEventClick(int position) {
+        Intent intent = new Intent(this, DetailEventActivity.class);
+        intent.putExtra(EVENT_ID_KEY, mListEvent.get(position).getId());
+        startActivity(intent);
     }
 }

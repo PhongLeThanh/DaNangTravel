@@ -20,12 +20,12 @@ import java.util.List;
 public class TopTouristAdapter extends RecyclerView.Adapter<TopTouristAdapter.TopPlaceViewHolder> {
     private List<TouristAttraction> mListPlace;
     private onItemClickListener mOnItemClickListener;
-    private Context context;
+    private Context mContext;
 
     public TopTouristAdapter(Context context, List<TouristAttraction> listPlace, onItemClickListener onItemClickListener) {
         mListPlace = listPlace;
         mOnItemClickListener = onItemClickListener;
-        this.context = context;
+        mContext = context;
     }
 
     @Override

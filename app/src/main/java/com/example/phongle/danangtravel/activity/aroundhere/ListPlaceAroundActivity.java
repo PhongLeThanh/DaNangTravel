@@ -20,9 +20,9 @@ import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.api.CategoryResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
-import com.example.phongle.danangtravel.api.PlaceResponse;
+import com.example.phongle.danangtravel.api.PlaceAroundResponse;
 import com.example.phongle.danangtravel.models.Category;
-import com.example.phongle.danangtravel.models.Place;
+import com.example.phongle.danangtravel.models.PlaceAround;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -50,7 +50,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     private ImageView mImgBackToHome;
     private RecyclerView mRecyclerViewListPlace;
     private ListPlaceAroundAdapter mListPlaceAroundAdapter;
-    private List<Place> mListPlace = new ArrayList<>();
+    private List<PlaceAround> mListPlace = new ArrayList<>();
     private List<Category> mListCategory = new ArrayList<>();
     private CategoryDialog mCategoryDialog;
     private GoogleMap mGoogleMap;
@@ -73,7 +73,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
 
     private void initViews() {
         mToolbar = findViewById(R.id.toolbarAroundHere);
-        mImgBackToHome = findViewById(R.id.imgBackToHome);
+        mImgBackToHome = findViewById(R.id.imgBack);
         mTvCategory = findViewById(R.id.tvCategory);
         mRecyclerViewListPlace = findViewById(R.id.recyclerViewPlaceAround);
         mCategoryDialog = new CategoryDialog();
@@ -96,7 +96,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 CategoryResponse categoryResponse = response.body();
-                mListCategory.add(new Category(0,"Tất cả",null,null));
+                mListCategory.add(new Category(0, "Tất cả", null, null));
                 if (!categoryResponse.getData().isEmpty()) {
                     for (Category category : categoryResponse.getData()) {
                         mListCategory.add(category);
@@ -116,9 +116,9 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     public void onCategoryClick(Category category) {
         mCategoryDialog.dismiss();
         mTvCategory.setText(category.getCategoryName());
-        if(category.getId() == 0){
+        if (category.getId() == 0) {
             getPlaceAround();
-        }else{
+        } else {
             getPlaceAroundByCategory(category.getId());
         }
     }
@@ -126,7 +126,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imgBackToHome:
+            case R.id.imgBack:
                 onBackPressed();
                 break;
             case R.id.tvCategory:
@@ -184,13 +184,13 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                 options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                                 options.position(currentLatLng);
                                 mGoogleMap.addMarker(options);
-                                MyRetrofit.getInstance().getService().getSearchAround(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()).enqueue(new Callback<PlaceResponse>() {
+                                MyRetrofit.getInstance().getService().getSearchAround(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()).enqueue(new Callback<PlaceAroundResponse>() {
                                     @Override
-                                    public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                                        PlaceResponse placeResponse = response.body();
+                                    public void onResponse(Call<PlaceAroundResponse> call, Response<PlaceAroundResponse> response) {
+                                        PlaceAroundResponse placeResponse = response.body();
                                         mListPlace.clear();
                                         if (!placeResponse.getData().isEmpty()) {
-                                            for (Place place : placeResponse.getData()) {
+                                            for (PlaceAround place : placeResponse.getData()) {
                                                 mListPlace.add(place);
                                             }
                                             for (int i = 0; i < mListPlace.size(); i++) {
@@ -202,7 +202,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                     }
 
                                     @Override
-                                    public void onFailure(Call<PlaceResponse> call, Throwable t) {
+                                    public void onFailure(Call<PlaceAroundResponse> call, Throwable t) {
                                         Log.d("xxx", "onFailure: Get Place failed!");
                                     }
                                 });
@@ -242,13 +242,13 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                 options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                                 options.position(currentLatLng);
                                 mGoogleMap.addMarker(options);
-                                MyRetrofit.getInstance().getService().getSearchAroundByCategory(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), id).enqueue(new Callback<PlaceResponse>() {
+                                MyRetrofit.getInstance().getService().getSearchAroundByCategory(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), id).enqueue(new Callback<PlaceAroundResponse>() {
                                     @Override
-                                    public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
-                                        PlaceResponse placeResponse = response.body();
+                                    public void onResponse(Call<PlaceAroundResponse> call, Response<PlaceAroundResponse> response) {
+                                        PlaceAroundResponse placeResponse = response.body();
                                         mListPlace.clear();
                                         if (!placeResponse.getData().isEmpty()) {
-                                            for (Place place : placeResponse.getData()) {
+                                            for (PlaceAround place : placeResponse.getData()) {
                                                 mListPlace.add(place);
                                             }
                                             for (int i = 0; i < mListPlace.size(); i++) {
@@ -260,7 +260,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                     }
 
                                     @Override
-                                    public void onFailure(Call<PlaceResponse> call, Throwable t) {
+                                    public void onFailure(Call<PlaceAroundResponse> call, Throwable t) {
                                         Log.d("xxx", "onFailure: Get Place failed!");
                                     }
                                 });

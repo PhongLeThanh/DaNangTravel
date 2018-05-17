@@ -91,6 +91,8 @@
 
             <include layout="@layout/category_place" />
 
+            <include layout="@layout/list_event" />
+
             <include layout="@layout/list_top_place" />
 
             <include layout="@layout/list_top_restaurant" />

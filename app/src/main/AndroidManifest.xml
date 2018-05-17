@@ -30,6 +30,8 @@
         <activity android:name=".activity.detail.DetailPlaceActivity" />
         <activity android:name=".activity.login.LoginActivity" />
         <activity android:name=".activity.aroundhere.ListPlaceAroundActivity" />
+        <activity android:name=".activity.detail.DetailEventActivity" />
+        <activity android:name=".activity.event.ListEventActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAqpVJF-vwQG9s2rxs8UUc61wTdIHPP8AU"/>

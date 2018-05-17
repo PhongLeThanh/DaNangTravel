@@ -35,20 +35,32 @@ public interface TravelService {
     Call<PlaceResponse> getSearchInCategory(@Query("categoryId") int categoryId, @Query("query") String query);
 
     @GET("places/searchAround")
-    Call<PlaceResponse> getSearchAround(@Query("latitude") double latitude, @Query("longitude") double longitude);
+    Call<PlaceAroundResponse> getSearchAround(@Query("latitude") double latitude, @Query("longitude") double longitude);
 
     @GET("places/searchAroundByCategory")
-    Call<PlaceResponse> getSearchAroundByCategory(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("categoryId") int categoryId);
+    Call<PlaceAroundResponse> getSearchAroundByCategory(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("categoryId") int categoryId);
 
     @GET("places/viewById/{id}")
     Call<PlaceResponse> getPlaceById(@Path("id") int id);
 
     @POST("comments/")
-    Call<CommentResponse> postComment(@Header("Authorization") String token ,@Body  RequestBody comment);
+    Call<ObjectCommentResponse> postComment(@Header("Authorization") String token, @Body RequestBody comment);
+
+    @POST("comments/updateRatingPlace")
+    Call<CommentResponse> updateRatingPlace(@Body RequestBody data);
 
     @GET("comments/viewByPlace/{placeId}")
     Call<CommentResponse> getCommentByPlaceId(@Path("placeId") int placeId);
 
     @POST("users")
-    Call<UserResponse>signup(@Body RequestBody object);
+    Call<UserResponse> signup(@Body RequestBody object);
+
+    @GET("events")
+    Call<EventResponse> getListEvent();
+
+    @GET("events/viewHot")
+    Call<EventResponse> getListHotEvent();
+
+    @GET("events/{id}")
+    Call<EventResponse> getEventById(@Path("id") int id);
 }
