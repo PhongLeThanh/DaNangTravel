@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
@@ -21,8 +21,8 @@
 
             <Button
                 android:id="@+id/btnTouristAttraction"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:background="@drawable/ic_tourist_attraction"
                 tools:ignore="ButtonStyle" />
 
@@ -36,7 +36,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
@@ -44,8 +44,8 @@
 
             <Button
                 android:id="@+id/btnHotel"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:background="@drawable/ic_hotel"
                 tools:ignore="ButtonStyle" />
 
@@ -59,7 +59,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
@@ -67,8 +67,8 @@
 
             <Button
                 android:id="@+id/btnRestaurant"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:background="@drawable/ic_restaurant"
                 tools:ignore="ButtonStyle" />
 
@@ -82,7 +82,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
@@ -90,8 +90,8 @@
 
             <Button
                 android:id="@+id/btnNearPlaces"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:background="@drawable/ic_near_place"
                 tools:ignore="ButtonStyle" />
 
@@ -102,7 +102,28 @@
                 android:textStyle="bold"
                 android:textAlignment="center" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
 
+            <Button
+                android:id="@+id/btnYou"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/ic_you"
+                tools:ignore="ButtonStyle" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bạn"
+                android:textStyle="bold"
+                android:textAlignment="center" />
+        </LinearLayout>
 
     </LinearLayout>
 

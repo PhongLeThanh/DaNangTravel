@@ -3,12 +3,12 @@
     package="com.example.phongle.danangtravel">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".DanangTravelApplication"
@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activity.HomeActivity" >
+        <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -32,8 +32,10 @@
         <activity android:name=".activity.aroundhere.ListPlaceAroundActivity" />
         <activity android:name=".activity.detail.DetailEventActivity" />
         <activity android:name=".activity.event.ListEventActivity" />
+        <activity android:name=".activity.profile.ProfileActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAqpVJF-vwQG9s2rxs8UUc61wTdIHPP8AU"/>
+            android:value="AIzaSyAqpVJF-vwQG9s2rxs8UUc61wTdIHPP8AU" />
     </application>
 </manifest>

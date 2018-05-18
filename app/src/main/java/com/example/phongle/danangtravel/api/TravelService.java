@@ -4,8 +4,10 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -52,8 +54,17 @@ public interface TravelService {
     @GET("comments/viewByPlace/{placeId}")
     Call<CommentResponse> getCommentByPlaceId(@Path("placeId") int placeId);
 
+    @GET("users/{id}")
+    Call<UserResponse> getUser(@Path("id") int id);
+
     @POST("users")
     Call<UserResponse> signup(@Body RequestBody object);
+
+    @PUT("users/{id}")
+    Call<UpdatePasswordResponse> updatePass(@Path("id") int userId, @Body RequestBody object);
+
+    @PUT("profiles/{id}")
+    Call<UpdateProfileResponse> updateProfile(@Path("id") int userId, @Body RequestBody object);
 
     @GET("events")
     Call<EventResponse> getListEvent();
@@ -61,6 +72,12 @@ public interface TravelService {
     @GET("events/viewHot")
     Call<EventResponse> getListHotEvent();
 
-    @GET("events/{id}")
+    @GET("events/viewById/{id}")
     Call<EventResponse> getEventById(@Path("id") int id);
+
+    @POST("likeevents")
+    Call<LikeEventResponse> like(@Header("Authorization") String token, @Body RequestBody like);
+
+    @HTTP(method = "DELETE", path = "likeevents", hasBody = true)
+    Call<LikeEventResponse> disLike(@Header("Authorization") String token, @Body RequestBody dislike);
 }

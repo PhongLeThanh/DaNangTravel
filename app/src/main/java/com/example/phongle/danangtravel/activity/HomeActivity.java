@@ -28,6 +28,8 @@ import com.example.phongle.danangtravel.activity.headerHome.LocationDialog;
 import com.example.phongle.danangtravel.activity.list.ListAttractionActivity;
 import com.example.phongle.danangtravel.activity.list.ListHotelActivity;
 import com.example.phongle.danangtravel.activity.list.ListRestaurantActivity;
+import com.example.phongle.danangtravel.activity.login.LoginActivity;
+import com.example.phongle.danangtravel.activity.profile.ProfileActivity;
 import com.example.phongle.danangtravel.api.EventResponse;
 import com.example.phongle.danangtravel.api.LocationResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
@@ -38,6 +40,7 @@ import com.example.phongle.danangtravel.models.Location;
 import com.example.phongle.danangtravel.models.Place;
 import com.example.phongle.danangtravel.models.Restaurant;
 import com.example.phongle.danangtravel.models.TouristAttraction;
+import com.example.phongle.danangtravel.models.shareds.SharedPrefeencesUtils;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -52,9 +55,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         TopTouristAdapter.onItemClickListener,
         TopRestaurantAdapter.onItemClickListener,
         TopHotelAdapter.onItemClickListener,
-        LocationAdapter.OnLocationClickListener,HotEventAdapter.OnItemClickListener{
+        LocationAdapter.OnLocationClickListener, HotEventAdapter.OnItemClickListener {
     private static final String PLACE_ID_KEY = "id";
     private static final String EVENT_ID_KEY = "eventId";
+    private static final int DETAIL_REQUEST = 100;
 
     private ViewPager mViewPager;
     private Toolbar mToolbar;
@@ -71,6 +75,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnListRestaurant;
     private Button mBtnListHotel;
     private Button mBtnListNearPlace;
+    private Button mBtnYou;
     private TextView mTvMoreEvent;
     private TextView mTvMoreHotel;
     private TextView mTvMoreRestaurant;
@@ -120,6 +125,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mBtnListRestaurant = findViewById(R.id.btnRestaurant);
         mBtnListHotel = findViewById(R.id.btnHotel);
         mBtnListNearPlace = findViewById(R.id.btnNearPlaces);
+        mBtnYou = findViewById(R.id.btnYou);
         mLocationDialog = new LocationDialog();
         mLocationDialog.setCallback(this);
     }
@@ -129,6 +135,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mBtnListRestaurant.setOnClickListener(this);
         mBtnListHotel.setOnClickListener(this);
         mBtnListNearPlace.setOnClickListener(this);
+        mBtnYou.setOnClickListener(this);
         mTvLocation.setOnClickListener(this);
         mTvMoreEvent.setOnClickListener(this);
         mTvMorePlace.setOnClickListener(this);
@@ -140,8 +147,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mHeaderAdapter = new HeaderAdapter(this, mListImage);
         mViewPager.setAdapter(mHeaderAdapter);
         // Set Adapter for recycler view hot event
-        mHotEventAdapter = new HotEventAdapter(mListEvent, this,this);
-        mRecyclerViewHotEvent.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        mHotEventAdapter = new HotEventAdapter(mListEvent, this, this);
+        mRecyclerViewHotEvent.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerViewHotEvent.setAdapter(mHotEventAdapter);
         // Set Adapter for recycler view top place
         mTopTouristAdapter = new TopTouristAdapter(this, mListTourist, this);
@@ -169,6 +176,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mLoadingViewTopRestaurant.show();
         mLoadingViewHotEvent.show();
     }
+
     private void hideLoadingView() {
         mLoadingViewTopPlace.hide();
         mLoadingViewTopHotel.hide();
@@ -241,6 +249,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(HomeActivity.this, ListPlaceAroundActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btnYou:
+                if (SharedPrefeencesUtils.getDocument() == null) {
+                    intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    break;
+                } else {
+                    intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    break;
+                }
             case R.id.tvMoreEvent:
                 intent = new Intent(HomeActivity.this, ListEventActivity.class);
                 startActivity(intent);
@@ -328,12 +346,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
-    private void getListHotEvent(){
+
+    private void getListHotEvent() {
         MyRetrofit.getInstance().getService().getListHotEvent().enqueue(new Callback<EventResponse>() {
             @Override
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
                 EventResponse eventResponse = response.body();
-                if(eventResponse!=null && !eventResponse.getData().isEmpty()){
+                if (eventResponse != null && !eventResponse.getData().isEmpty()) {
                     mListEvent.clear();
                     mListEvent.addAll(eventResponse.getData());
                 }
@@ -347,6 +366,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
     private void getListTopPlace() {
         MyRetrofit.getInstance().getService().getTopPlace().enqueue(new Callback<PlaceResponse>() {
             @Override
@@ -407,6 +427,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onEventClick(int position) {
         Intent intent = new Intent(this, DetailEventActivity.class);
         intent.putExtra(EVENT_ID_KEY, mListEvent.get(position).getId());
-        startActivity(intent);
+        startActivityForResult(intent, DETAIL_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DETAIL_REQUEST && resultCode == RESULT_OK) {
+            getListHotEvent();
+        }
     }
 }
