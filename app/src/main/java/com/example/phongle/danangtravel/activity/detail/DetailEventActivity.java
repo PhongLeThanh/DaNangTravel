@@ -163,6 +163,7 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
                 } else {
+                    mImgLike.setEnabled(false);
                     User user = SharedPrefeencesUtils.getUser();
                     if (mImgLike.isSelected()) {
                         setDislikeEvent(user.getId(), mEvent.getId());
@@ -186,18 +187,20 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
         final RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        MyRetrofit.getInstance().getService().like(token, requestBody).enqueue(new Callback<LikeEventResponse>() {
+        MyRetrofit.getInstance().getService().likeEvent(token, requestBody).enqueue(new Callback<LikeEventResponse>() {
             @Override
             public void onResponse(Call<LikeEventResponse> call, Response<LikeEventResponse> response) {
                 LikeEventResponse likeEventResponse = response.body();
                 if (likeEventResponse != null) {
                     mImgLike.setSelected(true);
                 }
+                mImgLike.setEnabled(true);
             }
 
             @Override
             public void onFailure(Call<LikeEventResponse> call, Throwable t) {
                 Log.d("xxx", "onFailure: failed");
+                mImgLike.setEnabled(true);
             }
         });
     }
@@ -212,7 +215,7 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
         final RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        MyRetrofit.getInstance().getService().disLike(token, requestBody).enqueue(new Callback<LikeEventResponse>() {
+        MyRetrofit.getInstance().getService().disLikeEvent(token, requestBody).enqueue(new Callback<LikeEventResponse>() {
             @Override
             public void onResponse(Call<LikeEventResponse> call, Response<LikeEventResponse> response) {
                 LikeEventResponse likeEventResponse = response.body();
@@ -220,21 +223,23 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
                     mImgLike.setSelected(false);
                     mIsLikeChange = true;
                 }
+                mImgLike.setEnabled(true);
             }
 
             @Override
             public void onFailure(Call<LikeEventResponse> call, Throwable t) {
                 Log.d("xxx", "onFailure: failed");
+                mImgLike.setEnabled(true);
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        if(mIsLikeChange){
+        if (mIsLikeChange) {
             setResult(RESULT_OK);
             finish();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }

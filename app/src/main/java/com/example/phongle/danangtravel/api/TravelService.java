@@ -1,13 +1,16 @@
 package com.example.phongle.danangtravel.api;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -45,6 +48,9 @@ public interface TravelService {
     @GET("places/viewById/{id}")
     Call<PlaceResponse> getPlaceById(@Path("id") int id);
 
+    @GET("places/viewLikePlace/{userId}")
+    Call<PlaceResponse> getPlaceByUserId(@Path("userId") int id);
+
     @POST("comments/")
     Call<ObjectCommentResponse> postComment(@Header("Authorization") String token, @Body RequestBody comment);
 
@@ -61,7 +67,7 @@ public interface TravelService {
     Call<UserResponse> signup(@Body RequestBody object);
 
     @PUT("users/{id}")
-    Call<UpdatePasswordResponse> updatePass(@Path("id") int userId, @Body RequestBody object);
+    Call<UpdateUserResponse> updateUser(@Path("id") int userId, @Body RequestBody object);
 
     @PUT("profiles/{id}")
     Call<UpdateProfileResponse> updateProfile(@Path("id") int userId, @Body RequestBody object);
@@ -76,8 +82,22 @@ public interface TravelService {
     Call<EventResponse> getEventById(@Path("id") int id);
 
     @POST("likeevents")
-    Call<LikeEventResponse> like(@Header("Authorization") String token, @Body RequestBody like);
+    Call<LikeEventResponse> likeEvent(@Header("Authorization") String token, @Body RequestBody like);
 
     @HTTP(method = "DELETE", path = "likeevents", hasBody = true)
-    Call<LikeEventResponse> disLike(@Header("Authorization") String token, @Body RequestBody dislike);
+    Call<LikeEventResponse> disLikeEvent(@Header("Authorization") String token, @Body RequestBody dislike);
+
+    @POST("likeplaces")
+    Call<LikePlaceResponse> likePlace(@Header("Authorization") String token, @Body RequestBody like);
+
+    @HTTP(method = "DELETE", path = "likeplaces", hasBody = true)
+    Call<LikePlaceResponse> disLikePlace(@Header("Authorization") String token, @Body RequestBody dislike);
+
+    @GET("likeplaces/view/{userId}/{placeId}")
+    Call<ListLikePlaceResponse> viewLike(@Path("userId") int userId, @Path("placeId") int placeId);
+
+    @Multipart
+    @POST("images/upload")
+    Call<ImageUpLoadResponse> uploadImage(@Part MultipartBody.Part file);
+
 }

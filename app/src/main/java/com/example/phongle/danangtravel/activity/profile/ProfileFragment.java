@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.api.MyRetrofit;
-import com.example.phongle.danangtravel.api.UpdatePasswordResponse;
+import com.example.phongle.danangtravel.api.UpdateUserResponse;
 import com.example.phongle.danangtravel.api.UpdateProfileResponse;
 import com.example.phongle.danangtravel.api.UserResponse;
 import com.example.phongle.danangtravel.models.User;
@@ -109,18 +109,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         RequestBody requestBodyUser = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-        MyRetrofit.getInstance().getService().updatePass(mUser.getId(), requestBodyUser).enqueue(new Callback<UpdatePasswordResponse>() {
+        MyRetrofit.getInstance().getService().updateUser(mUser.getId(), requestBodyUser).enqueue(new Callback<UpdateUserResponse>() {
             @Override
-            public void onResponse(Call<UpdatePasswordResponse> call, Response<UpdatePasswordResponse> response) {
-                int result = response.body().getResult().get(0);
+            public void onResponse(Call<UpdateUserResponse> call, Response<UpdateUserResponse> response) {
+                int result = response.body().getResult();
                 if (result == 1) {
                     getUserById();
                     Toast.makeText(getContext(), "Cập nhật mật khẩu thành công !", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getContext(), "Cập nhật mật khẩu không thành công !", Toast.LENGTH_LONG).show();
+
                 }
             }
 
             @Override
-            public void onFailure(Call<UpdatePasswordResponse> call, Throwable t) {
+            public void onFailure(Call<UpdateUserResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Cập nhật mật khẩu không thành công !", Toast.LENGTH_LONG).show();
             }
         });

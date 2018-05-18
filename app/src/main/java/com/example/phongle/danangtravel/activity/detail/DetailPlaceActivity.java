@@ -28,6 +28,8 @@ import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.login.LoginActivity;
 import com.example.phongle.danangtravel.activity.map.DirectionsJSONParser;
 import com.example.phongle.danangtravel.api.CommentResponse;
+import com.example.phongle.danangtravel.api.LikePlaceResponse;
+import com.example.phongle.danangtravel.api.ListLikePlaceResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
 import com.example.phongle.danangtravel.api.ObjectCommentResponse;
 import com.example.phongle.danangtravel.api.PlaceResponse;
@@ -83,6 +85,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     private ViewPager mViewPager;
     private Toolbar mToolbarDetail;
     private ImageView mImgBack;
+    private ImageView mImgLike;
     private TextView mTvPlaceName;
     private RatingBar mRatingPlace;
     private TextView mTvNumComment;
@@ -120,6 +123,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     private void initViews() {
         mCollapsingToolbarLayout = findViewById(R.id.detailCollapsingToolbar);
         mImgBack = findViewById(R.id.imgBack);
+        mImgLike = findViewById(R.id.imgLike);
         mTvPlaceName = findViewById(R.id.tvPlaceName);
         mRatingPlace = findViewById(R.id.ratingPlace);
         mTvNumComment = findViewById(R.id.tvNumCommentPlace);
@@ -140,6 +144,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     private void updateViews() {
         Intent intent = getIntent();
         int id = intent.getIntExtra(PLACE_ID_KEY, 0);
+
         if (SharedPrefeencesUtils.getDocument() != null) {
             mImgAvatarUser.setVisibility(View.VISIBLE);
             User user = SharedPrefeencesUtils.getUser();
@@ -152,6 +157,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                 mImgAvatarUser.setImageResource(R.drawable.bg_avatar);
             }
         }
+        setEnableLike(id);
         MyRetrofit.getInstance().getService().getPlaceById(id).enqueue(new Callback<PlaceResponse>() {
             @Override
             public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
@@ -248,11 +254,38 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
         mTvAddress.setText(place.getAddress());
         mTvPhone.setText(place.getPhone());
         mTvDetail.setText(place.getDetail());
+
+
+    }
+
+    private void setEnableLike(int id) {
+        if (SharedPrefeencesUtils.getDocument() == null) {
+            mImgLike.setSelected(false);
+        } else {
+            User user = SharedPrefeencesUtils.getUser();
+            MyRetrofit.getInstance().getService().viewLike(user.getId(), id).enqueue(new Callback<ListLikePlaceResponse>() {
+                @Override
+                public void onResponse(Call<ListLikePlaceResponse> call, Response<ListLikePlaceResponse> response) {
+                    ListLikePlaceResponse likePlaceResponse = response.body();
+                    if (likePlaceResponse != null && !likePlaceResponse.getData().isEmpty()) {
+                        mImgLike.setSelected(true);
+                    } else {
+                        mImgLike.setSelected(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ListLikePlaceResponse> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void initListener() {
         mImgBack.setOnClickListener(this);
+        mImgLike.setOnClickListener(this);
         mRatingCommentPlace.setOnTouchListener(this);
     }
 
@@ -276,6 +309,36 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.imgBack:
                 onBackPressed();
+                break;
+            case R.id.imgLike:
+                if (SharedPrefeencesUtils.getDocument() == null) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DetailPlaceActivity.this);
+                    alertDialogBuilder.setTitle(getResources().getString(R.string.alert_require_login_title));
+                    alertDialogBuilder
+                            .setMessage(getResources().getString(R.string.alert_require_login))
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(DetailPlaceActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                } else {
+                    mImgLike.setEnabled(false);
+                    User user = SharedPrefeencesUtils.getUser();
+                    if (mImgLike.isSelected()) {
+                        setDislikePlace(user.getId(), mPlace.getId());
+                    } else {
+                        setLikePlace(user.getId(), mPlace.getId());
+                    }
+                }
                 break;
         }
     }
@@ -345,7 +408,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                         mListComment.clear();
                         CommentResponse commentResponse = response.body();
                         if (!commentResponse.getData().isEmpty()) {
-                           mListComment.addAll(commentResponse.getData());
+                            mListComment.addAll(commentResponse.getData());
                         }
                         mListCommentAdapter.notifyDataSetChanged();
                     }
@@ -498,6 +561,62 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                         }
                     }
                 });
+    }
+
+    private void setDislikePlace(int userId, int placeId) {
+        String token = "Bearer " + SharedPrefeencesUtils.getDocument();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("placeId", placeId);
+            jsonObject.put("userId", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+        MyRetrofit.getInstance().getService().disLikePlace(token, requestBody).enqueue(new Callback<LikePlaceResponse>() {
+            @Override
+            public void onResponse(Call<LikePlaceResponse> call, Response<LikePlaceResponse> response) {
+                LikePlaceResponse likePlaceResponse = response.body();
+                if (likePlaceResponse != null) {
+                    mImgLike.setSelected(false);
+                }
+                mImgLike.setEnabled(true);
+            }
+
+            @Override
+            public void onFailure(Call<LikePlaceResponse> call, Throwable t) {
+                Log.d("xxx", "onFailure: failed");
+                mImgLike.setEnabled(true);
+            }
+        });
+    }
+
+    private void setLikePlace(int userId, int placeId) {
+        String token = "Bearer " + SharedPrefeencesUtils.getDocument();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("placeId", placeId);
+            jsonObject.put("userId", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+        MyRetrofit.getInstance().getService().likePlace(token, requestBody).enqueue(new Callback<LikePlaceResponse>() {
+            @Override
+            public void onResponse(Call<LikePlaceResponse> call, Response<LikePlaceResponse> response) {
+                LikePlaceResponse likePlaceResponse = response.body();
+                if (likePlaceResponse != null) {
+                    mImgLike.setSelected(true);
+                }
+                mImgLike.setEnabled(true);
+            }
+
+            @Override
+            public void onFailure(Call<LikePlaceResponse> call, Throwable t) {
+                Log.d("xxx", "onFailure: failed");
+                mImgLike.setEnabled(true);
+            }
+        });
     }
 
     private class DownloadTask extends AsyncTask<String, Void, String> {

@@ -1,18 +1,18 @@
 package com.example.phongle.danangtravel.api;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class UpdatePasswordResponse {
+public class UpdateUserResponse {
     @SerializedName("data")
-    private List<Integer> result;
+    @Expose
+    private int result;
 
-    public List<Integer> getResult() {
+    public int getResult() {
         return result;
     }
 
-    public void setResult(List<Integer> result) {
+    public void setResult(int result) {
         this.result = result;
     }
 }
