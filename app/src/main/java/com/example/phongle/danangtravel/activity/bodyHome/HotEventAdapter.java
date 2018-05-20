@@ -28,9 +28,9 @@ public class HotEventAdapter extends RecyclerView.Adapter<HotEventAdapter.HotEve
     private Context mContext;
 
 
-    public HotEventAdapter(List<Event> listEvent, Context context, OnItemClickListener onItemClickListener) {
-        mListEvent = listEvent;
+    public HotEventAdapter( Context context,List<Event> listEvent, OnItemClickListener onItemClickListener) {
         mContext = context;
+        mListEvent = listEvent;
         mOnItemClickListener = onItemClickListener;
     }
 
@@ -70,7 +70,7 @@ public class HotEventAdapter extends RecyclerView.Adapter<HotEventAdapter.HotEve
 
         private void initViews(View itemView) {
             mllItemEvent = itemView.findViewById(R.id.llItemEvent);
-            mImgEvent = itemView.findViewById(R.id.imgEvent);
+            mImgEvent = itemView.findViewById(R.id.imgTopEvent);
             mTvEventName = itemView.findViewById(R.id.tvEventName);
             mTvTimeStart = itemView.findViewById(R.id.tvTimeStart);
             mTvTimeFinish = itemView.findViewById(R.id.tvTimeFinish);
@@ -84,7 +84,7 @@ public class HotEventAdapter extends RecyclerView.Adapter<HotEventAdapter.HotEve
         private void onBindData() {
             Event event = mListEvent.get(getAdapterPosition());
             if (event.getImage() != null && !event.getImage().isEmpty()) {
-                Glide.with(mImgEvent.getContext()).load(ReWriteUrl.reWriteUrl(event.getImage()))
+                Glide.with(mContext).load(ReWriteUrl.reWriteUrl(event.getImage()))
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

@@ -147,7 +147,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mHeaderAdapter = new HeaderAdapter(this, mListImage);
         mViewPager.setAdapter(mHeaderAdapter);
         // Set Adapter for recycler view hot event
-        mHotEventAdapter = new HotEventAdapter(mListEvent, this, this);
+        mHotEventAdapter = new HotEventAdapter(this, mListEvent, this);
         mRecyclerViewHotEvent.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerViewHotEvent.setAdapter(mHotEventAdapter);
         // Set Adapter for recycler view top place
