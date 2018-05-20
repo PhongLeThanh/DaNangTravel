@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.aroundhere.ListPlaceAroundEventActivity;
 import com.example.phongle.danangtravel.activity.login.LoginActivity;
 import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.api.EventResponse;
@@ -41,6 +42,8 @@ import retrofit2.Response;
 
 public class DetailEventActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String EVENT_ID_KEY = "eventId";
+    private static final String LATITUDE_KEY = "latitude";
+    private static final String LONGITUDE_KEY = "longitude";
     private Toolbar mToolbar;
     private ImageView mImgBack;
     private ImageView mImgLike;
@@ -60,8 +63,8 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_event);
         initViews();
-        initListener();
         updateViews();
+        initListener();
         setSupportActionBar(mToolbar);
     }
 
@@ -108,6 +111,8 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
                                         return false;
                                     }
                                 }).into(mImgEvent);
+                    } else {
+                        mImgEvent.setImageResource(R.drawable.bg_default);
                     }
                     mTvEventName.setText(mEvent.getEventName());
                     mTvTimeStart.setText(mEvent.getStart().substring(0, 10));
@@ -173,6 +178,10 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.btnSearchNearEvent:
+                Intent intent = new Intent(DetailEventActivity.this, ListPlaceAroundEventActivity.class);
+                intent.putExtra(LATITUDE_KEY, mEvent.getLatitude());
+                intent.putExtra(LONGITUDE_KEY, mEvent.getLongitude());
+                startActivity(intent);
                 break;
         }
     }

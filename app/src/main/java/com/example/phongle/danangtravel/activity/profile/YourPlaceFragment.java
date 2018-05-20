@@ -1,5 +1,6 @@
 package com.example.phongle.danangtravel.activity.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.api.MyRetrofit;
 import com.example.phongle.danangtravel.api.PlaceResponse;
 import com.example.phongle.danangtravel.models.Place;
@@ -26,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class YourPlaceFragment extends Fragment implements YourPlaceAdapter.OnItemClickListener{
+    private static final String PLACE_ID_KEY = "id";
     private RecyclerView mRecyclerViewYourPlace;
     private YourPlaceAdapter mYourPlaceAdapter;
     private List<Place> mListPlace = new ArrayList<>();
@@ -73,6 +76,8 @@ public class YourPlaceFragment extends Fragment implements YourPlaceAdapter.OnIt
     }
     @Override
     public void onPlaceClick(int position) {
-
+        Intent intent = new Intent(getContext(), DetailPlaceActivity.class);
+        intent.putExtra(PLACE_ID_KEY, mListPlace.get(position).getId());
+        startActivity(intent);
     }
 }

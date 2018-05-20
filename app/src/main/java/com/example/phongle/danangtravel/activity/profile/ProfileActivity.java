@@ -1,11 +1,15 @@
 package com.example.phongle.danangtravel.activity.profile;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,7 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.HomeActivity;
 import com.example.phongle.danangtravel.activity.utils.FileUtil;
 import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.api.ImageUpLoadResponse;
@@ -39,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private static final int RESULT_LOAD_IMG = 1000;
     private ImageView mImgBack;
     private ImageView mImgEdit;
+    private ImageView mImgLogout;
     private ImageView mImgAvatar;
     private TextView mTvUsername;
     private User mUser = SharedPrefeencesUtils.getUser();
@@ -49,15 +59,30 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
         mImgBack = findViewById(R.id.imgBack);
         mImgEdit = findViewById(R.id.imgEdit);
+        mImgLogout = findViewById(R.id.imgLogout);
         mImgAvatar = findViewById(R.id.imgAvatar);
         if (mUser.getAvatar() != null) {
             Glide.with(mImgAvatar.getContext()).load(ReWriteUrl.reWriteUrl(mUser.getAvatar()))
-                    .into(mImgAvatar);
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            mImgAvatar.setImageResource(R.drawable.bg_default);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    }).into(mImgAvatar);
+        } else {
+            mImgAvatar.setImageResource(R.drawable.bg_default);
         }
         mTvUsername = findViewById(R.id.tvUsername);
         mTvUsername.setText(mUser.getUsername());
         mImgBack.setOnClickListener(this);
         mImgEdit.setOnClickListener(this);
+        mImgLogout.setOnClickListener(this);
         mImgAvatar.setOnClickListener(this);
         replaceFragment(YourPlaceFragment.getInstance(), false);
     }
@@ -74,17 +99,41 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.imgBack) {
-            onBackPressed();
+        switch (v.getId()) {
+            case R.id.imgBack:
+                onBackPressed();
+                break;
+            case R.id.imgEdit:
+                replaceFragment(new ProfileFragment(), false);
+                break;
+            case R.id.imgLogout:
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
+                alertDialogBuilder.setTitle(getResources().getString(R.string.alert_confirm_logout_title));
+                alertDialogBuilder
+                        .setMessage(getResources().getString(R.string.alert_confirm_logout))
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                SharedPrefeencesUtils.clear();
+                                Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                break;
+            case R.id.imgAvatar:
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+                break;
         }
-        if (v.getId() == R.id.imgEdit) {
-            replaceFragment(new ProfileFragment(), false);
-        }
-        if (v.getId() == R.id.imgAvatar) {
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
-        }
+
     }
 
     @Override

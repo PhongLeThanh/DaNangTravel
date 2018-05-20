@@ -36,7 +36,9 @@
     <string name="btn_comment">Bình luận</string>
     <string name="edt_input_comment">Nhập bình luận</string>
     <string name="alert_require_login_title">Yêu cầu đăng nhập ! </string>
+    <string name="alert_confirm_logout_title">Xác nhận đăng xuất ! </string>
     <string name="alert_require_login">Bạn chưa đăng nhập vào hệ thống, vui lòng đăng nhập để bình luận !</string>
+    <string name="alert_confirm_logout">Bạn có chắc chắn muốn đăng xuất ra khỏi hệ thống !</string>
     <string name="tv_all_category">Tất cả</string>
     <string name="tv_unit_distance">km</string>
     <string name="tv_cost">Giá:</string>

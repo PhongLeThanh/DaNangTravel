@@ -313,7 +313,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
             case R.id.imgLike:
                 if (SharedPrefeencesUtils.getDocument() == null) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DetailPlaceActivity.this);
-                    alertDialogBuilder.setTitle(getResources().getString(R.string.alert_require_login_title));
+                    alertDialogBuilder.setTitle(getResources().getString(R.string.alert_confirm_logout_title));
                     alertDialogBuilder
                             .setMessage(getResources().getString(R.string.alert_require_login))
                             .setCancelable(false)

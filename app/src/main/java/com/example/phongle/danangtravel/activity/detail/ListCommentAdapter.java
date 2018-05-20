@@ -79,6 +79,8 @@ public class ListCommentAdapter extends RecyclerView.Adapter<ListCommentAdapter.
                                 return false;
                             }
                         }).into(mImgAvatar);
+            }else {
+                mImgAvatar.setImageResource(R.drawable.bg_default_avatar);
             }
             mTvUsername.setText(comment.getUser().getUsername());
             mEvaluate.setRating(comment.getEvaluate());

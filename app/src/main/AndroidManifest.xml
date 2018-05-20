@@ -30,6 +30,7 @@
         <activity android:name=".activity.detail.DetailPlaceActivity" />
         <activity android:name=".activity.login.LoginActivity" />
         <activity android:name=".activity.aroundhere.ListPlaceAroundActivity" />
+        <activity android:name=".activity.aroundhere.ListPlaceAroundEventActivity" />
         <activity android:name=".activity.detail.DetailEventActivity" />
         <activity android:name=".activity.event.ListEventActivity" />
         <activity android:name=".activity.profile.ProfileActivity" />

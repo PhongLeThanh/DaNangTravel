@@ -57,17 +57,27 @@
             android:layout_height="100dp"
             android:layout_centerInParent="true"
             android:src="@drawable/bg_default_avatar"/>
-
         <TextView
             android:id="@+id/tvUsername"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgAvatar"
             android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
             android:text="Username"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="15dp" />
+        <ImageView
+            android:id="@+id/imgLogout"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/imgAvatar"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/tvUsername"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/ic_logout"/>
     </RelativeLayout>
 
     <FrameLayout
