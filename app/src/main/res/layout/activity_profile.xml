@@ -8,14 +8,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@android:color/holo_blue_light">
+        android:layout_height="180dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarDetailEvent"
             popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:background="@android:color/transparent"
             android:theme="@style/AppTheme"
             app:contentInsetStart="0dp"
@@ -28,19 +27,19 @@
                 <ImageView
                     android:id="@+id/imgBack"
                     android:layout_width="35dp"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_back"
+                    android:src="@drawable/ic_back_black"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/imgEdit"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -53,8 +52,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
             android:layout_centerInParent="true"
             android:src="@drawable/bg_default_avatar"/>
         <TextView
@@ -66,7 +65,6 @@
             android:layout_centerHorizontal="true"
             android:text="Username"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
             android:textSize="15dp" />
         <ImageView
             android:id="@+id/imgLogout"
@@ -77,9 +75,12 @@
             android:layout_toRightOf="@id/tvUsername"
             android:layout_marginLeft="30dp"
             android:layout_marginStart="30dp"
-            android:src="@drawable/ic_logout"/>
+            android:src="@drawable/ic_signout"/>
     </RelativeLayout>
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@android:color/darker_gray"/>
     <FrameLayout
         android:id="@+id/frContainer"
         android:layout_width="match_parent"

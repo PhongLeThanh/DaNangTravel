@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp">
+    android:layout_marginBottom="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="12dp"
-            android:background="@android:color/holo_blue_bright">
+            android:background="@color/blue_theme">
 
             <TextView
                 android:layout_width="0dp"
@@ -25,7 +25,8 @@
                 android:layout_weight="1"
                 android:text="@string/tv_top_place"
                 android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/snow"/>
             <com.wang.avi.AVLoadingIndicatorView
                 android:id="@+id/loadingViewTopPlace"
                 style="@style/AVLoadingIndicatorView.Small"
@@ -41,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/tv_more"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/snow"/>
 
             <ImageView
                 android:layout_width="15sp"

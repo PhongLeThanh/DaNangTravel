@@ -45,13 +45,13 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:text="@string/btn_cancel"
-            android:textColor="@color/blue_facebook" />
+            android:textColor="@color/blue_theme" />
 
         <Button
             android:id="@+id/btnDialogComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/blue_facebook"
+            android:background="@color/blue_theme"
             android:text="@string/btn_comment"
             android:textColor="@color/snow" />
     </LinearLayout>

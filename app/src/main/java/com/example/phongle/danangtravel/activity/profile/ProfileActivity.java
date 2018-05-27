@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView mImgLogout;
     private ImageView mImgAvatar;
     private TextView mTvUsername;
-    private User mUser = SharedPrefeencesUtils.getUser();
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +61,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         mImgEdit = findViewById(R.id.imgEdit);
         mImgLogout = findViewById(R.id.imgLogout);
         mImgAvatar = findViewById(R.id.imgAvatar);
+        mUser = SharedPrefeencesUtils.getUser();
         if (mUser.getAvatar() != null) {
             Glide.with(mImgAvatar.getContext()).load(ReWriteUrl.reWriteUrl(mUser.getAvatar()))
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            mImgAvatar.setImageResource(R.drawable.bg_default);
+                            mImgAvatar.setImageResource(R.drawable.bg_default_avatar);
                             return false;
                         }
 
@@ -75,8 +76,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             return false;
                         }
                     }).into(mImgAvatar);
-        } else {
-            mImgAvatar.setImageResource(R.drawable.bg_default);
         }
         mTvUsername = findViewById(R.id.tvUsername);
         mTvUsername.setText(mUser.getUsername());

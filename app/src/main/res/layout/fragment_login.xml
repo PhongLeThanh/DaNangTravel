@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_btn_signup"
         android:text="@string/btn_signup"
-        android:textColor="@color/blue_facebook"
+        android:textColor="@color/blue_theme"
         android:textSize="17dp"
         android:textStyle="bold" />
 </LinearLayout>

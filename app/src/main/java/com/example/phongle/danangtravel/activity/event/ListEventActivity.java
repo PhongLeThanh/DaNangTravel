@@ -50,14 +50,15 @@ public class ListEventActivity extends AppCompatActivity implements ListEventAda
     }
 
     private void initViews() {
-
         mViewPagerHeader = findViewById(R.id.viewPagerHeaderEvent);
         mImgBack = findViewById(R.id.imgBack);
         mRecyclerViewEvent = findViewById(R.id.recyclerViewListEvent);
     }
-    private void initListener(){
+
+    private void initListener() {
         mImgBack.setOnClickListener(this);
     }
+
     private void initCircleIndicator() {
         CircleIndicator circleIndicator = findViewById(R.id.circleIndicator);
         circleIndicator.setViewPager(mViewPagerHeader);
@@ -86,7 +87,7 @@ public class ListEventActivity extends AppCompatActivity implements ListEventAda
 
             @Override
             public void onFailure(@NonNull Call<EventResponse> call, @NonNull Throwable t) {
-                Log.d("xxx", "onFailure: failed");
+                Log.d("xxx", "onFailure: failed"+t.getMessage());
             }
         });
     }
@@ -100,7 +101,7 @@ public class ListEventActivity extends AppCompatActivity implements ListEventAda
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imgBack:
                 onBackPressed();
                 break;
