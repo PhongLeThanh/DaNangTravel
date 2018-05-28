@@ -15,7 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.activity.utils.ScreenUtil;
+import com.example.phongle.danangtravel.utils.ScreenUtil;
 
 public class CommentDialogFragment extends DialogFragment {
     private RatingBar mRatingEvaluate;

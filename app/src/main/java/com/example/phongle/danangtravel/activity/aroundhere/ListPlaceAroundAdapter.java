@@ -18,7 +18,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.PlaceAround;
 
 import java.util.List;

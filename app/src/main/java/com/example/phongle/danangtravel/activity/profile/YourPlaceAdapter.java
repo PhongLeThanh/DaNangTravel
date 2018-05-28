@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.Place;
 
 import java.util.List;

@@ -23,8 +23,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.HomeActivity;
-import com.example.phongle.danangtravel.activity.utils.FileUtil;
-import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
+import com.example.phongle.danangtravel.utils.FileUtil;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.api.ImageUpLoadResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
 import com.example.phongle.danangtravel.api.UpdateUserResponse;
@@ -156,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 if (imageUpLoadResponse != null && imageUpLoadResponse.getData() != null) {
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.put("avatar", imageUpLoadResponse.getData().getImageUrl());
+                        jsonObject.put("avatar", imageUpLoadResponse.getData().getGeneratedName());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

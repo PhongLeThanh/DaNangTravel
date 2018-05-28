@@ -1,4 +1,4 @@
-package com.example.phongle.danangtravel.activity.utils;
+package com.example.phongle.danangtravel.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

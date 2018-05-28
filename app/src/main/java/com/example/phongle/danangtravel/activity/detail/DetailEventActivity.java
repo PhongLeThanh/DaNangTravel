@@ -23,7 +23,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.aroundhere.ListPlaceAroundEventActivity;
 import com.example.phongle.danangtravel.activity.login.LoginActivity;
-import com.example.phongle.danangtravel.activity.utils.ReWriteUrl;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.api.EventResponse;
 import com.example.phongle.danangtravel.api.LikeEventResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;

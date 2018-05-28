@@ -56,6 +56,8 @@
             android:id="@+id/tvContentComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:layout_marginStart="55dp"
             android:text="@string/tv_detail_comment"
             android:textSize="12sp"
             android:textStyle="italic" />
@@ -69,7 +71,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="11dp"
                 android:background="@android:color/darker_gray" />
         </RelativeLayout>
     </LinearLayout>
