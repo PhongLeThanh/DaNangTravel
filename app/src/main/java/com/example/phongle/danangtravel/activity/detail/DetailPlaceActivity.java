@@ -156,6 +156,8 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
             } else {
                 mImgAvatarUser.setImageResource(R.drawable.bg_avatar);
             }
+        }else{
+            mImgAvatarUser.setVisibility(View.GONE);
         }
         setEnableLike(id);
         MyRetrofit.getInstance().getService().getPlaceById(id).enqueue(new Callback<PlaceResponse>() {
