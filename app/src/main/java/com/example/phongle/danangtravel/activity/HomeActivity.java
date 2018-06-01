@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         TopTouristAdapter.onItemClickListener,
         TopRestaurantAdapter.onItemClickListener,
         TopHotelAdapter.onItemClickListener,
-        LocationAdapter.OnLocationClickListener, HotEventAdapter.OnItemClickListener {
+        LocationAdapter.OnLocationClickListener, HotEventAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String PLACE_ID_KEY = "id";
     private static final String EVENT_ID_KEY = "eventId";
     private static final int DETAIL_REQUEST = 100;
@@ -63,6 +64,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ViewPager mViewPager;
     private Toolbar mToolbar;
     private TextView mTvLocation;
+    private SwipeRefreshLayout mRefreshHome;
     private AVLoadingIndicatorView mLoadingViewTopPlace;
     private AVLoadingIndicatorView mLoadingViewTopHotel;
     private AVLoadingIndicatorView mLoadingViewTopRestaurant;
@@ -100,7 +102,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initListener();
         initAdapter();
-        initData();
+        onRefresh();
         initCircleIndicator();
         setSupportActionBar(mToolbar);
     }
@@ -109,6 +111,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager = findViewById(R.id.viewPagerHeaderHome);
         mToolbar = findViewById(R.id.toolbarHome);
         mTvLocation = findViewById(R.id.tvLocation);
+        mRefreshHome = findViewById(R.id.refreshHome);
         mLoadingViewTopPlace = findViewById(R.id.loadingViewTopPlace);
         mLoadingViewTopHotel = findViewById(R.id.loadingViewTopHotel);
         mLoadingViewTopRestaurant = findViewById(R.id.loadingViewTopRestaurant);
@@ -131,6 +134,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initListener() {
+        mRefreshHome.setOnRefreshListener(this);
         mBtnListAttraction.setOnClickListener(this);
         mBtnListRestaurant.setOnClickListener(this);
         mBtnListHotel.setOnClickListener(this);
@@ -171,6 +175,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showLoadingView() {
+        mRefreshHome.setRefreshing(true);
         mLoadingViewTopPlace.show();
         mLoadingViewTopHotel.show();
         mLoadingViewTopRestaurant.show();
@@ -178,6 +183,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void hideLoadingView() {
+        mRefreshHome.setRefreshing(false);
         mLoadingViewTopPlace.hide();
         mLoadingViewTopHotel.hide();
         mLoadingViewTopRestaurant.hide();
@@ -436,5 +442,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == DETAIL_REQUEST && resultCode == RESULT_OK) {
             getListHotEvent();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
     }
 }

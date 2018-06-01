@@ -2,14 +2,19 @@ package com.example.phongle.danangtravel.activity.detail;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +29,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.login.LoginActivity;
 import com.example.phongle.danangtravel.activity.map.DirectionsJSONParser;
@@ -41,6 +51,7 @@ import com.example.phongle.danangtravel.models.Restaurant;
 import com.example.phongle.danangtravel.models.TouristAttraction;
 import com.example.phongle.danangtravel.models.User;
 import com.example.phongle.danangtravel.models.shareds.SharedPrefeencesUtils;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -51,7 +62,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,6 +89,7 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
         View.OnTouchListener, CommentDialogFragment.DialogCommentListener,
         OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
     private static final String PLACE_ID_KEY = "id";
+    private static final int requestCode = 1;
     ArrayList markerPoints = new ArrayList();
     private GoogleMap mGoogleMap;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -107,6 +118,8 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     private List<Comment> mListComment = new ArrayList<>();
     private android.location.Location mCurrentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
+    private Activity activity;
+    private String permissionName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -149,14 +162,23 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
             mImgAvatarUser.setVisibility(View.VISIBLE);
             User user = SharedPrefeencesUtils.getUser();
             if (user.getAvatar() != null) {
-                Picasso.with(mImgAvatarUser.getContext())
-                        .load(user.getAvatar())
-                        .error(R.drawable.bg_restaurant)
-                        .into(mImgAvatarUser);
+                Glide.with(mImgAvatarUser.getContext()).load(ReWriteUrl.reWriteUrl(user.getAvatar()))
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                mImgAvatarUser.setImageResource(R.drawable.bg_default_avatar);
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                return false;
+                            }
+                        }).into(mImgAvatarUser);
             } else {
-                mImgAvatarUser.setImageResource(R.drawable.bg_avatar);
+                mImgAvatarUser.setImageResource(R.drawable.bg_default_avatar);
             }
-        }else{
+        } else {
             mImgAvatarUser.setVisibility(View.GONE);
         }
         setEnableLike(id);
@@ -513,13 +535,22 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
     public void getCurrentLocation() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionName)) {
+                Snackbar.make(activity.findViewById(android.R.id.content)
+                        , "Please Grant Permission"
+                        , Snackbar.LENGTH_INDEFINITE).setAction("SETTINGS",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                activity.startActivityForResult(intent, requestCode);
+                            }
+                        }).show();
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[]{permissionName}, requestCode);
+            }
             return;
         }
         mFusedLocationClient.getLastLocation()

@@ -81,7 +81,6 @@ public class FileUtil {
             // compress to the format you want, JPEG, PNG...
             // 70 is the 0-100 quality percentage
             bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-
             try {
                 fileOutput = new File(Environment.getExternalStorageDirectory()
                         + File.separator + "up.jpg");
