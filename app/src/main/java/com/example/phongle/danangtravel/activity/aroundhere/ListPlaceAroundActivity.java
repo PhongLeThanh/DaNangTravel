@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
+import com.example.phongle.danangtravel.activity.detail.CustomMakerMap;
 import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.api.CategoryResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -43,7 +45,7 @@ import retrofit2.Response;
 
 public class ListPlaceAroundActivity extends AppCompatActivity implements View.OnClickListener, CategoryAdapter.OnCategoryClickListener,
         ListPlaceAroundAdapter.OnItemClickListener,
-        OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+        OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnInfoWindowClickListener {
     private static final String PLACE_ID_KEY = "id";
     private Toolbar mToolbar;
     private TextView mTvCategory;
@@ -151,6 +153,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     public void onMapReady(GoogleMap googleMap) {
         if (mGoogleMap == null) {
             mGoogleMap = googleMap;
+            mGoogleMap.setOnInfoWindowClickListener(this);
             getPlaceAround();
         }
     }
@@ -183,6 +186,8 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                 options.title("Bạn đang ở đây!");
                                 options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                                 options.position(currentLatLng);
+                                CustomMakerMap customMakerMap = new CustomMakerMap(ListPlaceAroundActivity.this);
+                                mGoogleMap.setInfoWindowAdapter(customMakerMap);
                                 mGoogleMap.addMarker(options);
                                 MyRetrofit.getInstance().getService().getSearchAround(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()).enqueue(new Callback<PlaceAroundResponse>() {
                                     @Override
@@ -194,8 +199,11 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                                 mListPlace.add(place);
                                             }
                                             for (int i = 0; i < mListPlace.size(); i++) {
-                                                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                                                        .title(mListPlace.get(i).getPlaceName()));
+                                                MarkerOptions markerOptions = new MarkerOptions();
+                                                markerOptions.position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude()))
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                                Marker marker = mGoogleMap.addMarker(markerOptions);
+                                                marker.setTag(mListPlace.get(i));
                                             }
                                         }
                                         mListPlaceAroundAdapter.notifyDataSetChanged();
@@ -241,6 +249,8 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                 options.title("Bạn đang ở đây!");
                                 options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                                 options.position(currentLatLng);
+                                CustomMakerMap customMakerMap = new CustomMakerMap(ListPlaceAroundActivity.this);
+                                mGoogleMap.setInfoWindowAdapter(customMakerMap);
                                 mGoogleMap.addMarker(options);
                                 MyRetrofit.getInstance().getService().getSearchAroundByCategory(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), id).enqueue(new Callback<PlaceAroundResponse>() {
                                     @Override
@@ -252,11 +262,15 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                                                 mListPlace.add(place);
                                             }
                                             for (int i = 0; i < mListPlace.size(); i++) {
-                                                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                                                        .title(mListPlace.get(i).getPlaceName()));
+                                                MarkerOptions markerOptions = new MarkerOptions();
+                                                markerOptions.position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude()))
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                                Marker marker = mGoogleMap.addMarker(markerOptions);
+                                                marker.setTag(mListPlace.get(i));
                                             }
                                         }
                                         mListPlaceAroundAdapter.notifyDataSetChanged();
+
                                     }
 
                                     @Override
@@ -269,5 +283,18 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Object place = marker.getTag();
+        if (place != null) {
+            PlaceAround placeAround = (PlaceAround) place;
+            if (placeAround.getId() != null) {
+                Intent intent = new Intent(this, DetailPlaceActivity.class);
+                intent.putExtra(PLACE_ID_KEY, placeAround.getId());
+                startActivity(intent);
+            }
+        }
     }
 }

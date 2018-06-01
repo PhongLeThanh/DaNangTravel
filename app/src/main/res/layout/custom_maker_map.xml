@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlInfoWindow"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:paddingEnd="11.5dp"
+    android:paddingStart="11.5dp">
+
+    <RelativeLayout
+        android:id="@+id/rlContain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tvPlaceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:text="@string/tv_place_name"
+            android:textColor="@color/red"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgAddress"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/tvPlaceName"
+            android:src="@drawable/ic_address"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvPlaceName"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/imgAddress"
+            android:layout_toRightOf="@+id/imgAddress"
+            android:ellipsize="end"
+            android:textSize="11sp"
+            android:maxLines="2"
+            android:text="@string/tv_address_place" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlContain"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/tv_distance"
+            android:textColor="@color/red" />
+
+        <TextView
+            android:id="@+id/tvUnitDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
+            android:layout_toEndOf="@+id/tvDistance"
+            android:layout_toRightOf="@+id/tvDistance"
+            android:text="@string/tv_unit_distance" />
+
+        <TextView
+            android:id="@+id/tvDetailMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/tvUnitDistance"
+            android:layout_toRightOf="@+id/tvUnitDistance"
+            android:background="@drawable/bg_btn_detail"
+            android:padding="10dp"
+            android:text="@string/btn_detail"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvYouAreHere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bạn đang ở đây!"
+        android:visibility="gone"/>
+</RelativeLayout>
+

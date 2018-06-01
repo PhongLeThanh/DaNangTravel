@@ -255,7 +255,6 @@ public class DetailPlaceActivity extends AppCompatActivity implements View.OnCli
                     for (Comment comment : commentResponse.getData()) {
                         mListComment.add(comment);
                     }
-                    Log.d("xxx", "onResponse: " + mListComment.get(0).getContent());
                 }
                 mListCommentAdapter.notifyDataSetChanged();
             }
