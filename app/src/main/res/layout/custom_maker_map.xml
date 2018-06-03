@@ -95,7 +95,7 @@
         android:id="@+id/tvYouAreHere"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bạn đang ở đây!"
+        android:text="Here!"
         android:visibility="gone"/>
 </RelativeLayout>
 
