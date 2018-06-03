@@ -88,12 +88,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TopRestaurantAdapter mTopRestaurantAdapter;
     private TopHotelAdapter mTopHotelAdapter;
     private int mListImage[] = {R.drawable.bg_banner_app, R.drawable.bg_banner_app_2, R.drawable.bg_banner_app_3};
+    private LocationDialog mLocationDialog;
     private List<Location> mListLocation = new ArrayList<>();
     private List<Event> mListEvent = new ArrayList<>();
     private List<Restaurant> mListRestaurant = new ArrayList<>();
     private List<Hotel> mListHotel = new ArrayList<>();
     private List<TouristAttraction> mListTourist = new ArrayList<>();
-    private LocationDialog mLocationDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +102,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initListener();
         initAdapter();
+        initData();
         onRefresh();
         initCircleIndicator();
         setSupportActionBar(mToolbar);
@@ -202,7 +203,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         mListLocation.add(location);
                     }
                     mLocationDialog.setData(mListLocation);
-                    hideLoadingView();
                 }
             }
 
@@ -212,6 +212,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
         getListHotEvent();
         getListTopPlace();
+        hideLoadingView();
     }
 
     @Override
@@ -336,10 +337,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 mListTourist.add(touristAttraction);
                             }
                         }
-                        mTopRestaurantAdapter.notifyDataSetChanged();
-                        mTopHotelAdapter.notifyDataSetChanged();
-                        mTopTouristAdapter.notifyDataSetChanged();
                     }
+                    mTopRestaurantAdapter.notifyDataSetChanged();
+                    mTopHotelAdapter.notifyDataSetChanged();
+                    mTopTouristAdapter.notifyDataSetChanged();
                     hideLoadingView();
 
                 }
@@ -446,6 +447,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onRefresh() {
-        initData();
+        getListHotEvent();
+        getListTopPlace();
     }
 }

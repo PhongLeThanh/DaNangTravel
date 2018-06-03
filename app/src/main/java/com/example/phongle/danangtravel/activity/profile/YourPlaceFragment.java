@@ -92,17 +92,23 @@ public class YourPlaceFragment extends Fragment implements YourPlaceAdapter.OnIt
 
     private void initData() {
         User user = SharedPrefeencesUtils.getUser();
+        if (user != null) {
+            getLikePlace(user);
+        }
+    }
+
+    private void getLikePlace(User user) {
         MyRetrofit.getInstance().getService().getPlaceByUserId(user.getId()).enqueue(new Callback<PlaceResponse>() {
             @Override
             public void onResponse(Call<PlaceResponse> call, Response<PlaceResponse> response) {
                 PlaceResponse placeResponse = response.body();
+                mListPlace.clear();
                 if (placeResponse != null && !placeResponse.getData().isEmpty()) {
-                    mListPlace.clear();
                     mListPlace.addAll(placeResponse.getData());
-                    mYourPlaceAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Bạn chưa thích địa điểm nào !", Toast.LENGTH_LONG).show();
                 }
+                mYourPlaceAdapter.notifyDataSetChanged();
             }
 
             @Override
