@@ -1,4 +1,4 @@
-package com.example.phongle.danangtravel.activity.detail;
+package com.example.phongle.danangtravel.activity.aroundhere;
 
 import android.app.Activity;
 import android.content.Context;

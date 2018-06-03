@@ -1,8 +1,6 @@
 package com.example.phongle.danangtravel.activity.detail;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.Image;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 
 import java.util.List;
 
@@ -41,18 +36,8 @@ public class HeaderDetailAdapter extends PagerAdapter {
         final ImageView mImgPlace = view.findViewById(R.id.imgDetailPlace);
         if(mListImage.size() > 0 && mListImage.get(position).getImageName()!= null) {
             Glide.with(mImgPlace.getContext()).load(ReWriteUrl.reWriteUrl(mListImage.get(position).getImageName()))
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            mImgPlace.setImageResource(R.drawable.bg_default);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            return false;
-                        }
-                    }).into(mImgPlace);
+                    .apply(new RequestOptions().placeholder(R.drawable.bg_default))
+                    .into(mImgPlace);
         }else {
             mImgPlace.setImageResource(R.drawable.bg_default);
         }

@@ -2,7 +2,6 @@ package com.example.phongle.danangtravel.activity.detail;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,20 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.phongle.danangtravel.R;
 import com.example.phongle.danangtravel.activity.aroundhere.ListPlaceAroundEventActivity;
 import com.example.phongle.danangtravel.activity.login.LoginActivity;
-import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.api.EventResponse;
 import com.example.phongle.danangtravel.api.LikeEventResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
 import com.example.phongle.danangtravel.models.Event;
 import com.example.phongle.danangtravel.models.User;
 import com.example.phongle.danangtravel.models.shareds.SharedPrefeencesUtils;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,18 +95,8 @@ public class DetailEventActivity extends AppCompatActivity implements View.OnCli
                     mEvent = eventResponse.getData().get(0);
                     if (mEvent.getImage() != null) {
                         Glide.with(mImgEvent.getContext()).load(ReWriteUrl.reWriteUrl(mEvent.getImage()))
-                                .listener(new RequestListener<Drawable>() {
-                                    @Override
-                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                        mImgEvent.setImageResource(R.drawable.bg_default);
-                                        return false;
-                                    }
-
-                                    @Override
-                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                        return false;
-                                    }
-                                }).into(mImgEvent);
+                                .apply(new RequestOptions().placeholder(R.drawable.bg_default))
+                                .into(mImgEvent);
                     } else {
                         mImgEvent.setImageResource(R.drawable.bg_default);
                     }

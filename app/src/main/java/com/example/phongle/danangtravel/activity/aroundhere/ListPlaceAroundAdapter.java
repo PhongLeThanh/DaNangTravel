@@ -1,8 +1,6 @@
 package com.example.phongle.danangtravel.activity.aroundhere;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +11,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.PlaceAround;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 
 import java.util.List;
 
@@ -86,18 +81,8 @@ public class ListPlaceAroundAdapter extends RecyclerView.Adapter<ListPlaceAround
             PlaceAround place = mListPlace.get(getAdapterPosition());
             if (place.getPicture() != null) {
                 Glide.with(mImgPlace.getContext()).load(ReWriteUrl.reWriteUrl(place.getPicture()))
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                mImgPlace.setImageResource(R.drawable.bg_default);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                return false;
-                            }
-                        }).into(mImgPlace);
+                        .apply(new RequestOptions().placeholder(R.drawable.bg_default))
+                        .into(mImgPlace);
             }else {
                 mImgPlace.setImageResource(R.drawable.bg_default);
             }

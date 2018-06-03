@@ -1,11 +1,15 @@
 package com.example.phongle.danangtravel.activity.aroundhere;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.activity.detail.CustomMakerMap;
 import com.example.phongle.danangtravel.activity.detail.DetailPlaceActivity;
 import com.example.phongle.danangtravel.api.CategoryResponse;
 import com.example.phongle.danangtravel.api.MyRetrofit;
@@ -47,6 +50,7 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
         ListPlaceAroundAdapter.OnItemClickListener,
         OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnInfoWindowClickListener {
     private static final String PLACE_ID_KEY = "id";
+    private static final int requestCode = 1;
     private Toolbar mToolbar;
     private TextView mTvCategory;
     private ImageView mImgBackToHome;
@@ -58,6 +62,8 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     private GoogleMap mGoogleMap;
     private android.location.Location mCurrentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
+    private Activity activity;
+    private String permissionName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,13 +167,22 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     public void getPlaceAround() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionName)) {
+                Snackbar.make(activity.findViewById(android.R.id.content)
+                        , "Please Grant Permission"
+                        , Snackbar.LENGTH_INDEFINITE).setAction("SETTINGS",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                activity.startActivityForResult(intent, requestCode);
+                            }
+                        }).show();
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[]{permissionName}, requestCode);
+            }
             return;
         }
         mFusedLocationClient.getLastLocation()
@@ -224,13 +239,22 @@ public class ListPlaceAroundActivity extends AppCompatActivity implements View.O
     public void getPlaceAroundByCategory(final int id) {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionName)) {
+                Snackbar.make(activity.findViewById(android.R.id.content)
+                        , "Please Grant Permission"
+                        , Snackbar.LENGTH_INDEFINITE).setAction("SETTINGS",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                activity.startActivityForResult(intent, requestCode);
+                            }
+                        }).show();
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[]{permissionName}, requestCode);
+            }
             return;
         }
         mFusedLocationClient.getLastLocation()

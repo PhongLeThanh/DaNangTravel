@@ -1,8 +1,6 @@
 package com.example.phongle.danangtravel.activity.bodyHome;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.phongle.danangtravel.R;
-import com.example.phongle.danangtravel.utils.ReWriteUrl;
 import com.example.phongle.danangtravel.models.Event;
+import com.example.phongle.danangtravel.utils.ReWriteUrl;
 
 import java.util.List;
 
@@ -85,18 +80,8 @@ public class HotEventAdapter extends RecyclerView.Adapter<HotEventAdapter.HotEve
             Event event = mListEvent.get(getAdapterPosition());
             if (event.getImage() != null && !event.getImage().isEmpty()) {
                 Glide.with(mContext).load(ReWriteUrl.reWriteUrl(event.getImage()))
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                mImgEvent.setImageResource(R.drawable.bg_default);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                return false;
-                            }
-                        }).into(mImgEvent);
+                        .apply(new RequestOptions().placeholder(R.drawable.bg_default))
+                        .into(mImgEvent);
             }
             mTvEventName.setText(event.getEventName());
             mTvTimeStart.setText(event.getStart().substring(0, 10));

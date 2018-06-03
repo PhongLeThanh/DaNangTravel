@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -37,7 +38,8 @@ import retrofit2.Response;
 public class ListPlaceAroundEventActivity extends AppCompatActivity implements View.OnClickListener,
         CategoryAdapter.OnCategoryClickListener,
         ListPlaceAroundAdapter.OnItemClickListener,
-        OnMapReadyCallback {
+        OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
     private static final String PLACE_ID_KEY = "id";
     private static final String LATITUDE_KEY = "latitude";
     private static final String LONGITUDE_KEY = "longitude";
@@ -141,6 +143,7 @@ public class ListPlaceAroundEventActivity extends AppCompatActivity implements V
     public void onMapReady(GoogleMap googleMap) {
         if (mGoogleMap == null) {
             mGoogleMap = googleMap;
+            mGoogleMap.setOnInfoWindowClickListener(this);
             getPlaceAround();
         }
     }
@@ -163,6 +166,8 @@ public class ListPlaceAroundEventActivity extends AppCompatActivity implements V
             options.title("Sự kiện diễn ra ở đây!");
             options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             options.position(mLatLngEvent);
+            CustomMakerMap customMakerMap = new CustomMakerMap(ListPlaceAroundEventActivity.this);
+            mGoogleMap.setInfoWindowAdapter(customMakerMap);
             mGoogleMap.addMarker(options);
             MyRetrofit.getInstance().getService().getSearchAround(mLatLngEvent.latitude, mLatLngEvent.longitude).enqueue(new Callback<PlaceAroundResponse>() {
                 @Override
@@ -174,8 +179,11 @@ public class ListPlaceAroundEventActivity extends AppCompatActivity implements V
                             mListPlace.add(place);
                         }
                         for (int i = 0; i < mListPlace.size(); i++) {
-                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                                    .title(mListPlace.get(i).getPlaceName()));
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude()))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                            Marker marker = mGoogleMap.addMarker(markerOptions);
+                            marker.setTag(mListPlace.get(i));
                         }
                     }
                     mListPlaceAroundAdapter.notifyDataSetChanged();
@@ -209,6 +217,8 @@ public class ListPlaceAroundEventActivity extends AppCompatActivity implements V
             options.title("Sự kiện diễn ra ở đây!");
             options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             options.position(mLatLngEvent);
+            CustomMakerMap customMakerMap = new CustomMakerMap(ListPlaceAroundEventActivity.this);
+            mGoogleMap.setInfoWindowAdapter(customMakerMap);
             mGoogleMap.addMarker(options);
             MyRetrofit.getInstance().getService().getSearchAroundByCategory(mLatLngEvent.latitude, mLatLngEvent.longitude, id).enqueue(new Callback<PlaceAroundResponse>() {
                 @Override
@@ -220,8 +230,11 @@ public class ListPlaceAroundEventActivity extends AppCompatActivity implements V
                             mListPlace.add(place);
                         }
                         for (int i = 0; i < mListPlace.size(); i++) {
-                            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                                    .title(mListPlace.get(i).getPlaceName()));
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(new LatLng(mListPlace.get(i).getLatitude(), mListPlace.get(i).getLongitude()))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                            Marker marker = mGoogleMap.addMarker(markerOptions);
+                            marker.setTag(mListPlace.get(i));
                         }
                     }
                     mListPlaceAroundAdapter.notifyDataSetChanged();
@@ -233,6 +246,19 @@ public class ListPlaceAroundEventActivity extends AppCompatActivity implements V
                 }
             });
 
+        }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Object place = marker.getTag();
+        if (place != null) {
+            PlaceAround placeAround = (PlaceAround) place;
+            if (placeAround.getId() != null) {
+                Intent intent = new Intent(this, DetailPlaceActivity.class);
+                intent.putExtra(PLACE_ID_KEY, placeAround.getId());
+                startActivity(intent);
+            }
         }
     }
 }
